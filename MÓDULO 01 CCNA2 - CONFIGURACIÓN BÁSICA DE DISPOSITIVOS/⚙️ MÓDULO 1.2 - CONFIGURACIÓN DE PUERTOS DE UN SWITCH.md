@@ -23,16 +23,16 @@
 
 **Uso actual:** Prácticamente obsoleto; se encuentra principalmente en hardware antiguo (como los hubs).
 
-![](COMUNICACIÓN%20DUPLEX.png)
+![](../CCNA2IMG/IMGM1/COMUNICACIÓN%20DUPLEX.png)
 
 ----
 ### CONFIGURACIÓN DE PUERTOS DE SWITCH DE LA CAPA FISICA
 
-![](CONFIGURACIÓN%20DE%20PUERTOS%20DE%20SWITCH%20DE%20LA%20CAPA%20FISICA.png)
+![](../CCNA2IMG/IMGM1/CONFIGURACIÓN%20DE%20PUERTOS%20DE%20SWITCH%20DE%20LA%20CAPA%20FISICA.png)
 
 La tabla muestra los comandos para S1. Los mismos comandos se pueden aplicar a S2.
 
-![700](COMANDOS.png)
+![700](../CCNA2IMG/IMGM1/COMANDOS.png)
 
 ---
 
@@ -89,11 +89,11 @@ Estos errores suelen ser producto de fallas en el protocolo de autonegociación,
 
 **Habilitar la función:** Se utiliza el comando `mdix auto` dentro del modo de configuración de la interfaz.
 
-![](MDIX%20AUTO.png)
+![](../CCNA2IMG/IMGM1/MDIX%20AUTO.png)
 
 **Verificar el estado:** Para comprobar si la función está activa (_On_) o inactiva (_Off_) en un controlador específico, se utiliza el siguiente comando con un filtro: `show controllers ethernet-controller [interfaz] phy | include Auto-MDIX`
 
-![](SH%20CONTROLLERS.png)
+![](../CCNA2IMG/IMGM1/SH%20CONTROLLERS.png)
 
 ---
 ### COMANDOS DE VERIFICACIÓN DE SWITCH
@@ -120,13 +120,13 @@ El comando **show running-config** se puede usar para verificar que el switch 
   
   >La puerta de enlace predeterminada está establecida en 172.17.99.1
   
-![](SH%20RUN.png)
+![](../CCNA2IMG/IMGM1/SH%20RUN.png)
 
 El comando **show interfaces** es otro comando de uso común, que muestra información de estado y estadísticas en las interfaces de red del switch. El comando **show interfaces** se usa con frecuencia al configurar y monitorear dispositivos de red.
 
 La primera línea de salida para el comando **show interfaces fastEthernet 0/18** indica que la interfaz FastEthernet 0/18 está activa / activa, lo que significa que está operativa. Más abajo en el resultado, se muestra que el modo dúplex es full (completo) y la velocidad es de 100 Mb/s.
 
-![](SH%20INTER.png)
+![](../CCNA2IMG/IMGM1/SH%20INTER.png)
 
 ----
 ### PROBLEMAS DE LA CAPA DE ACCESO A LA RED.
@@ -181,7 +181,7 @@ Revisa los contadores del comando `show interfaces` en busca de ruido excesivo, 
 
 Si no hay ruido pero observas colisiones normales o colisiones tardías (aquellas que ocurren después de transmitir 512 bits de la trama), el problema es una incompatibilidad en la configuración de dúplex. Para solucionarlo, configura manualmente el modo `full` (dúplex completo) en ambos extremos de la conexión.
 
-![](RESOLUCION%20DE%20PROBLEMAS.png)
+![](../CCNA2IMG/IMGM1/RESOLUCION%20DE%20PROBLEMAS.png)
 
 ----
 
