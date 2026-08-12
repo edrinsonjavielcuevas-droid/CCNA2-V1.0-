@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco IOS Cheat Sheet - Dark Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-base: #0d1117;
+            --bg-surface: #161b22;
+            --bg-hover: #21262d;
+            --text-main: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent-cyan: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-purple: #bc8cff;
+            --accent-red: #ff7b72;
+            --glow-cyan: rgba(88, 166, 255, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Animación de entrada */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        header {
+            background: linear-gradient(180deg, rgba(22,27,34,1) 0%, rgba(13,17,23,1) 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #30363d;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin: 0;
+            color: white;
+            text-shadow: 0 0 15px var(--glow-cyan);
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            color: var(--accent-cyan);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .note {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title {
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+            border-bottom: 2px solid #30363d;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        /* Tarjetas de comandos (Estilo de tabla dinámica) */
+        .command-card {
+            background-color: var(--bg-surface);
+            border: 1px solid #30363d;
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 2fr;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Efecto Hover Dinámico */
+        .command-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            background-color: var(--bg-hover);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(88, 166, 255, 0.1);
+        }
+
+        .command-card:hover::before {
+            background-color: var(--accent-cyan);
+        }
+
+        .cmd-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            color: var(--accent-green);
+            background: #000;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            word-wrap: break-word;
+        }
+
+        .cmd-mode {
+            display: inline-block;
+            background: rgba(255, 123, 114, 0.1);
+            color: var(--accent-red);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 123, 114, 0.3);
+        }
+
+        .cmd-desc {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        /* Responsividad */
+        @media (max-width: 900px) {
+            .command-card {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            .cmd-code {
+                text-align: center;
+            }
+            .cmd-mode {
+                justify-self: start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cisco IOS <span>Command Core</span></h1>
+        <p>Terminal de Estudio: Configuración, Seguridad y Diagnóstico de Redes</p>
+    </header>
+
+    <div class="container">
+        <div class="note">
+            <strong style="color: var(--accent-cyan);">[!] INTEL:</strong> Presta atención a la columna de modo (rojo). En Cisco IOS, la jerarquía es vital. No puedes configurar una IP (Interface Config) si estás en modo privilegiado (#).
+        </div>
+
+        <!-- SECCIÓN 1: Navegación -->
+        <h2 class="section-title">01. Navegación y Verificación</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">enable</div>
+                <div><span class="cmd-mode">Switch> (User)</span></div>
+                <div class="cmd-desc">Activa el <strong>Modo EXEC Privilegiado</strong>. Otorga permisos para ver configuraciones y acceder al modo global.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show running-config</div>
+                <div><span class="cmd-mode">Switch# (Privileged)</span></div>
+                <div class="cmd-desc">Muestra la configuración activa en la RAM. Ideal para ver los cambios que acabas de hacer antes de guardarlos.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show startup-config</div>
+                <div><span class="cmd-mode">Switch# (Privileged)</span></div>
+                <div class="cmd-desc">Muestra la configuración guardada en la NVRAM. Es lo que el switch cargará si se reinicia repentinamente.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show vlan brief</div>
+                <div><span class="cmd-mode">Switch# (Privileged)</span></div>
+                <div class="cmd-desc">Lista todas las VLANs creadas y muestra qué puertos físicos pertenecen a cada una.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: Configuración Global -->
+        <h2 class="section-title">02. Configuración Global & Seguridad Base</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">configure terminal</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Entra al <strong>Modo de Configuración Global</strong>. Las acciones aquí afectan al dispositivo entero.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">hostname S1</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Asigna un nombre al dispositivo. Fundamental para identificar equipos en la red.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">no ip domain-lookup</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Evita que el switch se congele intentando traducir comandos mal escritos buscando en un servidor DNS.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">enable secret [pass]</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Crea una contraseña fuertemente encriptada (MD5/SHA) para proteger la entrada al modo privilegiado.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">service password-encryption</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Encripta contraseñas que por defecto estarían en texto plano (como las de consola o VTY).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">banner motd # [Msg] #</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Mensaje del día. Muestra una advertencia legal antes del inicio de sesión (ej. "Acceso no autorizado prohibido").</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: Puertos e IPs -->
+        <h2 class="section-title">03. Interfaces, VLANs y Direccionamiento</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">vlan 99</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Crea la VLAN 99. Es buena práctica usar una VLAN distinta a la 1 para administración.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">interface vlan 99</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Entra a la Interfaz Virtual del Switch (SVI). Aquí se le asigna la IP al switch para poder administrarlo por red.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">ip address [IP] [Máscara]</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc">Asigna una IPv4 a la interfaz.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">no shutdown</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc">Enciende administrativamente el puerto o la SVI.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">switchport mode access</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Fuerza al puerto a actuar solo para conexión de dispositivos finales (PCs, impresoras), no para conectar a otros switches.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">switchport access vlan 99</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc">Asigna el puerto seleccionado a la VLAN específica para que los dispositivos se comuniquen en esa subred.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: COMANDOS EXTRA IMPORTANTES -->
+        <h2 class="section-title">04. Troncales, Port Security y SSH (Avanzado)</h2>
+        <div class="note" style="border-color: var(--accent-purple);">
+            <strong>Expansión:</strong> Estos comandos no estaban en tu laboratorio inicial, pero son cruciales para exámenes como CCNA y entornos de red reales.
+        </div>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">switchport mode trunk</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Configura el puerto como troncal. Permite el paso de <em>múltiples VLANs</em> a través de un solo cable (usado entre Switches o Switch-Router).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">switchport port-security</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Activa la seguridad del puerto. Protege la red limitando cuántas y cuáles direcciones MAC pueden conectarse a ese puerto físico.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">switchport port-security mac-address sticky</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Hace que el puerto aprenda dinámicamente la MAC de la primera PC que se conecte y la guarde en la configuración permanentemente.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">crypto key generate rsa</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Genera llaves de encriptación. Es el paso principal para habilitar <strong>SSH</strong> (acceso remoto seguro) en lugar de usar Telnet (que es inseguro).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">transport input ssh</div>
+                <div><span class="cmd-mode">Switch(config-line)#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Se aplica en las líneas VTY. Obliga a que cualquier conexión remota use SSH y rechaza conexiones Telnet.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: Diagnóstico y Guardado -->
+        <h2 class="section-title">05. Diagnóstico de Red & Guardado</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">ping [IP]</div>
+                <div><span class="cmd-mode">Cualquier Modo #</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Envía paquetes ICMP para comprobar conectividad básica. (Ej. <code>ping 192.168.1.10</code>).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show mac address-table</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Muestra qué direcciones MAC ha aprendido el switch y en qué puerto está conectada cada PC. Vital para rastrear problemas de capa 2.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show cdp neighbors</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc"><strong>[NUEVO]</strong> Cisco Discovery Protocol. Muestra un mapa mágico de otros dispositivos Cisco directamente conectados a este equipo.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">copy running-config startup-config</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Guarda todo tu trabajo en la NVRAM. <strong>Si no ejecutas esto, al reiniciar el switch se borrará todo.</strong> (Atajo: <code>copy run start</code>).</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
