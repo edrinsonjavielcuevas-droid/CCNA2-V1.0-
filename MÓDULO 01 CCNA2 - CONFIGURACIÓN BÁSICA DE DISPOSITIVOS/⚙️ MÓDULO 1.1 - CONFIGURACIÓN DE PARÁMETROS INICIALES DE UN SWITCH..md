@@ -33,6 +33,7 @@ La  siguiente tabla define cada parte del comando **boot system**.
 ![](../CCNA2IMG/IMGM1/PARTES%20DEL%20COMANDO%20BOOT%20SYSTEM.png)
 
 ---
+
 ### INDICADORES LED DEL SWITCH.
 
 ![](../CCNA2IMG/IMGM1/INDICADORES%20LED%20DEL%20SWITCH.png)
@@ -104,6 +105,7 @@ La  siguiente tabla define cada parte del comando **boot system**.
 **Verde**: El modo PoE está seleccionado.
 
 ---
+
 ### RECUPERARSE DE UN BLOQUEO DEL SISTEMA. 
 
 (Uso del Cargador de Arranque)
@@ -135,7 +137,7 @@ El cargador de arranque (boot loader) es una herramienta de rescate. Te permite 
 
 **`flash_init`**: Inicializa el sistema de archivos flash. 
 
->**Nota importante:** Debes ejecutar este comando primero si deseas interactuar con los archivos y ver qué hay guardado en la memoria flash del equipo.
+**Nota importante:** Debes ejecutar este comando primero si deseas interactuar con los archivos y ver qué hay guardado en la memoria flash del equipo.
 
 Después de que flash haya terminado de inicializar, puede ingresar el **dir flash:** comando para ver los directorios y archivos en flash, como se muestra en la salida.
 
@@ -170,9 +172,9 @@ De manera predeterminada, el switch está configurado para controlar su administ
 
 Desde el modo de configuración de la interfaz VLAN, se aplica una dirección IPv4 y una máscara de subred a la SVI de administración del switch.
 
->**Nota:** El SVI para VLAN 99 no aparecerá como "activo / activo" hasta que se cree VLAN 99 y haya un dispositivo conectado a un puerto de switch asociado con VLAN 99.
+**Nota:** El SVI para VLAN 99 no aparecerá como "activo / activo" hasta que se cree VLAN 99 y haya un dispositivo conectado a un puerto de switch asociado con VLAN 99.
 
->**Nota:** Es posible que el switch deba configurarse para IPv6. Por ejemplo, antes de que pueda configurar el direccionamiento IPv6 en un Cisco Catalyst 2960 que ejecute IOS versión 15.0, deberá ingresar el comando de configuración global `sdm prefer dual-ipv4-and-ipv6 default` y, a continuación, `reload` el switch.
+**Nota:** Es posible que el switch deba configurarse para IPv6. Por ejemplo, antes de que pueda configurar el direccionamiento IPv6 en un Cisco Catalyst 2960 que ejecute IOS versión 15.0, deberá ingresar el comando de configuración global `sdm prefer dual-ipv4-and-ipv6 default` y, a continuación, `reload` el switch.
 
 | **Tarea**                                                           | **Comandos IOS**                                       |
 | ------------------------------------------------------------------- | ------------------------------------------------------ |
@@ -189,7 +191,7 @@ Desde el modo de configuración de la interfaz VLAN, se aplica una dirección IP
 
 Si el switch se va a administrar de forma remota desde redes que no están conectadas directamente, se debe configurar con un gateway predeterminado.
 
->**Nota:** Dado que recibirá la información de la puerta de enlace predeterminada de un mensaje de anuncio de router (RA), el switch no requiere una puerta de enlace predeterminada IPv6.
+**Nota:** Dado que recibirá la información de la puerta de enlace predeterminada de un mensaje de anuncio de router (RA), el switch no requiere una puerta de enlace predeterminada IPv6.
 
 |**Tarea**|**Comandos IOS**|
 |---|---|
@@ -204,7 +206,7 @@ Si el switch se va a administrar de forma remota desde redes que no están conec
 Los comandos `show ip interface brief` y `show ipv6 interface brief` son útiles para determinar el estado de las interfaces físicas y virtuales. La información que se muestra 
 confirma que la interfaz VLAN 99 se ha configurado con una dirección IPv4 e IPv6.
 
-> **Nota:** Una dirección IP aplicada al SVI es solo para el acceso de administración remota al switch; esto no permite que el switch enrute paquetes de Capa 3.
+**Nota:** Una dirección IP aplicada al SVI es solo para el acceso de administración remota al switch; esto no permite que el switch enrute paquetes de Capa 3.
 
 ![](../CCNA2IMG/IMGM1/SHOW%20IP%20INTER%20BRIEF.png)
 
