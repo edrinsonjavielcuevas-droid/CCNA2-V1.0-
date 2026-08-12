@@ -30,7 +30,7 @@ Después de encender un switch Cisco, pasa por la siguiente secuencia de inicio 
 
 La  siguiente tabla define cada parte del comando **boot system**.
 
-![](PARTES%20DEL%20COMANDO%20BOOT%20SYSTEM.png)
+![](../CCNA2IMG/IMGM1/PARTES%20DEL%20COMANDO%20BOOT%20SYSTEM.png)
 
 ---
 ### INDICADORES LED DEL SWITCH.
