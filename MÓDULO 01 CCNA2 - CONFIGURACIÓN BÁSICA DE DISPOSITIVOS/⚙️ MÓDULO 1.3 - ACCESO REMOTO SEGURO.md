@@ -14,7 +14,7 @@ Para administrar un switch cuando no se tiene acceso físico a él, es obligator
 
 **Riesgo:** Un atacante en la red puede utilizar herramientas de captura de tráfico (como Wireshark) para interceptar y leer los paquetes, comprometiendo fácilmente las credenciales del equipo.
 
-![](TELNET.png)
+![](../CCNA2IMG/IMGM1/TELNET.png)
 
 **Secure Shell - SSH (El estándar seguro)**
 
@@ -25,13 +25,13 @@ Para administrar un switch cuando no se tiene acceso físico a él, es obligator
 
 **Secure Shell (SSH)** es el protocolo de administración remota estándar que debe reemplazar obligatoriamente a Telnet, operando a través del puerto **TCP 22** para establecer una conexión fuertemente cifrada. Su principal ventaja es que proporciona protección total al encriptar tanto la fase de autenticación (nombre de usuario y contraseña) como todos los datos transmitidos durante la sesión, lo que garantiza que si el tráfico de red es interceptado con herramientas de monitoreo como Wireshark, la información capturada resulte completamente ilegible.
 
-![](SSH%20en%20wireshark.png)
+![](../CCNA2IMG/IMGM1/SSH%20en%20wireshark.png)
 
 **Verifique que el switch admita SSH**
 
 Para habilitar SSH en un switch Catalyst 2960, el switch debe usar una versión del software IOS que incluya características y capacidades criptográficas (cifradas). Utilice el comando **show version** del switch para ver qué IOS está ejecutando el switch. Un nombre de archivo de IOS que incluye la combinación «k9» admite características y capacidades criptográficas (cifradas). El ejemplo muestra la salida del comando **show version**.
 
-![](Show%20version%20para%20SSH.png)
+![](../CCNA2IMG/IMGM1/Show%20version%20para%20SSH.png)
 
 ---
 ### CONFIG DE SSH
@@ -42,7 +42,7 @@ Antes de configurar SSH, el switch debe tener configurado, como mínimo, un nomb
 
 Use el comando **show ip ssh** para verificar que el switch sea compatible con SSH. Si el switch no ejecuta un IOS que admita características criptográficas, este comando no se reconoce.
 
-![](Show%20ip%20ssh.png)
+![](../CCNA2IMG/IMGM1/Show%20ip%20ssh.png)
 
 ---
 
@@ -113,15 +113,15 @@ En las computadoras se usa un cliente SSH, como PuTTY, para conectarse a un serv
 
 La figura muestra la configuración de PuTTy para PC1 para iniciar una conexión SSH a la dirección SVI VLAN IPv4 de S1.
 
-![](shh%20en%20putty.png)
+![](../CCNA2IMG/IMGM1/shh%20en%20putty.png)
 
 Cuando está conectado, se solicita al usuario un nombre de usuario y una contraseña como se muestra en el ejemplo. Usando la configuración del ejemplo anterior, se ingresan el nombre de usuario: **admin** y la contraseña: **ccna** Después de ingresar la combinación correcta, el usuario se conecta a través de SSH a la interfaz de línea de comando (CLI) en el switch Catalyst 2960.
 
-![](loggin%20as%20admin.png)
+![](../CCNA2IMG/IMGM1/loggin%20as%20admin.png)
 
 Para mostrar los datos de la versión y de configuración de SSH en el dispositivo que configuró como servidor SSH, use el comando **show ip ssh**. En el ejemplo, se habilitó la versión 2 de SSH.
 
-![](verfica%20ssh.png)
+![](../CCNA2IMG/IMGM1/verfica%20ssh.png)
 
 ---
 
