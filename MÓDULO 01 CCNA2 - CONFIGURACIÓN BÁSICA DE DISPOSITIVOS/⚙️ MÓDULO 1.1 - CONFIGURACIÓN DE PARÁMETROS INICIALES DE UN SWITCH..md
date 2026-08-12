@@ -35,7 +35,7 @@ La  siguiente tabla define cada parte del comando **boot system**.
 ---
 ### INDICADORES LED DEL SWITCH.
 
-![](INDICADORES%20LED%20DEL%20SWITCH.png)
+![](../CCNA2IMG/IMGM1/INDICADORES%20LED%20DEL%20SWITCH.png)
 
 ---
 
@@ -131,7 +131,7 @@ El cargador de arranque (boot loader) es una herramienta de rescate. Te permite 
 
 **`set`**: Muestra el estado actual de la variable de entorno BOOT (te dice qué archivo está intentando cargar el switch por defecto).
 
-![](COMANDO%20SET.png)
+![](../CCNA2IMG/IMGM1/COMANDO%20SET.png)
 
 **`flash_init`**: Inicializa el sistema de archivos flash. 
 
@@ -139,11 +139,11 @@ El cargador de arranque (boot loader) es una herramienta de rescate. Te permite 
 
 Después de que flash haya terminado de inicializar, puede ingresar el **dir flash:** comando para ver los directorios y archivos en flash, como se muestra en la salida.
 
-![](COMANDO%20DIR%20FLASH.png)
+![](../CCNA2IMG/IMGM1/COMANDO%20DIR%20FLASH.png)
 
 Introduzca el **BOOT=flash** comando para cambiar la ruta de la variable de entorno BOOT que utiliza el switch para cargar el nuevo IOS en flash. Para verificar la nueva ruta de la variable de entorno BOOT, vuelva a **set** ejecutar el comando. Finalmente, para cargar el nuevo IOS escriba el **boot** comando sin ningún argumento, como se muestra en la salida.
 
-![](VARIABLE%20BOOT.png)
+![](../CCNA2IMG/IMGM1/VARIABLE%20BOOT.png)
 
 Los comandos del gestor de arranque admiten la inicialización de flash, el formateo de flash, la instalación de un nuevo IOS, el cambio de la variable de entorno BOOT y la recuperación de contraseñas pérdidas u olvidadas.
 
@@ -158,7 +158,7 @@ Los comandos del gestor de arranque admiten la inicialización de flash, el form
 
 **Acceso inicial:** La primera configuración debe hacerse conectando una PC con un cable de consola.
 
-![](CONFIG%20SVI.png)
+![](../CCNA2IMG/IMGM1/CONFIG%20SVI.png)
 
 ---
 
@@ -206,7 +206,7 @@ confirma que la interfaz VLAN 99 se ha configurado con una dirección IPv4 e IPv
 
 > **Nota:** Una dirección IP aplicada al SVI es solo para el acceso de administración remota al switch; esto no permite que el switch enrute paquetes de Capa 3.
 
-![](SHOW%20IP%20INTER%20BRIEF.png)
+![](../CCNA2IMG/IMGM1/SHOW%20IP%20INTER%20BRIEF.png)
 
 ---
 
