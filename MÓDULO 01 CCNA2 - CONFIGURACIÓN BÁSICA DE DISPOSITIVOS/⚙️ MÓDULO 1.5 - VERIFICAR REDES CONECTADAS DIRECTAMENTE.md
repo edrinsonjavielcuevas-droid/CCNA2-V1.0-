@@ -1,7 +1,7 @@
 
 ---
 
-![](02_CCNA/CCNA2IMG/IMGM1/topologia%201.png)
+![](../CCNA2IMG/IMGM1/topologia%201.png)
 
 Para auditar rápidamente el estado operativo, el direccionamiento y el enrutamiento de las interfaces en un router, esta es la trinidad de comandos esenciales:
 
@@ -22,26 +22,26 @@ Para auditar rápidamente el estado operativo, el direccionamiento y el enrutami
 
 **Section**: Muestra la sección completa que comienza con la expresión de filtrado.
 
-![](section.png)
+![](../CCNA2IMG/IMGM1/section.png)
 
 **Include**: Incluye todas las lineas de salidad que coinciden con la expresión del filtrado.
 
-![](02_CCNA/CCNA2IMG/IMGM1/show%20ip%20interface%20brief.png)
+![](../CCNA2IMG/IMGM1/show%20ip%20interface%20brief.png)
 
 **Exclude**: Excluye todas las lineas de salidad que coinciden con la expresión del filtrado.
 
-![](show%20ip%20interface%20brief%201.png)
+![](../CCNA2IMG/IMGM1/show%20ip%20interface%20brief%201.png)
 
 **Begin**: Selecciona todas las lineas desde un punto determinado hacia adelante, comenanzando con la linea que coincide con lo que queremos buscar.
 
-![](comando%20begin.png)
+![](../CCNA2IMG/IMGM1/comando%20begin.png)
 
 ---
 ### HISTORIAL DE COMANDOS.
 
 El búfer del historial de comandos en Cisco IOS captura por defecto las últimas 10 líneas ejecutadas, permitiendo navegar ágilmente por ellas mediante las teclas de dirección (**Arriba/Abajo**) o los atajos **Ctrl+P** / **Ctrl+N** para agilizar la administración y evitar la reescritura manual en la terminal. Todo el contenido almacenado se puede auditar con el comando `show history`, y si la sesión operativa exige despliegues de configuración más extensos, la capacidad de este registro puede modificarse dinámicamente ejecutando `terminal history size`.
 
-![](terminal%20history%20size%20200.png)
+![](../CCNA2IMG/IMGM1/terminal%20history%20size%20200.png)
 
 ----
 
