@@ -9,22 +9,22 @@
 
 **Configuración Inicial:** Los primeros pasos de despliegue son exactamente los mismos que en un switch (por ejemplo, asignar un nombre al dispositivo para identificarlo en la red y establecer contraseñas de seguridad).
 
-![](Config%20inicial%20de%20un%20router.png)
+![](../CCNA2IMG/IMGM1/Config%20inicial%20de%20un%20router.png)
 
 Configure un banner para proporcionar notificaciones legales de acceso no autorizado, como se muestra en el ejemplo.
 
-![](02_CCNA/CCNA2IMG/IMGM1/BANNER%20MOTD.png)
+![](..CCNA2IMG/IMGM1/BANNER%20MOTD.png)
 
 Guarde los cambios en un router, como se muestra en el ejemplo.
 
-![](02_CCNA/CCNA2IMG/IMGM1/COPY%20RUN%20START.png)
+![](../CCNA2IMG/IMGM1/COPY%20RUN%20START.png)
 
 ---
 ### TOPOLOGÍAS DE DOBLE PILA
 
 Una característica que distingue a los switches de los routers es el tipo de interfaces que admite cada uno. Por ejemplo, los switches de capa 2 admiten LAN; por lo tanto, tienen múltiples puertos FastEthernet o Gigabit Ethernet. La topología de pila dual de la figura se utiliza para demostrar la configuración de las interfaces IPv4 e IPv6 del router.
 
-![](02_CCNA/CCNA2IMG/IMGM1/Topologia.png)
+![](../CCNA2IMG/IMGM1/Topologia.png)
 
 ---
 ### CONFIGURAR INTERFACES DE ROUTERS
@@ -43,7 +43,7 @@ Para que una interfaz esté completamente operativa, se deben cumplir los siguie
 
 El siguiente ejemplo muestra la configuración de las interfaces en R1.
 
-![](02_CCNA/CCNA2IMG/IMGM1/Config%20interfaces.png)
+![](../CCNA2IMG/IMGM1/Config%20interfaces.png)
 
 ---
 
@@ -59,13 +59,13 @@ Permite emular redes adicionales (como simular un enlace a Internet o redes detr
 
 El proceso de habilitación y asignación de una dirección de loopback es simple:
 
-![](1ro%20paso%20loopback.png)
+![](../CCNA2IMG/IMGM1/1ro%20paso%20loopback.png)
 
-![](2do%20paso%20loopback.png)
+![](../CCNA2IMG/IMGM1/2do%20paso%20loopback.png)
 
 Se pueden habilitar varias interfaces loopback en un router. La dirección IPv4 para cada interfaz de bucle invertido debe ser única y no debe ser utilizada por ninguna otra interfaz, como se muestra en la configuración de ejemplo de la interfaz de bucle invertido 0 en R1.
 
-![](Resultado%20loopback.png)
+![](../CCNA2IMG/IMGM1/Resultado%20loopback.png)
 
 ----
 
