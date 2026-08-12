@@ -13,7 +13,7 @@
 
 Configure un banner para proporcionar notificaciones legales de acceso no autorizado, como se muestra en el ejemplo.
 
-![](..CCNA2IMG/IMGM1/BANNER%20MOTD.png)
+![](../CCNA2IMG/IMGM1/BANNER%20MOTD.png)
 
 Guarde los cambios en un router, como se muestra en el ejemplo.
 
