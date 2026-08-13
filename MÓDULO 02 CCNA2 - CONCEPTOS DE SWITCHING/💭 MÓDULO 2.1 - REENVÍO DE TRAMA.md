@@ -56,7 +56,7 @@ Este método de switching se diferencia del método de corte por dos caracterís
 
 La figura ilustra cómo almacenar y reenviar toma una decisión basada en la trama Ethernet.
 
-![](Switching.png)
+![](../CCNA2IMG/IMGM2/Switching.png)
 
 ---
 ### SWITCHING POR MÉTODO DE CORTE
