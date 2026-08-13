@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cisco Lab 1.1.7 - Dark Edition</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-base: #0a0e17;
+            --bg-surface: #121826;
+            --bg-hover: #1c2438;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-green: #4ade80;
+            --accent-purple: #c084fc;
+            --accent-red: #f87171;
+            --accent-yellow: #facc15;
+            --glow-cyan: rgba(56, 189, 248, 0.4);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        header {
+            background: linear-gradient(180deg, #121826 0%, #0a0e17 100%);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid #1e293b;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        h1 {
+            font-weight: 800;
+            font-size: 2.5rem;
+            margin: 0;
+            color: white;
+            text-shadow: 0 0 15px var(--glow-cyan);
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            color: var(--accent-cyan);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+            animation: fadeIn 1s ease-out 0.3s both;
+        }
+
+        .note {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--accent-cyan);
+            padding: 15px 20px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title {
+            color: var(--accent-purple);
+            font-size: 1.8rem;
+            border-bottom: 2px solid #1e293b;
+            padding-bottom: 10px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .command-card {
+            background-color: var(--bg-surface);
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.8fr 1fr 2fr;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background-color: transparent;
+            transition: background-color 0.3s ease;
+        }
+
+        .command-card:hover {
+            transform: translateY(-3px) scale(1.01);
+            background-color: var(--bg-hover);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 15px rgba(56, 189, 248, 0.1);
+        }
+
+        .command-card:hover::before {
+            background-color: var(--accent-cyan);
+        }
+
+        .cmd-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.95rem;
+            color: var(--accent-green);
+            background: #020617;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #1e293b;
+            word-wrap: break-word;
+        }
+
+        .cmd-mode {
+            display: inline-block;
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--accent-red);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            text-align: center;
+        }
+
+        .cmd-desc {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 900px) {
+            .command-card {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .cmd-code {
+                text-align: left;
+            }
+            .cmd-mode {
+                justify-self: start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Cisco Lab 1.1.7 <span>Extract</span></h1>
+        <p>Configuración Básica, IPv6, Tabla MAC y Reseteo de Switch</p>
+    </header>
+
+    <div class="container">
+        <div class="note">
+            <strong style="color: var(--accent-cyan);">[!] INFO:</strong> Esta guía contiene comandos extraídos de la práctica 1.1.7, estructurados sin repeticiones y orientados como material general de referencia para la certificación CCNA.
+        </div>
+
+        <!-- SECCIÓN 1: Preparación y SDM (Exclusivo de este lab) -->
+        <h2 class="section-title">01. Preparación del Sistema y SDM (Soporte IPv6)</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">show sdm prefer</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Muestra la plantilla actual del <em>Switch Database Manager</em> (SDM). Verifica si el switch tiene habilitado el soporte para IPv6.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">sdm prefer dual-ipv4-and-ipv6 default</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Cambia la plantilla SDM para soportar direccionamiento dual (IPv4 e IPv6). <strong>Requiere reiniciar el dispositivo</strong> para aplicar los cambios.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">reload</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Reinicia el switch. (Si el objetivo es restablecer a valores de fábrica, se debe responder "no" al momento de guardar la configuración).</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: Verificación e Inspección -->
+        <h2 class="section-title">02. Verificación de Interfaces y Sistema</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">show version</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Proporciona información sobre la versión de IOS, nombre de la imagen, tiempo de actividad y la dirección MAC base física del equipo.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show flash:</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Lista los archivos almacenados en la memoria flash, incluyendo la imagen del sistema operativo (archivo .bin) o el archivo <em>vlan.dat</em>. (Alternativa: <code>dir flash:</code>).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show interface f0/6</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Muestra el estado físico (up/down), métricas de velocidad, parámetros de dúplex y la dirección MAC de un puerto FastEthernet específico.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">show ip interface vlan 1</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Despliega las propiedades y el estado del protocolo IP asignado a la interfaz virtual de la VLAN (SVI).</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: Configuración Global y Accesos -->
+        <h2 class="section-title">03. Configuración Global, Accesos y Contraseñas</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">no ip domain-lookup</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Previene bloqueos del sistema impidiendo que el switch intente traducir comandos introducidos incorrectamente como resoluciones de nombres de dominio DNS.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">enable secret class</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Protege el acceso al modo EXEC privilegiado aplicando una contraseña fuertemente encriptada ("class" como ejemplo).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">ip default-gateway 192.168.1.1</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Establece la puerta de enlace predeterminada. Es un requisito fundamental para la administración remota del switch desde una subred distinta.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">logging synchronous</div>
+                <div><span class="cmd-mode">Switch(config-line)#</span></div>
+                <div class="cmd-desc">Utilizado dentro de las líneas de consola o VTY, evita que los mensajes de eventos y registros del sistema interrumpan la escritura de comandos en la interfaz.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: VLAN 99 e IPv6 (Núcleo del Lab) -->
+        <h2 class="section-title">04. VLAN Administrativa, Rangos e IPv6</h2>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">interface vlan 99</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Ingresa a la interfaz lógica SVI asociada a la VLAN 99 para la configuración de direccionamiento IP de administración.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">ipv6 address 2001:db8:acad::2/64</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc">Configura una dirección IPv6 Global Unicast estática en la interfaz activa.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">ipv6 address fe80::2 link-local</div>
+                <div><span class="cmd-mode">Switch(config-if)#</span></div>
+                <div class="cmd-desc">Asigna explícitamente una dirección IPv6 Link-Local (facilita la identificación estática del gateway en la red local).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">interface range f0/1 - 24, g0/1 - 2</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Selecciona <strong>múltiples interfaces físicas</strong> simultáneamente para aplicar configuraciones masivas en un solo paso.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: Gestión de Tabla MAC (Exclusivo de este lab) -->
+        <h2 class="section-title">05. Administración de Tabla MAC (Capa 2)</h2>
+        <div class="note" style="border-color: var(--accent-yellow);">
+            <strong style="color: var(--accent-yellow);">Concepto:</strong> Los switches asocian puertos físicos con direcciones MAC evaluando la dirección de origen (Source MAC) contenida en las tramas Ethernet entrantes.
+        </div>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">show mac address-table dynamic</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Filtra y muestra exclusivamente las entradas de la tabla de direcciones MAC que el switch ha aprendido de forma automática (dinámicas).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">clear mac address-table dynamic</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Limpia todas las entradas MAC dinámicas de la tabla de conmutación. Fuerza al dispositivo a reaprender las topologías de capa 2.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">mac address-table static [MAC] vlan 99 interface f0/6</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Fija manualmente una dirección MAC estática a un puerto y VLAN específicos, limitando qué equipo de origen puede utilizar dicha interfaz.</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">no mac address-table static [MAC] ...</div>
+                <div><span class="cmd-mode">Switch(config)#</span></div>
+                <div class="cmd-desc">Al anteponer el parámetro "<strong>no</strong>", se elimina la entrada de MAC estática previamente configurada.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 6: Apéndice A (Borrar de Fábrica) -->
+        <h2 class="section-title">06. Reseteo de Fábrica (Inicialización)</h2>
+        <div class="note" style="border-color: var(--accent-red);">
+            <strong style="color: var(--accent-red);">Advertencia:</strong> La ejecución conjunta de estos comandos purgará completamente la configuración de un switch.
+        </div>
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">delete vlan.dat</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Elimina el archivo de base de datos de VLANs alojado en la memoria Flash (necesario ya que la configuración de VLANs no reside en la NVRAM estándar).</div>
+            </div>
+            <div class="command-card">
+                <div class="cmd-code">erase startup-config</div>
+                <div><span class="cmd-mode">Switch#</span></div>
+                <div class="cmd-desc">Elimina el archivo de configuración de inicio de la NVRAM. (Posterior a la confirmación, se requiere ejecutar el comando <code>reload</code>).</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

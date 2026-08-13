@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso CCNA: Implementación Básica y Troubleshooting</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600&display=swap');
+
+        :root {
+            /* Paleta base (Gris azulado oscuro) */
+            --bg-base: #1a202c; 
+            --bg-surface: #2d3748;
+            --bg-hover: #3a475c;
+            
+            /* Textos */
+            --text-main: #e2e8f0;
+            --text-muted: #a0aec0;
+            
+            /* Acentos sutiles */
+            --accent-blue: #63b3ed;
+            --accent-green: #68d391;
+            --accent-orange: #f6ad55;
+            --border-color: #4a5568;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: #151a23;
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2.2rem;
+            margin: 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        h1 span {
+            color: var(--accent-blue); /* Toque de color en el título */
+            font-weight: 400;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin-top: 10px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Estilos para las notas con colores tenues */
+        .note {
+            background-color: rgba(45, 55, 72, 0.7);
+            border-left: 4px solid var(--accent-blue);
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .note.warning {
+            border-left-color: var(--accent-orange);
+            background-color: rgba(246, 173, 85, 0.05);
+        }
+
+        .note strong {
+            color: #ffffff;
+        }
+
+        .note.warning strong {
+            color: var(--accent-orange);
+        }
+
+        .note.info strong {
+            color: var(--accent-blue);
+        }
+
+        ul {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .section-title {
+            color: #ffffff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 50px;
+            margin-bottom: 25px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        /* Tarjetas de comandos */
+        .command-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1.5fr 2fr;
+            gap: 20px;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .command-card:hover {
+            background-color: var(--bg-hover);
+            border-color: var(--accent-blue); /* Borde azul al pasar el ratón */
+        }
+
+        /* Bloques de código con texto en verde menta */
+        .cmd-code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-green);
+            background: #0f131a;
+            padding: 12px 15px;
+            border-radius: 4px;
+            border: 1px solid #232b38;
+            white-space: pre-wrap;
+        }
+
+        .cmd-desc {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        @media (max-width: 900px) {
+            .command-card {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Repaso: <span>Implementación Básica y Troubleshooting</span></h1>
+        <p>Este documento consolida los conceptos críticos aplicados en el laboratorio de configuración inicial de dispositivos Cisco, enfocado en las trampas más comunes y las mejores prácticas.</p>
+    </header>
+
+    <div class="container">
+
+        <!-- SECCIÓN 1 -->
+        <h2 class="section-title">01. La Capa Física y "El Factor Packet Tracer"</h2>
+        
+        <div class="note warning">
+            <strong>Precisión de Nomenclatura:</strong> En simuladores (y en la automatización real), la sintaxis es ley. El <em>Display Name</em> (ej. PC-1) no es un simple detalle visual; si las instrucciones incluyen un guion, omitirlo invalida toda la configuración frente al script de evaluación.
+        </div>
+
+        <div class="note info">
+            <strong>Selección de Medios (Cables):</strong>
+            <ul>
+                <li><strong>Directo (Straight-Through):</strong> Se usa para conectar dispositivos que operan en diferentes capas del modelo OSI (ej. Router a Switch, PC a Switch).</li>
+                <li><strong>Cruzado (Crossover):</strong> Se usa para dispositivos similares (Switch a Switch, Router a Router). Aunque el Auto-MDIX lo resuelve en la vida real, los simuladores y certificaciones evalúan la teoría estricta.</li>
+            </ul>
+        </div>
+
+        <!-- SECCIÓN 2 -->
+        <h2 class="section-title">02. Acceso Remoto Seguro (El fin de Telnet)</h2>
+        <p>La administración de dispositivos fuera de la ubicación física requiere protocolos seguros.</p>
+
+        <div class="grid-container">
+            <div class="note warning">
+                <strong>Vulnerabilidad de Telnet:</strong> Opera en el puerto TCP 23. Es obsoleto porque transmite toda la sesión (incluyendo contraseñas) en texto plano, haciéndolo vulnerable a analizadores como Wireshark.
+            </div>
+            
+            <div class="note info">
+                <strong>Implementación de SSH:</strong> Opera en el puerto TCP 22. Cifra la autenticación y todo el tráfico.
+            </div>
+
+            <div class="command-card">
+                <div class="cmd-code">ip domain-name [dominio.com]
+crypto key generate rsa
+username [usuario] secret [pass]</div>
+                <div class="cmd-desc"><strong>Comandos críticos para habilitar SSH.</strong><br><br><span style="color: var(--text-muted);">Nota: Al generar la llave RSA, se recomiendan 1024 bits.</span></div>
+            </div>
+            
+            <div class="command-card">
+                <div class="cmd-code">line vty 0 15
+ transport input ssh
+ login local</div>
+                <div class="cmd-desc"><strong>Asegurar líneas VTY (0 a 15 en switches).</strong><br><br><code>transport input ssh</code> obliga a usar solo SSH.<br><code>login local</code> obliga a consultar la base de datos local de usuarios.</div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3 -->
+        <h2 class="section-title">03. Direccionamiento e Interfaces</h2>
+        
+        <div class="note info">
+            <strong>Routers:</strong> Tienen la función de interconectar diferentes redes. Sus interfaces físicas tienen características específicas:
+            <ul>
+                <li>Vienen inhabilitadas por defecto (<code>shutdown</code>). Siempre requieren <code>no shutdown</code>.</li>
+                <li>Requieren obligatoriamente direccionamiento IP para operar (<code>ip address X.X.X.X Y.Y.Y.Y</code>).</li>
+                <li><strong>Buena práctica:</strong> Usar <code>description</code> en cada puerto para agilizar el troubleshooting futuro.</li>
+            </ul>
+        </div>
+
+        <div class="note info">
+            <strong>Switches y la SVI:</strong> Los switches operan en Capa 2, pero para administrarlos por red (Capa 3), requieren una Interfaz Virtual de Switch (SVI).
+            <ul>
+                <li><strong>Default Gateway:</strong> Al igual que una PC, si el switch necesita ser administrado desde una red diferente (por ejemplo, por un administrador en otra ciudad), necesita conocer la puerta de enlace predeterminada (<code>ip default-gateway [IP_del_Router]</code>).</li>
+            </ul>
+        </div>
+
+        <div class="command-card">
+            <div class="cmd-code">interface vlan 1
+ ip address [IP] [Máscara]
+ no shutdown</div>
+            <div class="cmd-desc"><strong>Configuración de SVI:</strong> Se configura asignando una IP a la VLAN de administración.</div>
+        </div>
+
+        <!-- SECCIÓN 4 -->
+        <h2 class="section-title">04. Interfaces de Bucle Invertido (Loopback)</h2>
+        <div class="note info">
+            <strong>Conceptos Clave:</strong>
+            <ul>
+                <li><strong>Concepto:</strong> Son interfaces 100% lógicas (software) internas del router.</li>
+                <li><strong>Comportamiento:</strong> Al no depender de hardware, su estado siempre es Up (activo) mientras el sistema operativo funcione.</li>
+                <li><strong>Utilidad:</strong> Fundamentales para mantener la estabilidad en procesos de enrutamiento interno, pruebas continuas y simulación de redes adicionales en entornos de laboratorio sin necesidad de hardware extra.</li>
+            </ul>
+        </div>
+
+        <div class="command-card">
+            <div class="cmd-code">interface loopback 0
+ ip address 1.1.1.1 255.255.255.255</div>
+            <div class="cmd-desc">Creación y asignación de IP a una interfaz lógica de Loopback.</div>
+        </div>
+
+        <!-- SECCIÓN 5 -->
+        <h2 class="section-title">05. Auditoría Rápida de Estados</h2>
+        <p>Los tres comandos salvavidas para el troubleshooting de interfaces:</p>
+        
+        <div class="grid-container">
+            <div class="command-card">
+                <div class="cmd-code">show ip interface brief</div>
+                <div class="cmd-desc">Mapeo rápido de IPs y estados (Up/Down).</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="cmd-code">show running-config interface [id]</div>
+                <div class="cmd-desc">Aísla la configuración de un puerto específico.</div>
+            </div>
+            
+            <div class="command-card">
+                <div class="cmd-code">show ip route</div>
+                <div class="cmd-desc">Verifica si la red conectada ya fue inyectada exitosamente a la tabla de enrutamiento (códigos 'C' y 'L').</div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
