@@ -6,7 +6,7 @@ Un **dominio de colisión** es un segmento de red donde los dispositivos compart
 
 En redes antiguas con hubs, todos los equipos compartían un único dominio. Actualmente, los switches eliminan este problema al operar por defecto en **dúplex completo (full-duplex)**, lo que significa que el tráfico puede enviarse y recibirse simultáneamente sin chocar. Un dominio de colisión en un switch moderno solo se genera si uno de sus puertos se ve obligado a funcionar en **semidúplex (half-duplex)**, situación que ocurre típicamente cuando se conecta a un equipo obsoleto (como un hub heredado).
 
-![](Dominio%20de%20colisiones.png)
+![](../CCNA2IMG/IMGM2/Dominio%20de%20colisiones.png)
 
 ---
 ### DOMINIOS DE DIFUSIÓN
