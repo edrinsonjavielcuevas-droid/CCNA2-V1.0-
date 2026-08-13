@@ -63,7 +63,7 @@ La figura ilustra cómo almacenar y reenviar toma una decisión basada en la tra
 
 El método de corte (_cut-through_) prioriza la velocidad extrema al reenviar la trama en el instante en que lee su dirección MAC de destino, sin esperar a recibirla completa ni realizar comprobaciones de errores (FCS). Aunque ofrece una latencia ultrabaja ideal para aplicaciones de alto rendimiento, corre el riesgo de propagar tramas corruptas que saturan la red; para mitigar esto, su variante "libre de fragmentos" lee una pequeña porción adicional de los datos iniciales (hasta el campo Tipo), logrando un mejor filtrado de errores básicos sin sacrificar rapidez.
 
-![](Switching%20s.png)
+![](../CCNA2IMG/IMGM2/Switching%20s.png)
 
 ---
 
