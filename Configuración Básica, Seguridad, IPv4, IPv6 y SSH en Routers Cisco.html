@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Definitiva: Cisco CCNA - Configuración Básica</title>
+    <style>
+        :root {
+            --bg-body: #0a0a0a;
+            --bg-surface: #171717;
+            --bg-card: #262626;
+            --text-main: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --accent: #3b82f6; /* Blue */
+            --accent-hover: #60a5fa;
+            --success: #10b981; /* Green */
+            --warning: #f59e0b; /* Yellow */
+            --danger: #ef4444; /* Red */
+            --border: #3f3f46;
+            --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; font-family: var(--font-sans); color: var(--text-main); background-color: var(--bg-body); }
+        
+        body { display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        aside {
+            width: 300px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+        aside h2 { font-size: 1.25rem; color: var(--text-main); margin-bottom: 1.5rem; letter-spacing: -0.025em; }
+        aside ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+        aside a {
+            text-decoration: none; color: var(--text-muted); font-size: 0.9rem;
+            padding: 0.5rem; border-radius: 6px; display: block; transition: all 0.2s ease;
+        }
+        aside a:hover { background-color: var(--bg-card); color: var(--accent); }
+
+        /* Main Content */
+        main { flex: 1; padding: 3rem 4rem; max-width: 1200px; }
+        
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 1rem; color: var(--text-main); letter-spacing: -0.05em; }
+        h2 { font-size: 1.75rem; margin-top: 3.5rem; margin-bottom: 1.5rem; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 1rem; color: var(--text-main); }
+        p { line-height: 1.7; margin-bottom: 1rem; color: var(--text-muted); }
+        
+        /* Components */
+        .card { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .card-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        
+        pre { background-color: #000; color: var(--success); padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: var(--font-mono); font-size: 0.9rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+        code { font-family: var(--font-mono); background-color: var(--bg-card); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: var(--accent-hover); }
+        pre code { background-color: transparent; padding: 0; color: inherit; }
+
+        table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; background-color: var(--bg-surface); border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background-color: var(--bg-card); color: var(--text-main); font-weight: 600; }
+        tr:last-child td { border-bottom: none; }
+
+        .flow-diagram { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; text-align: center; font-family: var(--font-mono); color: var(--accent-hover); margin-bottom: 1.5rem; border: 1px dashed var(--border); }
+
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .badge-concept { background-color: rgba(59, 130, 246, 0.2); color: var(--accent); }
+        .badge-command { background-color: rgba(16, 185, 129, 0.2); color: var(--success); }
+        .badge-error { background-color: rgba(239, 68, 68, 0.2); color: var(--danger); }
+
+        details { background-color: var(--bg-surface); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; }
+        summary { padding: 1rem; cursor: pointer; font-weight: 600; color: var(--text-main); list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; font-size: 1.2rem; color: var(--accent); transition: transform 0.2s; }
+        details[open] summary::after { transform: rotate(45deg); }
+        .details-content { padding: 0 1rem 1rem 1rem; color: var(--text-muted); border-top: 1px solid var(--border); margin-top: 0.5rem; padding-top: 1rem; }
+
+        .top-nav-btn { position: fixed; bottom: 2rem; right: 2rem; background: var(--accent); color: #fff; width: 40px; height: 40px; border-radius: 50%; display: flex; justify-content: center; align-items: center; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: background 0.2s; }
+        .top-nav-btn:hover { background: var(--accent-hover); }
+
+        @media (max-width: 1024px) {
+            body { flex-direction: column; }
+            aside { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); padding: 1.5rem; }
+            main { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <aside>
+        <h2>📚 Índice de Estudio</h2>
+        <nav>
+            <ul>
+                <li><a href="#s1">1. Fundamentos y Modos</a></li>
+                <li><a href="#s2">2. Identidad Básica</a></li>
+                <li><a href="#s3">3. Seguridad de Contraseñas</a></li>
+                <li><a href="#s4">4. Usuarios Locales</a></li>
+                <li><a href="#s5">5. Configuración Consola</a></li>
+                <li><a href="#s6">6. Configuración VTY</a></li>
+                <li><a href="#s7">7. SSH Completo</a></li>
+                <li><a href="#s8">8. Banner MOTD</a></li>
+                <li><a href="#s9">9. Bloqueo por Intentos</a></li>
+                <li><a href="#s10">10. Configuración IPv4</a></li>
+                <li><a href="#s11">11. Configuración IPv6</a></li>
+                <li><a href="#s12">12. Interfaz Loopback</a></li>
+                <li><a href="#s13">13. Descripciones</a></li>
+                <li><a href="#s14">14. Activación (No Shutdown)</a></li>
+                <li><a href="#s15">15. Tabla de Direccionamiento</a></li>
+                <li><a href="#s16">16. Rutas Conectadas</a></li>
+                <li><a href="#s17">17. Comandos Show</a></li>
+                <li><a href="#s18">18. Uso del Pipe (|)</a></li>
+                <li><a href="#s19">19. Running vs Startup</a></li>
+                <li><a href="#s20">20. Reloj del Router</a></li>
+                <li><a href="#s21">21. Verificación</a></li>
+                <li><a href="#s22">22. Registro 0x2142</a></li>
+                <li><a href="#s23">23. El Riesgo de Telnet</a></li>
+                <li><a href="#s24">24. Diagnóstico de Interfaces</a></li>
+                <li><a href="#s25">25. Errores Comunes de Lab</a></li>
+                <li><a href="#s26">26. Configuración Completa</a></li>
+                <li><a href="#s27">27. Cheat Sheet</a></li>
+                <li><a href="#s28">28. Autoevaluación</a></li>
+                <li><a href="#s29">29. Mini Lab Final</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main id="top">
+        <header>
+            <h1>Configuración Básica, Seguridad, IPv4, IPv6 y SSH en Routers Cisco</h1>
+            <p>Guía de estudio estructurada para CCNA. Dominio de conceptos, sintaxis y troubleshooting.</p>
+        </header>
+
+        <!-- S1. Fundamentos -->
+        <section id="s1">
+            <h2>1. Fundamentos de configuración</h2>
+            <p>El sistema operativo Cisco IOS utiliza una estructura jerárquica. No puedes ejecutar comandos avanzados si no estás en el nivel (modo) correcto.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modo</th>
+                        <th>Prompt</th>
+                        <th>Comando para entrar</th>
+                        <th>Para qué sirve</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>EXEC de usuario</strong></td>
+                        <td><code>Router&gt;</code></td>
+                        <td>(Modo por defecto al conectar)</td>
+                        <td>Verificación muy básica. Comandos limitados (ping, telnet).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>EXEC privilegiado</strong></td>
+                        <td><code>Router#</code></td>
+                        <td><code>enable</code></td>
+                        <td>Acceso total a todos los comandos <code>show</code>, depuración y guardado.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Config. Global</strong></td>
+                        <td><code>Router(config)#</code></td>
+                        <td><code>configure terminal</code></td>
+                        <td>Realizar cambios que afectan al dispositivo en su totalidad (hostname, contraseñas).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Config. de Interfaz</strong></td>
+                        <td><code>Router(config-if)#</code></td>
+                        <td><code>interface g0/0/0</code></td>
+                        <td>Configurar parámetros de un puerto específico (IPs, estado).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Config. de Línea</strong></td>
+                        <td><code>Router(config-line)#</code></td>
+                        <td><code>line vty 0 4</code></td>
+                        <td>Configurar accesos administrativos (consola, SSH, Telnet).</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="card">
+                <div class="card-title"><span class="badge badge-command">Comandos Clave de Navegación</span></div>
+                <p><strong><code>exit</code></strong>: Retrocede un nivel en la jerarquía (ej. de <code>config-if</code> a <code>config</code>).</p>
+                <p><strong><code>end</code></strong> (o Ctrl+Z): Salta directamente al modo EXEC privilegiado (<code>#</code>) sin importar en qué subnivel estés.</p>
+            </div>
+        </section>
+
+        <!-- S2. Identidad -->
+        <section id="s2">
+            <h2>2. Identidad básica del router</h2>
+            <p>Antes de asegurar un router, debemos darle una identidad en la red.</p>
+            
+            <div class="card">
+                <div class="card-title">Hostname (Nombre de host)</div>
+                <pre>Router(config)# hostname R1</pre>
+                <p><strong>Qué hace:</strong> Cambia el nombre lógico del dispositivo. El prompt cambiará inmediatamente de <code>Router(config)#</code> a <code>R1(config)#</code>.</p>
+                <p><strong>Importancia:</strong> Crítico para administración. Si gestionas 50 routers y todos se llaman "Router", es fácil aplicar configuraciones en el dispositivo equivocado.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Nombre de Dominio</div>
+                <pre>R1(config)# ip domain-name ccna-lab.com</pre>
+                <p><strong>Para qué sirve:</strong> Define el dominio DNS al que pertenece el router.</p>
+                <p><strong>Relación con SSH:</strong> Para habilitar SSH, el router debe generar claves RSA. El router combina su <strong>Hostname</strong> + <strong>Nombre de Dominio</strong> (ej. <code>R1.ccna-lab.com</code>) para crear la identidad única de estas claves criptográficas. Por eso, <em>siempre</em> debe configurarse el dominio antes de generar las claves.</p>
+            </div>
+        </section>
+
+        <!-- S3. Seguridad de Contraseñas -->
+        <section id="s3">
+            <h2>3. Seguridad de contraseñas</h2>
+            
+            <div class="card">
+                <div class="card-title">Cifrado general de contraseñas</div>
+                <pre>R1(config)# service password-encryption</pre>
+                <p><strong>Qué protege:</strong> Por defecto, comandos como <code>password cisco</code> (usado en consola o VTY) se guardan en texto claro. Este comando aplica un cifrado débil (Tipo 7) a todas las contraseñas en el archivo de configuración para evitar que alguien que mire tu pantalla por encima del hombro las lea.</p>
+                <p><span class="badge badge-error">Limitación:</span> Es fácilmente reversible (crackeable) en segundos en internet. Protege contra observadores casuales, no contra hackers.</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Longitud Mínima</div>
+                <pre>R1(config)# security passwords min-length 12</pre>
+                <p><strong>Qué significa:</strong> Obliga a que cualquier nueva contraseña que se configure a partir de este momento tenga al menos 12 caracteres.</p>
+                <p><strong>Si intentas poner una más corta:</strong> El router rechazará el comando lanzando un error (<em>Password too short</em>).</p>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Enable Secret vs Enable Password</div>
+                <pre>R1(config)# enable secret P@ssw0rd2024</pre>
+                <p>Protege el paso del modo usuario (<code>&gt;</code>) al privilegiado (<code>#</code>).</p>
+                <ul>
+                    <li><code>enable password</code>: Se almacena en texto claro (a menos que uses service password-encryption, e incluso así es tipo 7, débil).</li>
+                    <li><code>enable secret</code>: Utiliza un algoritmo Hash robusto (Tipo 5 / MD5 o superior). <strong>Debe preferirse siempre.</strong> Si configuras ambos, el router solo te pedirá el <em>secret</em>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- S4. Usuarios Locales -->
+        <section id="s4">
+            <h2>4. Usuarios locales</h2>
+            <pre>R1(config)# username SSHadmin secret 55Hadm!n2020</pre>
+            <p>Desglose del comando:</p>
+            <ul>
+                <li><code>username</code>: Crea una entrada en la base de datos local del router.</li>
+                <li><code>SSHadmin</code>: El nombre de la cuenta.</li>
+                <li><code>secret</code>: Indica que la contraseña se almacenará con un hash fuerte (Tipo 5), en lugar de texto claro (que sería si usaramos la palabra <code>password</code> en su lugar).</li>
+                <li><code>55Hadm!n2020</code>: La credencial asignada. <em>Nota: Jamás uses tus contraseñas personales o de producción en entornos de Packet Tracer.</em></li>
+            </ul>
+        </section>
+
+        <!-- S5. Consola -->
+        <section id="s5">
+            <h2>5. Configuración de la consola</h2>
+            <p>Asegura el puerto físico (cable celeste) del router.</p>
+            <pre>R1(config)# line console 0
+R1(config-line)# password C0ns0l@P@ss
+R1(config-line)# exec-timeout 4 0
+R1(config-line)# login
+R1(config-line)# exit</pre>
+            <ul>
+                <li><code>line console 0</code>: Entra a configurar el único puerto de consola físico (el número 0).</li>
+                <li><code>password &lt;pass&gt;</code>: Define la contraseña para este puerto.</li>
+                <li><code>exec-timeout 4 0</code>: Desconecta la sesión automáticamente tras <strong>4 minutos y 0 segundos</strong> de inactividad (sin presionar teclas). Evita que un administrador deje su sesión abierta por accidente.</li>
+                <li><code>login</code>: Obliga al puerto a solicitar la contraseña previamente configurada. Sin esto, la contraseña existe pero no se pide.</li>
+            </ul>
+        </section>
+
+        <!-- S6. VTY -->
+        <section id="s6">
+            <h2>6. Configuración de VTY (Virtual Teletype)</h2>
+            <p>Las líneas VTY son puertos lógicos usados para la administración remota (vía red, no por cable físico). Por defecto los routers tienen 5 líneas VTY concurrentes (0, 1, 2, 3 y 4).</p>
+            <pre>R1(config)# line vty 0 4
+R1(config-line)# login local
+R1(config-line)# transport input ssh
+R1(config-line)# exec-timeout 4 0
+R1(config-line)# exit</pre>
+            
+            <div class="card">
+                <p><strong><code>login local</code> vs <code>login</code>:</strong></p>
+                <ul>
+                    <li><code>login</code>: Pide únicamente la contraseña global de la línea VTY.</li>
+                    <li><code>login local</code>: Pide <strong>Usuario y Contraseña</strong> y los verifica contra la base de datos local del router (creada con el comando <code>username</code> en el paso 4).</li>
+                </ul>
+                <p><strong><code>transport input ssh</code>:</strong> Ordena a las líneas VTY que <strong>solo</strong> acepten conexiones SSH, bloqueando protocolos inseguros como Telnet.</p>
+            </div>
+
+            <table>
+                <thead>
+                    <tr><th>Telnet</th><th>SSH (Secure Shell)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Sin cifrado (Texto plano)</td><td>Comunicación 100% cifrada</td></tr>
+                    <tr><td>Más inseguro</td><td>Más seguro</td></tr>
+                    <tr><td>Credenciales fácilmente expuestas (Wireshark)</td><td>Credenciales y datos protegidos por túnel RSA</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- S7. SSH Completo -->
+        <section id="s7">
+            <h2>7. SSH: Proceso Completo</h2>
+            <p>SSH requiere varios elementos trabajando juntos para crear el túnel seguro.</p>
+            
+            <pre>R1(config)# ip domain-name ccna-lab.com
+R1(config)# username SSHadmin secret 55Hadm!n2020
+R1(config)# crypto key generate rsa modulus 1024
+R1(config)# line vty 0 4
+R1(config-line)# login local
+R1(config-line)# transport input ssh</pre>
+
+            <ul>
+                <li><strong>Claves RSA:</strong> Son el par de llaves (Pública y Privada) necesarias para el cifrado asimétrico.</li>
+                <li><strong>Modulus 1024:</strong> Define la longitud de la clave en bits. 1024 es el mínimo aceptable para SSH versión 2 en routers modernos (aunque 2048 es más seguro en el mundo real).</li>
+            </ul>
+
+            <div class="flow-diagram">
+                PC-A (Cliente SSH) ↔ [Túnel Cifrado RSA 1024] ↔ R1 (Valida 'SSHadmin' vía 'login local')
+            </div>
+        </section>
+
+        <!-- S8. Banner -->
+        <section id="s8">
+            <h2>8. Banner de seguridad (MOTD)</h2>
+            <pre>R1(config)# banner motd #ACCESO NO AUTORIZADO ESTRICTAMENTE PROHIBIDO#</pre>
+            <p><strong>MOTD (Message Of The Day):</strong> Es un texto legal que aparece justo antes de la solicitud de contraseña (tanto en consola como por red).</p>
+            <p><strong>Para qué se utiliza:</strong> Sirve como advertencia legal. Si no adviertes que el sistema es privado, en algunas jurisdicciones los intrusos podrían alegar que no sabían que el acceso estaba restringido. Los caracteres <code>#</code> actúan como delimitadores de inicio y fin del mensaje.</p>
+        </section>
+
+        <!-- S9. Bloqueo -->
+        <section id="s9">
+            <h2>9. Bloqueo por intentos fallidos</h2>
+            <p>Protege contra ataques de fuerza bruta intentando adivinar contraseñas repetidamente.</p>
+            <pre>R1(config)# login block-for 120 attempts 3 within 60</pre>
+            <p><strong>Desglose lógico:</strong></p>
+            <ul>
+                <li><code>attempts 3</code>: Si hay 3 intentos fallidos...</li>
+                <li><code>within 60</code>: ...dentro de una ventana de 60 segundos...</li>
+                <li><code>block-for 120</code>: ...el router bloquea nuevos inicios de sesión durante 120 segundos (2 minutos).</li>
+            </ul>
+            <div class="flow-diagram">
+                Fallo → Fallo → Fallo (en menos de 1 min) 🛑 ACCESO BLOQUEADO POR 2 MINUTOS
+            </div>
+        </section>
+
+        <!-- S10. IPv4 -->
+        <section id="s10">
+            <h2>10. Configuración IPv4</h2>
+            <pre>R1(config)# interface g0/0/0
+R1(config-if)# ip address 192.168.0.1 255.255.255.0
+R1(config-if)# no shutdown</pre>
+            <p>El comando vincula una <strong>Dirección IP</strong> y su <strong>Máscara de Subred</strong> al puerto físico. Esta IP se convertirá en el <strong>Default Gateway (Puerta de enlace)</strong> de los hosts (PCs, Servidores) conectados a esa red LAN específica.</p>
+        </section>
+
+        <!-- S11. IPv6 -->
+        <section id="s11">
+            <h2>11. Configuración IPv6</h2>
+            <pre>R1(config)# ipv6 unicast-routing</pre>
+            <p>Este comando global es <strong>obligatorio</strong>. Sin él, el router puede tener IPs IPv6, pero no reenviará (enrutará) paquetes IPv6 entre redes.</p>
+
+            <pre>R1(config)# interface g0/0/0
+R1(config-if)# ipv6 address 2001:db8:acad::1/64
+R1(config-if)# ipv6 address fe80::1 link-local
+R1(config-if)# no shutdown</pre>
+            <ul>
+                <li><strong>IPv6 Global Unicast (<code>2001:.../64</code>):</strong> Es la dirección enrutable públicamente (similar a la IP pública en IPv4, aunque en IPv6 se da a cada host). El <code>/64</code> es la longitud del prefijo (similar a la máscara).</li>
+                <li><strong>IPv6 Link-Local (<code>fe80::1</code>):</strong> Dirección exclusiva de red local. No atraviesa routers. Los hosts la usan para comunicarse con su gateway.</li>
+                <li><strong>¿Por qué <code>fe80::1</code> se puede repetir en varias interfaces?</strong> Como el tráfico Link-Local nunca sale del enlace físico local (broadcast domain), no hay conflicto de enrutamiento si la G0/0/0 y la G0/0/1 usan la misma IP <code>fe80::1</code>, ya que son redes aisladas en Capa 2.</li>
+            </ul>
+        </section>
+
+        <!-- S12. Loopback -->
+        <section id="s12">
+            <h2>12. Interfaz Loopback</h2>
+            <pre>R1(config)# interface loopback0
+R1(config-if)# ip address 10.0.0.1 255.255.255.0
+R1(config-if)# ipv6 address 2001:db8:acad:2::1/64
+R1(config-if)# ipv6 address fe80::1 link-local</pre>
+            <p><strong>Qué es:</strong> Una interfaz 100% lógica (software). No existe físicamente (no puedes conectar un cable).</p>
+            <p><strong>Diferencia:</strong> Una interfaz física puede caerse (estado <code>down</code>) si el cable se desconecta. La Loopback <strong>siempre está UP</strong> a menos que el router entero se apague o un administrador le dé <code>shutdown</code>.</p>
+            <p><strong>Utilidad:</strong> Es ideal para administración remota (SSH a la loopback garantiza que si un puerto físico cae, aún puedes entrar por otro camino) y para simular redes adicionales en laboratorios.</p>
+        </section>
+
+        <!-- S13. Descripciones -->
+        <section id="s13">
+            <h2>13. Descripciones de Interfaces</h2>
+            <pre>R1(config-if)# description Connection to Server</pre>
+            <p>No altera en absoluto el funcionamiento de la red. Es puramente documental. Acelera el troubleshooting meses después cuando ejecutas <code>show running-config</code> y necesitas saber a dónde va conectado ese puerto sin ir a seguir el cable físico.</p>
+            <table>
+                <thead><tr><th>Interfaz</th><th>Descripción</th></tr></thead>
+                <tbody>
+                    <tr><td>G0/0/0</td><td>Connection to Server</td></tr>
+                    <tr><td>G0/0/1</td><td>Connection to S1</td></tr>
+                    <tr><td>Loopback0</td><td>loopback adapter</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- S14. Activación -->
+        <section id="s14">
+            <h2>14. Activación de Interfaces</h2>
+            <pre>R1(config-if)# no shutdown</pre>
+            <p>Los puertos en un router Cisco vienen apagados de fábrica por seguridad.</p>
+            <ul>
+                <li><strong>administratively down:</strong> Significa que un administrador emitió explícitamente el comando <code>shutdown</code> (o viene así por defecto).</li>
+                <li><strong>up / up:</strong> El primer "up" significa que la Capa 1 (física/cable) funciona. El segundo "up" significa que la Capa 2 (protocolo de línea/enlace de datos) está operando correctamente.</li>
+            </ul>
+        </section>
+
+        <!-- S15. Direccionamiento -->
+        <section id="s15">
+            <h2>15. Tabla de Direccionamiento (Laboratorio)</h2>
+            <table>
+                <thead>
+                    <tr><th>Dispositivo</th><th>Interfaz</th><th>IPv4</th><th>IPv6 Global</th><th>IPv6 Link-Local</th><th>Gateway</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>R1</td><td>G0/0/0</td><td>192.168.0.1/24</td><td>2001:db8:acad::1/64</td><td>fe80::1</td><td>N/D</td></tr>
+                    <tr><td>R1</td><td>G0/0/1</td><td>192.168.1.1/24</td><td>2001:db8:acad:1::1/64</td><td>fe80::1</td><td>N/D</td></tr>
+                    <tr><td>R1</td><td>Loopback0</td><td>10.0.0.1/24</td><td>2001:db8:acad:2::1/64</td><td>fe80::1</td><td>N/D</td></tr>
+                    <tr><td>PC-A</td><td>NIC</td><td>192.168.1.10/24</td><td>2001:db8:acad:1::10/64</td><td>—</td><td>192.168.1.1 / fe80::1</td></tr>
+                    <tr><td>Server</td><td>NIC</td><td>192.168.0.10/24</td><td>2001:db8:acad::10/64</td><td>—</td><td>192.168.0.1 / fe80::1</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- S16. Rutas Conectadas -->
+        <section id="s16">
+            <h2>16. Rutas directamente conectadas</h2>
+            <pre>R1# show ip route</pre>
+            <p>Este comando muestra la tabla de enrutamiento (el "mapa" del router).</p>
+            <ul>
+                <li><strong>C = Connected:</strong> Representa la red base (ej. <code>192.168.0.0/24</code>) que se inyecta automáticamente cuando configuras una IP y levantas la interfaz.</li>
+                <li><strong>L = Local:</strong> Representa la IP exacta (host) asignada al propio router (ej. <code>192.168.0.1/32</code>).</li>
+            </ul>
+            <p>Basado en nuestra tabla, veríamos <strong>3 rutas con código C</strong> (192.168.0.0, 192.168.1.0 y 10.0.0.0) porque tenemos 3 interfaces activas.</p>
+        </section>
+
+        <!-- S17. Comandos Show -->
+        <section id="s17">
+            <h2>17. COMANDOS SHOW QUE DEBO DOMINAR</h2>
+            <div class="card">
+                <ul>
+                    <li><strong><code>show running-config</code>:</strong> Muestra TODA la configuración activa en la memoria RAM. Úsalo para validar lo que acabas de teclear.</li>
+                    <li><strong><code>show startup-config</code>:</strong> Muestra la configuración guardada en la NVRAM (lo que cargará si se apaga).</li>
+                    <li><strong><code>show version</code>:</strong> Muestra versión de IOS, modelo, tiempo encendido y registro de configuración (0x2102).</li>
+                    <li><strong><code>show ip interface brief</code>:</strong> El salvavidas. Resumen rápido tabular de IPs asignadas y estados (up/down). Ayuda a detectar puertos apagados.</li>
+                    <li><strong><code>show ipv6 interface brief</code>:</strong> Igual al anterior, pero para IPv6. Útil para validar que la Link-Local y Global Unicast se aplicaron.</li>
+                    <li><strong><code>show ip route</code> / <code>show ipv6 route</code>:</strong> Muestra la tabla de enrutamiento. Verifica si el router sabe cómo llegar a otras redes.</li>
+                    <li><strong><code>show interfaces</code>:</strong> Datos masivos y detallados de Capa 1 y 2 (MAC, errores CRC, drops, ancho de banda).</li>
+                    <li><strong><code>show ip interface</code>:</strong> Datos detallados de Capa 3 (Verificar la máscara de subred aplicada, ACLs entrantes/salientes).</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- S18. Pipe -->
+        <section id="s18">
+            <h2>18. El poder del Pipe (|)</h2>
+            <p>El símbolo <code>|</code> permite filtrar resultados inmensos en el router.</p>
+            <div class="card">
+                <p><span class="badge badge-command">include</span> <code>show running-config | include domain</code></p>
+                <p>Muestra <strong>únicamente las líneas individuales</strong> que contienen la palabra "domain". Evita leer 3 páginas buscando si el dominio se configuró.</p>
+                
+                <p><span class="badge badge-command">section</span> <code>show running-config | section vty</code></p>
+                <p>Muestra el <strong>bloque completo</strong> de configuración que coincide (la línea coincidente y todo lo anidado debajo de ella, como passwords, timeout, etc).</p>
+            </div>
+        </section>
+
+        <!-- S19. Running vs Startup -->
+        <section id="s19">
+            <h2>19. Running-config vs Startup-config</h2>
+            <div class="flow-diagram">
+                [RAM Volátil] Running-config<br>↓<br><code>copy running-config startup-config</code><br>↓<br>[NVRAM Permanente] Startup-config
+            </div>
+            <p><strong>¿Qué ocurre si reinicio el router antes de guardar?</strong><br>Cualquier comando que escribiste se pierde para siempre. El router arrancará con la última configuración guardada (startup-config) o en blanco.</p>
+        </section>
+
+        <!-- S20. Reloj -->
+        <section id="s20">
+            <h2>20. Reloj del Router</h2>
+            <pre>R1# clock set 14:30:00 13 Aug 2026</pre>
+            <p>Ajusta el reloj de hardware temporalmente. (Requiere modo EXEC privilegiado <code>#</code>, no modo de configuración global). Vital para que los logs (registros de errores) tengan marcas de tiempo reales que faciliten auditorías.</p>
+        </section>
+
+        <!-- S21. Verificación -->
+        <section id="s21">
+            <h2>21. Verificación de Conectividad</h2>
+            <ul>
+                <li><strong>Ping IPv4:</strong> <code>ping 192.168.0.10</code></li>
+                <li><strong>Ping IPv6:</strong> <code>ping 2001:db8:acad::10</code></li>
+            </ul>
+            <p><strong>Para verificar SSH:</strong> Desde el terminal de PC-A usamos el comando <code>ssh -l SSHadmin 10.0.0.1</code>. <em>(Regla de oro: Antes de intentar SSH, ¡haz un ping! Si no hay conectividad IP básica, SSH jamás conectará).</em></p>
+        </section>
+
+        <!-- S22. Registro 0x2142 -->
+        <section id="s22">
+            <h2>22. Registro de configuración 0x2142</h2>
+            <pre>R1# show version | include register</pre>
+            <p>El valor normal es <code>0x2102</code> (Carga normal).<br>
+            <strong>¿Qué ocurre si el registro es <code>0x2142</code>?</strong> El router ignora deliberadamente el archivo startup-config durante el arranque y sube en blanco. Es la técnica oficial de Cisco para <strong>recuperación de contraseñas</strong>, permitiéndote entrar si olvidaste el 'enable secret'.</p>
+        </section>
+
+        <!-- S23. Telnet Risk -->
+        <section id="s23">
+            <h2>23. Seguridad de Telnet</h2>
+            <p>Telnet transmite datos en <strong>texto claro</strong>. Si un atacante ejecuta un sniffer de red (Wireshark) entre tu PC y el router, verá exactamente qué usuario y qué contraseña tecleaste para entrar. Por ello siempre usamos <code>transport input ssh</code>, que encapsula todo el tráfico.</p>
+        </section>
+
+        <!-- S24. Diagnósticos -->
+        <section id="s24">
+            <h2>24. Diagnóstico de Interfaces</h2>
+            <p>Al hacer un <code>show ip int brief</code> puedes ver:</p>
+            <ul>
+                <li><span class="badge badge-success">up / up</span>: Todo perfecto. Capa física y enlace de datos operando.</li>
+                <li><span class="badge badge-error">administratively down</span>: Olvidaste hacer <code>no shutdown</code>.</li>
+                <li><span class="badge badge-warning">down / down</span>: Fallo físico (cable desconectado, equipo al otro extremo apagado, cable dañado).</li>
+            </ul>
+            <p><em>¿Crees que te equivocaste de máscara (/24 vs /8)?</em> <code>show ip int brief</code> NO te muestra la máscara. Debes usar <code>show ip interface g0/0/0</code> o <code>show running-config interface g0/0/0</code> para ver el detalle exacto.</p>
+        </section>
+
+        <!-- S25. Errores Lab -->
+        <section id="s25">
+            <h2>25. ERRORES QUE PUEDEN HACER FALLAR EL LAB</h2>
+            <div class="card">
+                <ul>
+                    <li><strong>Error de Sintaxis Oculto:</strong> Escribir <code>transpor input ssh</code>. El router lanza un error por la "t" faltante y rechaza la orden. Luego crees que habilitaste SSH, pero no fue así.</li>
+                    <li><strong>Interfaz Incorrecta:</strong> Tratar de entrar a <code>interface g0/0</code> cuando el modelo de router usa nomenclatura de 3 dígitos <code>interface g0/0/0</code>.</li>
+                    <li><strong>Rigidez de Packet Tracer:</strong> PT califica scripts. Si el lab pide descripción <code>Connection to Server</code> y tú escribes <code>connection to server</code> (minúscula), el motor te restará puntos.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- S26. Config Completa -->
+        <section id="s26">
+            <h2>26. CONFIGURACIÓN COMPLETA DE R1</h2>
+            <pre>enable
+configure terminal
+hostname R1
+ip domain-name ccna-lab.com
+service password-encryption
+security passwords min-length 12
+username SSHadmin secret &lt;PASSWORD&gt;
+crypto key generate rsa modulus 1024
+enable secret &lt;PASSWORD&gt;
+
+line console 0
+password &lt;PASSWORD&gt;
+exec-timeout 4 0
+login
+exit
+
+line vty 0 4
+password &lt;PASSWORD&gt;
+exec-timeout 4 0
+login local
+transport input ssh
+exit
+
+banner motd #ACCESO NO AUTORIZADO PROHIBIDO#
+login block-for 120 attempts 3 within 60
+ipv6 unicast-routing
+
+interface g0/0/0
+description Connection to Server
+ip address 192.168.0.1 255.255.255.0
+ipv6 address 2001:db8:acad::1/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+interface g0/0/1
+description Connection to S1
+ip address 192.168.1.1 255.255.255.0
+ipv6 address 2001:db8:acad:1::1/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+interface loopback0
+description loopback adapter
+ip address 10.0.0.1 255.255.255.0
+ipv6 address 2001:db8:acad:2::1/64
+ipv6 address fe80::1 link-local
+no shutdown
+exit
+
+end
+copy running-config startup-config</pre>
+        </section>
+
+        <!-- S27. Cheat Sheet -->
+        <section id="s27">
+            <h2>27. CHEAT SHEET (Hoja Rápida)</h2>
+            <table>
+                <tbody>
+                    <tr><td><code>enable</code></td><td>Entra a EXEC privilegiado (#).</td></tr>
+                    <tr><td><code>configure terminal</code></td><td>Entra a config global.</td></tr>
+                    <tr><td><code>hostname</code></td><td>Cambia el nombre del dispositivo.</td></tr>
+                    <tr><td><code>ip domain-name</code></td><td>Define el dominio (Paso 1 para SSH).</td></tr>
+                    <tr><td><code>service password-encryption</code></td><td>Cifra contraseñas plaintext en config.</td></tr>
+                    <tr><td><code>security passwords min-length</code></td><td>Exige longitud mínima en futuras claves.</td></tr>
+                    <tr><td><code>username ... secret ...</code></td><td>Crea usuario local con hash fuerte.</td></tr>
+                    <tr><td><code>enable secret</code></td><td>Contraseña segura para modo EXEC priv.</td></tr>
+                    <tr><td><code>crypto key generate rsa</code></td><td>Genera llaves criptográficas.</td></tr>
+                    <tr><td><code>line console 0</code></td><td>Entra a configuración de puerto consola.</td></tr>
+                    <tr><td><code>line vty 0 4</code></td><td>Entra a terminales virtuales (remoto).</td></tr>
+                    <tr><td><code>login local</code></td><td>Exige usuario y contraseña de base local.</td></tr>
+                    <tr><td><code>transport input ssh</code></td><td>Rechaza Telnet, obliga uso de SSH.</td></tr>
+                    <tr><td><code>exec-timeout</code></td><td>Desconecta tras X min y Y seg inactivos.</td></tr>
+                    <tr><td><code>banner motd</code></td><td>Mensaje legal al iniciar sesión.</td></tr>
+                    <tr><td><code>login block-for</code></td><td>Bloquea IPs que fallan intentos repetidos.</td></tr>
+                    <tr><td><code>ipv6 unicast-routing</code></td><td>Activa enrutamiento de paquetes IPv6.</td></tr>
+                    <tr><td><code>interface &lt;id&gt;</code></td><td>Entra a config de un puerto.</td></tr>
+                    <tr><td><code>ip address</code> / <code>ipv6 address</code></td><td>Asigna dirección y máscara/prefijo.</td></tr>
+                    <tr><td><code>no shutdown</code></td><td>Enciende la interfaz físicamente.</td></tr>
+                    <tr><td><code>show running-config</code></td><td>Muestra la RAM (config activa).</td></tr>
+                    <tr><td><code>show ip int brief</code></td><td>Resumen tabular rápido de IPs y estados.</td></tr>
+                    <tr><td><code>copy run start</code></td><td>Guarda todo en la NVRAM para siempre.</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- S28. Autoevaluación -->
+        <section id="s28">
+            <h2>28. Preguntas de Autoevaluación</h2>
+            <div class="card">
+                <ol>
+                    <li>¿Qué comando cifra de forma débil (Tipo 7) las contraseñas que están en texto plano?</li>
+                    <li>¿Cuál es el puerto TCP utilizado por SSH?</li>
+                    <li>Si escribo <code>security passwords min-length 10</code>, ¿qué ocurre si intento poner la contraseña "cisco"?</li>
+                    <li>¿Cuál es la diferencia técnica clave entre <code>enable password</code> y <code>enable secret</code>?</li>
+                    <li>¿Qué significa un estado de "administratively down" en una interfaz?</li>
+                    <li>¿Cuál es la principal ventaja física de usar una interfaz Loopback?</li>
+                    <li>¿Qué comando dentro de VTY obliga al router a revisar la base de datos de usuarios (creados con <code>username</code>)?</li>
+                    <li>En la salida de <code>show ip route</code>, ¿qué letra representa a una red directamente conectada?</li>
+                    <li>¿Qué ocurre si un router arranca con el registro de configuración <code>0x2142</code>?</li>
+                    <li>¿Qué comando filtra el running-config para mostrar solo un bloque anidado entero (ej. configuración de consola)?</li>
+                    <li>¿Qué comando de configuración global es obligatorio antes de asignar direcciones IPv6 a las interfaces si queremos que el router enrute?</li>
+                    <li>¿Por qué la dirección Link-Local <code>fe80::1</code> puede configurarse en múltiples interfaces distintas de un mismo router sin causar conflicto IP?</li>
+                    <li>En el comando <code>login block-for 120 attempts 3 within 60</code>, ¿cuánto tiempo permanece bloqueado un atacante?</li>
+                    <li>Si tu ping funciona pero SSH no conecta, ¿cuál podría ser la causa en las líneas VTY?</li>
+                    <li>Al ejecutar <code>show ip interface brief</code>, no veo la máscara de subred. ¿Qué comando utilizo para verla?</li>
+                    <li>¿Qué ocurre con la configuración de la RAM si el router sufre un corte eléctrico antes de ejecutar <code>copy run start</code>?</li>
+                    <li>Verdadero o Falso: Telnet envía las contraseñas cifradas.</li>
+                    <li>Identifica el error de sintaxis en este entorno CCNA moderno: <code>Router(config)# interface g0/0</code></li>
+                    <li>¿Para qué se utilizan los delimitadores especiales, como `#`, en el comando <code>banner motd</code>?</li>
+                    <li>¿Qué comando se debe introducir justo después de configurar una IP para que la interfaz se active?</li>
+                </ol>
+            </div>
+
+            <details>
+                <summary>Mostrar Respuestas Explicadas</summary>
+                <div class="details-content">
+                    <ol>
+                        <li><code>service password-encryption</code>.</li>
+                        <li>TCP 22.</li>
+                        <li>El router lo rechaza devolviendo un error (Password too short) ya que tiene 5 caracteres y el mínimo exigido es 10.</li>
+                        <li><code>enable secret</code> utiliza hashing seguro (MD5/SHA), mientras que <code>password</code> usa texto claro.</li>
+                        <li>Que la interfaz está apagada por software; falta emitir el comando <code>no shutdown</code>.</li>
+                        <li>Es virtual, nunca se cae a menos que se apague el router. Da estabilidad para pruebas o administración.</li>
+                        <li><code>login local</code>.</li>
+                        <li>La letra <strong>C</strong> (Connected).</li>
+                        <li>El router ignora el archivo <code>startup-config</code> guardado en NVRAM, utilizado típicamente para saltarse contraseñas perdidas.</li>
+                        <li><code>show running-config | section ...</code></li>
+                        <li><code>ipv6 unicast-routing</code>.</li>
+                        <li>Porque es de ámbito local (solo sobrevive en el segmento de cable L2 conectado a ese puerto). No se enruta, por lo que no colisiona con el otro lado.</li>
+                        <li>120 segundos (2 minutos).</li>
+                        <li>Olvidaste configurar <code>transport input ssh</code>, o no tienes un dominio/RSA configurado.</li>
+                        <li><code>show ip interface [id]</code> o <code>show run interface [id]</code>.</li>
+                        <li>Toda configuración no guardada se evapora. El router volverá a su último estado salvado.</li>
+                        <li>Falso. Telnet envía en texto claro.</li>
+                        <li>Falta el tercer dígito identificador. Debería ser <code>interface g0/0/0</code>.</li>
+                        <li>Actúan como caracteres de inicio y fin, indicándole al router dónde comienza y termina la cadena de texto del mensaje legal.</li>
+                        <li><code>no shutdown</code>.</li>
+                    </ol>
+                </div>
+            </details>
+        </section>
+
+        <!-- S29. Mini Lab -->
+        <section id="s29">
+            <h2>29. Mini Laboratorio Práctico</h2>
+            <div class="card">
+                <p><strong>Escenario:</strong> Estás configurando desde cero el R2. Debes asegurar el dispositivo, habilitar SSH y encender su única interfaz activa a la red local.</p>
+                <ul>
+                    <li>Nombre: <code>R2</code></li>
+                    <li>Dominio: <code>practica.local</code></li>
+                    <li>Usuario SSH: <code>admin</code> / Clave: <code>S3cur3P@ss</code></li>
+                    <li>Cifrado de claves plaintext, mínimo 10 caracteres.</li>
+                    <li>Contraseña privilegiada: <code>C1sc0!S3cr3t</code></li>
+                    <li>Habilita SSH RSA 1024. Aplícalo a VTY (0 a 4), tiempo 5 min, obliga uso de base de datos local.</li>
+                    <li>Configura G0/0/0 con IP <code>10.50.1.1 /24</code> y la levantas. Añade descripción "LAN Ventas".</li>
+                    <li>Guarda el archivo.</li>
+                </ul>
+            </div>
+            
+            <details>
+                <summary>Mostrar Solución del Laboratorio</summary>
+                <div class="details-content">
+                    <pre>
+enable
+configure terminal
+hostname R2
+ip domain-name practica.local
+service password-encryption
+security passwords min-length 10
+
+username admin secret S3cur3P@ss
+enable secret C1sc0!S3cr3t
+
+crypto key generate rsa modulus 1024
+
+line vty 0 4
+transport input ssh
+exec-timeout 5 0
+login local
+exit
+
+interface g0/0/0
+description LAN Ventas
+ip address 10.50.1.1 255.255.255.0
+no shutdown
+exit
+
+end
+copy running-config startup-config</pre>
+                </div>
+            </details>
+        </section>
+
+        <a href="#top" class="top-nav-btn">↑</a>
+    </main>
+
+</body>
+</html>
