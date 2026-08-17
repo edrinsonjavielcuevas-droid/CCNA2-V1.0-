@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Redes: VLANs y Enlaces Troncales (Multi-Switch)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;600;700;800&display=swap');
+
+        :root {
+            --bg-base: #07090e;
+            --bg-surface: #0f172a;
+            --bg-card: rgba(30, 41, 59, 0.5);
+            --bg-card-hover: rgba(51, 65, 85, 0.6);
+            --border: rgba(255, 255, 255, 0.08);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #38bdf8;
+            --accent-purple: #a855f7;
+            --accent-green: #34d399;
+            --accent-orange: #fb923c;
+            --accent-pink: #f472b6;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* --- Barra Lateral de Navegación --- */
+        aside {
+            width: 290px;
+            background: #0b1120;
+            border-right: 1px solid var(--border);
+            padding: 2.5rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        aside::-webkit-scrollbar { width: 5px; }
+        aside::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+        aside h2 {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        aside ul { list-style: none; display: flex; flex-direction: column; gap: 0.4rem; }
+
+        aside a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            padding: 0.6rem 0.8rem;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        aside a:hover {
+            background: var(--bg-card);
+            color: #ffffff;
+            border-color: var(--border);
+            transform: translateX(4px);
+        }
+
+        /* --- Contenedor Principal --- */
+        main {
+            margin-left: 290px;
+            padding: 3.5rem 4.5rem;
+            max-width: 1150px;
+            width: 100%;
+        }
+
+        header {
+            margin-bottom: 3.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.8rem;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 800px;
+        }
+
+        section {
+            margin-bottom: 4rem;
+            scroll-margin-top: 2rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: var(--accent-cyan);
+            border-radius: 2px;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            color: var(--accent-cyan);
+            margin-top: 1.8rem;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        ul, ol {
+            margin-bottom: 1.2rem;
+            padding-left: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        li { margin-bottom: 0.5rem; }
+        strong { color: #ffffff; }
+
+        /* --- Tarjetas y Rejillas --- */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* --- Alertas de Conceptos --- */
+        .callout {
+            padding: 1.2rem 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-left: 4px solid var(--accent-cyan);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .callout.warning { border-left-color: var(--accent-orange); }
+        .callout.success { border-left-color: var(--accent-green); }
+
+        /* --- Bloques de Código --- */
+        .terminal {
+            background: #030712;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .terminal-header {
+            background: #0f172a;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 1px solid #1e293b;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+        .dot.r { background: #ef4444; }
+        .dot.y { background: #f59e0b; }
+        .dot.g { background: #10b981; }
+
+        pre {
+            padding: 1.2rem 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            color: var(--accent-green);
+            line-height: 1.6;
+        }
+
+        code {
+            font-family: var(--font-mono);
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--accent-pink);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.88rem;
+        }
+
+        pre code { background: transparent; color: inherit; padding: 0; }
+
+        /* --- Tablas --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.8rem;
+            background: var(--bg-surface);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        th, td { padding: 1rem 1.2rem; text-align: left; border-bottom: 1px solid var(--border); }
+        th { background: rgba(255, 255, 255, 0.03); color: #ffffff; font-weight: 600; font-size: 0.95rem; }
+        tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+        /* --- Acordeones / Desplegables --- */
+        details {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        details:hover { border-color: rgba(168, 85, 247, 0.4); }
+
+        summary {
+            padding: 1.1rem 1.4rem;
+            cursor: pointer;
+            font-weight: 600;
+            color: #ffffff;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '+'; font-size: 1.3rem; color: var(--accent-cyan); transition: transform 0.2s; }
+        details[open] summary::after { transform: rotate(45deg); color: var(--accent-pink); }
+        
+        .details-body {
+            padding: 1.4rem;
+            border-top: 1px solid var(--border);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- Enlaces de Referencia --- */
+        .video-box {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.6), rgba(15, 23, 42, 0.9));
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .video-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+
+        .video-link-btn {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .video-link-btn:hover {
+            background: var(--accent-cyan);
+            color: #000000;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+        }
+
+        @media (max-width: 992px) {
+            aside { display: none; }
+            main { margin-left: 0; padding: 2rem 1.5rem; }
+            h1 { font-size: 2.1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <h2>Navegación</h2>
+        <nav>
+            <ul>
+                <li><a href="#teoria">1. Fundamentos de VLANs</a></li>
+                <li><a href="#modos">2. Puertos: Acceso vs Troncal</a></li>
+                <li><a href="#config-base">3. Configuración Básica</a></li>
+                <li><a href="#topologia-2sw">4. Topología 2 Switches</a></li>
+                <li><a href="#topologia-3sw">5. Topología 3 Switches</a></li>
+                <li><a href="#rangos">6. Configuración por Rangos</a></li>
+                <li><a href="#direccionamiento">7. Esquema IP y Aislamiento</a></li>
+                <li><a href="#verificacion">8. Comandos de Verificación</a></li>
+                <li><a href="#troubleshooting">9. Diagnóstico de Errores</a></li>
+                <li><a href="#cheatsheet">10. Cheat Sheet</a></li>
+                <li><a href="#evaluacion">11. Autoevaluación</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <header>
+            <h1>VLANs y Enlaces Troncales: <span>Guía de Estudio</span></h1>
+            <p>Segmentación lógica de redes locales, configuración de puertos de acceso y troncales en topologías conmutadas múltiples en Cisco IOS.</p>
+        </header>
+
+        <!-- CAJA DE VIDEOS FUENTE -->
+        <div class="video-box">
+            <strong>Material Audiovisual de Referencia:</strong>
+            <p style="margin-top: 0.4rem; font-size: 0.92rem;">Esta guía sintetiza y complementa los laboratorios prácticos presentados en las siguientes sesiones:</p>
+            <div class="video-links">
+                <a href="https://youtu.be/9FrsBHodw8E" target="_blank" class="video-link-btn">▶ Video 1: VLANs y Troncales con 3 Switches</a>
+                <a href="https://youtu.be/bdlPXxhvFjI" target="_blank" class="video-link-btn">▶ Video 2: Qué son las VLANs y Configuración Packet Tracer</a>
+            </div>
+        </div>
+
+        <!-- 1. FUNDAMENTOS -->
+        <section id="teoria">
+            <h2>1. Fundamentos de VLANs</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>¿Qué es una VLAN?</h3>
+                    <p>Una <strong>VLAN (Virtual Local Area Network)</strong> permite crear redes independientes y lógicas dentro de una misma infraestructura física conmutada.</p>
+                    <p>Aunque varios equipos estén conectados al mismo switch, si pertenecen a VLANs distintas no podrán comunicarse directamente en Capa 2.</p>
+                </div>
+                <div class="card">
+                    <h3>Reducción del Dominio de Difusión</h3>
+                    <p>Por defecto, un switch físico es un solo <strong>dominio de broadcast</strong>. Las tramas de difusión enviadas por un host saturan todos los puertos.</p>
+                    <p>Las VLANs dividen este gran dominio en dominios de difusión pequeños, mejorando drásticamente el rendimiento y la seguridad.</p>
+                </div>
+            </div>
+            <div class="callout">
+                <strong>Extensión Física:</strong> Con VLANs y enlaces troncales, equipos situados en diferentes pisos de un edificio o en switches distintos pueden formar parte de la misma red lógica sin necesidad de tender cables separados para cada red.
+            </div>
+        </section>
+
+        <!-- 2. ACCESO VS TRONCAL -->
+        <section id="modos">
+            <h2>2. Modos de Puerto: Acceso vs Troncal</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Modo de Puerto</th>
+                        <th>Destino de Conexión</th>
+                        <th>Tráfico que Procesa</th>
+                        <th>Etiquetado (Tagging)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Access (Acceso)</strong></td>
+                        <td>Dispositivos finales (PCs, Servidores, Impresoras).</td>
+                        <td>Únicamente tramas de <strong>una sola VLAN</strong>.</td>
+                        <td>No (la trama viaja sin etiqueta al host).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trunk (Troncal)</strong></td>
+                        <td>Interconexión Switch-a-Switch o Switch-a-Router.</td>
+                        <td>Transporta tramas de <strong>múltiples VLANs</strong> simultáneamente.</td>
+                        <td>Sí (agrega etiqueta 802.1Q para identificar la VLAN).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 3. CONFIGURACIÓN BÁSICA -->
+        <section id="config-base">
+            <h2>3. Sintaxis de Configuración en Cisco IOS</h2>
+            <p>La implementación consta de dos etapas obligatorias: <strong>crear la base de datos de la VLAN</strong> y <strong>asignar los puertos de acceso</strong>.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> Switch CLI — Creación y Asignación</div>
+                <pre><code>Switch> enable
+Switch# configure terminal
+
+! 1. Crear las VLANs en la base de datos local
+Switch(config)# vlan 10
+Switch(config-vlan)# name Soporte
+Switch(config-vlan)# exit
+
+Switch(config)# vlan 20
+Switch(config-vlan)# name Administracion
+Switch(config-vlan)# exit
+
+! 2. Configurar un puerto individual en modo acceso
+Switch(config)# interface FastEthernet 0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+Switch(config-if)# exit</code></pre>
+            </div>
+        </section>
+
+        <!-- 4. TOPOLOGÍA 2 SWITCHES -->
+        <section id="topologia-2sw">
+            <h2>4. Escenario Práctico: Topología de 2 Switches (Multi-Piso)</h2>
+            <p>Cuando se interconectan dos switches (ej. Piso 1 y Piso 2), los puertos que unen ambos dispositivos deben configurarse explícitamente como enlaces troncales.</p>
+            
+            <div class="terminal">
+                <div class="terminal-header"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> Configuración de Enlace Troncal (Puerto Fa0/24)</div>
+                <pre><code>! Aplicar en ambos switches (Switch 1 y Switch 2)
+Switch(config)# interface FastEthernet 0/24
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# exit</code></pre>
+            </div>
+            
+            <div class="callout warning">
+                <strong>¿Por qué falla el ping sin el troncal?</strong> Si el puerto inter-switch se deja en modo acceso por defecto (VLAN 1), cualquier paquete perteneciente a la VLAN 10 o 20 será descartado en el enlace porque un puerto de acceso no permite el paso de tramas de otras VLANs.
+            </div>
+        </section>
+
+        <!-- 5. TOPOLOGÍA 3 SWITCHES -->
+        <section id="topologia-3sw">
+            <h2>5. Escenario Práctico: Topología de 3 Switches en Cadena</h2>
+            <p>En una topología distribuida (Switch 0 ⟷ Switch 1 ⟷ Switch 2), el switch intermedio (Switch 1) debe tener <strong>dos enlaces troncales</strong> configurados para dar continuidad al tráfico de extremo a extremo.</p>
+
+            <div class="terminal">
+                <div class="terminal-header"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> Switch Intermedio (Switch 1) — Doble Troncal</div>
+                <pre><code>! Troncal hacia Switch 0 (Fa0/24)
+Switch1(config)# interface FastEthernet 0/24
+Switch1(config-if)# switchport mode trunk
+Switch1(config-if)# exit
+
+! Troncal hacia Switch 2 (Fa0/23)
+Switch1(config)# interface FastEthernet 0/23
+Switch1(config-if)# switchport mode trunk
+Switch1(config-if)# exit</code></pre>
+            </div>
+            
+            <div class="callout success">
+                <strong>Mejor Práctica de Seguridad:</strong> Aunque el protocolo DTP puede negociar enlaces automáticamente si un extremo está configurado, la norma profesional exige configurar estáticamente <code>switchport mode trunk</code> en ambos lados del cable.
+            </div>
+        </section>
+
+        <!-- 6. CONFIGURACIÓN POR RANGOS -->
+        <section id="rangos">
+            <h2>6. Optimización: Configuración Masiva por Rangos</h2>
+            <p>Para no configurar puerto por puerto en switches de 24 o 48 puertos, se utiliza el comando <code>interface range</code>.</p>
+
+            <div class="terminal">
+                <div class="terminal-header"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> Asignación por Bloques de Puertos</div>
+                <pre><code>! Asignar puertos del 1 al 10 a la VLAN 10
+Switch(config)# interface range FastEthernet 0/1 - 10
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 10
+Switch(config-if-range)# exit
+
+! Asignar puertos del 11 al 20 a la VLAN 20
+Switch(config)# interface range FastEthernet 0/11 - 20
+Switch(config-if-range)# switchport mode access
+Switch(config-if-range)# switchport access vlan 20
+Switch(config-if-range)# exit</code></pre>
+            </div>
+        </section>
+
+        <!-- 7. ESQUEMA IP -->
+        <section id="direccionamiento">
+            <h2>7. Esquema de Direccionamiento IP y Aislamiento</h2>
+            <p>Cada VLAN debe corresponder a una subred IP única para evitar conflictos lógicos:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>VLAN ID</th>
+                        <th>Nombre</th>
+                        <th>Subred IPv4</th>
+                        <th>Máscara</th>
+                        <th>Hosts de Ejemplo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>VLAN 10</strong></td>
+                        <td>Soporte / Ventas</td>
+                        <td><code>192.168.10.0/24</code></td>
+                        <td>255.255.255.0</td>
+                        <td>192.168.10.5, 192.168.10.6, 192.168.10.7</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VLAN 20</strong></td>
+                        <td>Administración</td>
+                        <td><code>192.168.20.0/24</code></td>
+                        <td>255.255.255.0</td>
+                        <td>192.168.20.5, 192.168.20.6</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout warning">
+                <strong>Regla de Aislamiento en Capa 2:</strong><br>
+                • Host VLAN 10 (SW0) ➔ Host VLAN 10 (SW2): <strong>COMUNICACIÓN EXITOSA</strong> (gracias al enlace troncal).<br>
+                • Host VLAN 10 (SW0) ➔ Host VLAN 20 (SW0): <strong>COMUNICACIÓN FALLIDA</strong>.<br>
+                <em>Para que dos VLANs distintas se comuniquen entre sí, se requiere obligatoriamente un dispositivo de Capa 3 (Router o Switch Multicapa).</em>
+            </div>
+        </section>
+
+        <!-- 8. VERIFICACIÓN -->
+        <section id="verificacion">
+            <h2>8. Comandos de Verificación y Diagnóstico</h2>
+            <div class="terminal">
+                <div class="terminal-header"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span> Comandos SHOW en Modo Privilegiado (#)</div>
+                <pre><code>! 1. Ver la base de datos de VLANs y puertos asignados
+Switch# show vlan brief
+
+! 2. Verificar el estado operativo de un puerto (Acceso o Troncal)
+Switch# show interfaces FastEthernet 0/24 switchport
+
+! 3. Ver todos los enlaces troncales activos en el switch
+Switch# show interfaces trunk</code></pre>
+            </div>
+        </section>
+
+        <!-- 9. TROUBLESHOOTING -->
+        <section id="troubleshooting">
+            <h2>9. Errores Frecuentes y Cómo Corregirlos</h2>
+            
+            <div class="callout warning">
+                <strong>Error 1: Creaste o asignaste una VLAN a un puerto equivocado.</strong><br>
+                <em>Solución:</em> No necesitas reiniciar. Simplemente ingresa a la interfaz y sobrescribe el comando con <code>switchport access vlan [ID_correcto]</code>.
+            </div>
+
+            <div class="callout warning">
+                <strong>Error 2: No hay comunicación entre switches para una VLAN específica.</strong><br>
+                <em>Solución:</em> Verifica que la VLAN esté creada en <strong>todos los switches</strong> de la topología. Si la VLAN 10 no existe en el switch intermedio, este no sabrá cómo procesar ni reenviar esas tramas.
+            </div>
+
+            <div class="callout warning">
+                <strong>Error 3: Olvidar habilitar el enlace troncal en uno de los extremos.</strong><br>
+                <em>Solución:</em> Ejecuta <code>show interfaces trunk</code> en ambos extremos para confirmar que ambos puertos figuren en estado <em>trunking</em>.
+            </div>
+        </section>
+
+        <!-- 10. CHEAT SHEET -->
+        <section id="cheatsheet">
+            <h2>10. Cheat Sheet (Resumen de Comandos)</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Acción</th>
+                        <th>Comando Cisco IOS</th>
+                        <th>Modo de Ejecución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Crear VLAN</td>
+                        <td><code>vlan [ID]</code></td>
+                        <td><code>Switch(config)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Nombrar VLAN</td>
+                        <td><code>name [Nombre]</code></td>
+                        <td><code>Switch(config-vlan)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Definir puerto de acceso</td>
+                        <td><code>switchport mode access</code></td>
+                        <td><code>Switch(config-if)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Asignar puerto a VLAN</td>
+                        <td><code>switchport access vlan [ID]</code></td>
+                        <td><code>Switch(config-if)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Definir enlace troncal</td>
+                        <td><code>switchport mode trunk</code></td>
+                        <td><code>Switch(config-if)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Seleccionar varios puertos</td>
+                        <td><code>interface range [tipo] [inicio] - [fin]</code></td>
+                        <td><code>Switch(config)#</code></td>
+                    </tr>
+                    <tr>
+                        <td>Eliminar una VLAN</td>
+                        <td><code>no vlan [ID]</code></td>
+                        <td><code>Switch(config)#</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 11. AUTOEVALUACIÓN -->
+        <section id="evaluacion">
+            <h2>11. Preguntas de Autoevaluación</h2>
+
+            <details>
+                <summary>1. ¿Cuál es la función principal de configurar un enlace troncal entre switches?</summary>
+                <div class="details-body">
+                    Permitir el transporte simultáneo del tráfico de múltiples VLANs a través de un solo enlace físico, manteniendo las tramas identificadas mediante etiquetas 802.1Q.
+                </div>
+            </details>
+
+            <details>
+                <summary>2. Si dos computadoras están conectadas al mismo switch en la VLAN 10 y VLAN 20 con IPs 192.168.10.2 y 192.168.20.2, ¿por qué no pueden hacerse ping?</summary>
+                <div class="details-body">
+                    Porque las VLANs aíslan el tráfico a nivel de Capa 2 (enlace de datos). Para comunicar dos subredes/VLANs diferentes se requiere enrutamiento mediante un dispositivo de Capa 3 (Router o Switch Multicapa).
+                </div>
+            </details>
+
+            <details>
+                <summary>3. ¿Qué comando permite asignar simultáneamente los puertos del 1 al 12 a la VLAN 30?</summary>
+                <div class="details-body">
+                    <code>interface range FastEthernet 0/1 - 12</code> seguido de <code>switchport access vlan 30</code>.
+                </div>
+            </details>
+
+            <details>
+                <summary>4. En una topología en cascada (SW1 ⟷ SW2 ⟷ SW3), ¿por qué es obligatorio que las VLANs existan también en SW2 aunque no tenga computadoras conectadas a ellas?</summary>
+                <div class="details-body">
+                    Porque si el switch intermedio desconoce la existencia de esas VLANs en su base de datos local, no podrá etiquetar, conmutar ni reenviar adecuadamente el tráfico troncal que viaja entre SW1 y SW3.
+                </div>
+            </details>
+        </section>
+    </main>
+
+</body>
+</html>
