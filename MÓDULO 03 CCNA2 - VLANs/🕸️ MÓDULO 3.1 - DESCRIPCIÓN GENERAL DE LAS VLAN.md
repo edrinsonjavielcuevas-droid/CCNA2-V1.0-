@@ -8,7 +8,7 @@ Esta independencia de la infraestructura física significa que los usuarios de d
 
 Como se ilustra en el siguiente diagrama, la separación lógica permite mantener los departamentos segmentados en sus respectivas VLAN (2, 3 y 4) a través de múltiples pisos y switches físicos:
 
-![](VLAN%20DIVIDIDAS.png)
+![](../CCNA2IMG/IMGM3/VLAN%20DIVIDIDAS.png)
 
 ### Complemento: Comportamiento del Tráfico y Reglas de VLAN
 
