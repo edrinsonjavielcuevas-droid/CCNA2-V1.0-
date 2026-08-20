@@ -10,6 +10,8 @@ Como se ilustra en el siguiente diagrama, la separación lógica permite mantene
 
 ![](../CCNA2IMG/IMGM3/VLAN%20DIVIDIDAS.png)
 
+
+
 ### Complemento: Comportamiento del Tráfico y Reglas de VLAN
 
 **VLAN = Dominio de difusión:** Cada VLAN crea su propio dominio de difusión lógico. Esto significa que todo el tráfico (unidifusión, multidifusión y difusión, como las solicitudes ARP) queda estrictamente confinado a los equipos de esa VLAN, lo que evita que las difusiones inunden toda la red física y mejora drásticamente el rendimiento.
@@ -31,7 +33,7 @@ Como se ilustra en el siguiente diagrama, la separación lógica permite mantene
 
 **Ventaja Administrativa:** Distribuir los números de red IP de esta manera ordenada permite que toda la infraestructura se visualice y administre de manera lógica como un conjunto unificado.
 
-![](topologias.png)
+![](../CCNA2IMG/IMGM3/topologias.png)
 
 ### Ventajas de un diseño de red con VLAN
   
@@ -62,7 +64,7 @@ En las redes modernas, las VLAN se implementan y definen según las clases de tr
 
 A continuación, se ilustra la topología lógica de una VLAN de voz (VLAN 150) operando de manera independiente a la VLAN de datos del estudiante (VLAN 20):
 
-![700](topologias%20s.png)
+![700](../CCNA2IMG/IMGM3/topologias%20s.png)
 
 ----
 
