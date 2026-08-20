@@ -12,20 +12,20 @@
 
 _Como se ve en la ilustración, los enlaces troncales entre los switches S1, S2 y S3 son indispensables para transmitir el tráfico de las VLAN 10, 20, 30 y 99 a través de toda la red:_
 
-![](02_CCNA/CCNA2IMG/IMGM3/Trunk.png)
+![](../CCNA2IMG/IMGM3/Trunk.png)
 
 ---
 ### REDES SIN VLAN
 
 En una red configurada en una única subred sin la implementación de VLANs, toda la infraestructura opera de forma plana como un único gran dominio de difusión. Debido a que el comportamiento predeterminado de un switch es reenviar cualquier trama de difusión recibida por todos sus puertos (excepto por el de entrada), cualquier difusión generada por un solo dispositivo inundará obligatoriamente a todos los demás equipos conectados, generando tráfico innecesario y reduciendo el rendimiento general de la red por falta de segmentación lógica.
 
-![700](Vlans%201.png)
+![700](../CCNA2IMG/IMGM3/Vlans%201.png)
 
 ### REDES CON VLAN 
 
 Al implementar VLANs para segmentar una red, se crean dominios de difusión completamente aislados. Cuando un dispositivo envía una trama de difusión de Capa 2, el switch restringe su reenvío exclusivamente a los puertos configurados para esa misma VLAN. Aunque los enlaces troncales transportan el tráfico de todas las VLAN entre los distintos switches de la infraestructura, cada switch intermedio respeta esta segmentación, asegurando que la difusión llegue únicamente a los destinatarios correctos. En consecuencia, el uso de VLANs limita estrictamente la transmisión de cualquier tráfico de unidifusión, multidifusión o difusión a los dispositivos que pertenecen a esa red lógica en particular.
 
-![](02_CCNA/CCNA2IMG/IMGM3/VLANS.png)
+![](../CCNA2IMG/IMGM3/VLANS.png)
 
 ---
 ### IDENTIFICACIÓN DE VLAN CON ETIQUETA
@@ -48,7 +48,7 @@ Cuando un switch recibe una trama normal en un puerto de acceso, inserta esta et
 
 **VLAN ID (VID):** Número de identificación de 12 bits que define a qué VLAN pertenece la trama. Gracias a estos 12 bits, la red admite hasta **4096** IDs de VLAN diferentes.
 
-![](Tags.png)
+![](../CCNA2IMG/IMGM3/Tags.png)
 
 ### VLAN nativas y etiquetado de 802.1Q
 
@@ -66,7 +66,7 @@ Cuando un switch recibe una trama normal en un puerto de acceso, inserta esta et
 
 **Propósito real:** Conectar hosts a troncales o usar hubs es un diseño de red deficiente. Sin embargo, este escenario ilustra por qué existe la VLAN nativa en el estándar 802.1Q: se creó como un medio para mantener la compatibilidad y manejar estos "entornos antiguos" o heredados.
 
-![](VLAns%202.png)
+![](../CCNA2IMG/IMGM3/VLAns%202.png)
 
 ---
 ### ETIQUETADO DE VLAN DE VOZ
@@ -91,7 +91,7 @@ Etiquetado en la VLAN de acceso (datos) con prioridad CoS.
 
 Sin etiquetar en la VLAN de acceso (sin prioridad CoS).
 
-![](trafico%20en%20la%20vlan.png)
+![](../CCNA2IMG/IMGM3/trafico%20en%20la%20vlan.png)
 
 ---
 
@@ -101,6 +101,6 @@ Sin etiquetar en la VLAN de acceso (sin prioridad CoS).
 
 **Propósito:** Este comando te permite confirmar rápidamente que un mismo puerto tiene asignadas correctamente las dos VLANs de manera simultánea: la VLAN para datos (ej. VLAN 20) y la VLAN para voz (ej. VLAN 150).
 
-![](sh%20inter%20fa.png)
+![](../CCNA2IMG/IMGM3/sh%20inter%20fa.png)
 
 ----
