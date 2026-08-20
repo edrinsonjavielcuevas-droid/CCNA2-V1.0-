@@ -12,11 +12,11 @@
 
 **Configuración manual (Desactivación):** Para establecer un enlace troncal hacia un dispositivo que no admite DTP, debes usar los comandos `switchport mode trunk` seguido de `switchport nonegotiate`. Esto fuerza a la interfaz a convertirse en un tronco, pero detiene por completo la generación de tramas DTP.
 
-![](Desactivaci'on%20de%20DTP.png)
+![](../CCNA2IMG/IMGM3/Desactivaci'on%20de%20DTP.png)
 
 Para volver a habilitar el protocolo de enlace troncal dinámico, utilice el **switchport mode dynamic auto** comando.
 
-![](switchport%20mode%20dynamic%20auto.png)
+![](../CCNA2IMG/IMGM3/switchport%20mode%20dynamic%20auto.png)
 
 ### Comportamiento y configuración de DTP
 
@@ -81,7 +81,7 @@ La siguiente tabla ilustra qué tipo de enlace resulta al combinar diferentes co
 
 **Seguridad:** Se debe inhabilitar DTP obligatoriamente en todos aquellos enlaces donde no se deban usar enlaces troncales.
 
-![](Show%20dtp%20inter.png)
+![](../CCNA2IMG/IMGM3/Show%20dtp%20inter.png)
 
 ---
 
