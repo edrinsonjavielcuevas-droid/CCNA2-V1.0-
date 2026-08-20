@@ -8,7 +8,7 @@
 
 **VLAN de rango extendido:** Se numeran del **1006 al 4094**.
 
-![](sh%20vlans%20rango.png)
+![](../CCNA2IMG/IMGM3/sh%20vlans%20rango.png)
 
 ### Características de las VLAN de rango normal y extendido
 
@@ -43,18 +43,18 @@ La configuración de las VLAN de rango normal se guarda directamente en el archi
 
 **Buena práctica:** Al momento de agregar una VLAN mediante la interfaz de línea de comandos (CLI), siempre se recomienda asignarle un nombre descriptivo para facilitar la gestión y solución de problemas en la red.
 
-![](Comandos%20de%20config%20VLAN.png)
+![](../CCNA2IMG/IMGM3/Comandos%20de%20config%20VLAN.png)
 
 ---
 ### Ejemplo de creación de VLAN
 
 En el ejemplo de topología, la computadora del estudiante (PC2) todavía no se asoció a ninguna VLAN, pero tiene la dirección IP 172.17.20.22, que pertenece a la VLAN 20.
 
-![](02_CCNA/CCNA2IMG/IMGM3/TOPOLOGIA.png)
+![](../CCNA2IMG/IMGM3/TOPOLOGIA.png)
 
 En la figura, se muestra cómo se configura la VLAN para estudiantes (VLAN 20) en el switch S1.
 
-![](02_CCNA/CCNA2IMG/IMGM3/Config%20vlan.png)
+![](../CCNA2IMG/IMGM3/Config%20vlan.png)
 
 **Nota:** Además de introducir una única ID de VLAN, se puede introducir una serie de ID de VLAN separadas por comas o un rango de ID de VLAN separado por guiones usando el **vlan** comando _vlan-id_ . Por ejemplo, al introducir el comando de configuración **vlan 100,102,105-107** global se crearían las VLAN 100, 102, 105, 106 y 107.
 
@@ -65,7 +65,7 @@ Después de crear una VLAN, el siguiente paso es asignar puertos a la VLAN.
 
 En la figura se muestra la sintaxis para definir un puerto como puerto de acceso y asignarlo a una VLAN. EL **switchport mode access** comando es optativo, pero se aconseja como práctica recomendada de seguridad. Con este comando, la interfaz cambia al modo de acceso permanente.
 
-![](config%20vlan%201.png)
+![](../CCNA2IMG/IMGM3/config%20vlan%201.png)
 
 **Nota:** Use el **interface range** comando para configurar simultáneamente varias interfaces
 
@@ -74,11 +74,11 @@ En la figura se muestra la sintaxis para definir un puerto como puerto de acceso
 
 En la figura, el puerto F0/6 en el conmutador S1 se configura como un puerto de acceso y se asigna a la VLAN 20. Cualquier dispositivo conectado a ese puerto está asociado con la VLAN 20. Por lo tanto, en nuestro ejemplo, PC2 está en la VLAN 20.
 
-![](02_CCNA/CCNA2IMG/IMGM3/topologia%201.png)
+![](../CCNA2IMG/IMGM3/topologia%201.png)
 
 El ejemplo muestra la configuración de S1 para asignar F0/6 a VLAN 20.
 
-![](ejemplo%20de%20config%20vlan.png)
+![](../CCNA2IMG/IMGM3/ejemplo%20de%20config%20vlan.png)
 
 Las VLAN se configuran en el puerto del switch y no en el terminal. La PC2 se configura con una dirección IPv4 y una máscara de subred asociadas a la VLAN, que se configura en el puerto de switch. En este ejemplo, es la VLAN 20. Cuando se configura la VLAN 20 en otros switches, el administrador de red debe configurar las otras computadoras de alumnos para que estén en la misma subred que la PC2 (172.17.20.0/24).
 
@@ -89,7 +89,7 @@ Un puerto de acceso puede pertenecer a sólo una VLAN a la vez. Sin embargo, un 
 
 Consulte la topología en la figura. En este ejemplo, la PC5 está conectada con el teléfono IP de Cisco, que a su vez está conectado a la interfaz FastEthernet 0/18 en S3. Para implementar esta configuración, se crean una VLAN de datos y una VLAN de voz.
 
-![](config%20voice%20vlan.png)
+![](../CCNA2IMG/IMGM3/config%20voice%20vlan.png)
 
 ---
 ### Ejemplo de VLAN de voz y datos
@@ -100,13 +100,13 @@ Las redes LAN que admiten tráfico de voz por lo general también tienen la Cali
 
 La configuración en el ejemplo crea las dos VLAN (es decir, VLAN 20 y VLAN 150), y a continuación, asigna la interfaz F0/18 de S3 como un puerto de switch en VLAN 20. También asigna el tráfico de voz en VLAN 150 y permite la clasificación de QoS basada en la Clase de Servicio (CoS) asignado por el teléfono IP.
 
-![](ejemplo%20vlan%20voice.png)
+![](../CCNA2IMG/IMGM3/ejemplo%20vlan%20voice.png)
 
 **Nota:** La implementación de QoS no está contemplada en este curso.
 
 El **switchport access vlan** comando fuerza la creación de una VLAN si es que aún no existe en el switch. Por ejemplo, la VLAN 30 no está presente en la salida del comando **show vlan brief** del switch. Si se introduce el comando **switchport access vlan 30** en cualquier interfaz sin configuración previa, el switch muestra lo siguiente:
 
-![](result.png)
+![](../CCNA2IMG/IMGM3/result.png)
 
 ---
 ### Verificar la información de la VLAN
@@ -117,15 +117,15 @@ El **show vlan** comando muestra la lista de todas las VLAN configuradas. El 
 
 En la tabla se describen las opciones de **show vlan** comando.
 
-![](creacion%20de%20la%20vlan.png)
+![](../CCNA2IMG/IMGM3/creacion%20de%20la%20vlan.png)
 
 El **show vlan summary** comando muestra la lista de todas las VLAN configuradas.
 
-![](resumen%20de%20las%20vlan.png)
+![](../CCNA2IMG/IMGM3/resumen%20de%20las%20vlan.png)
 
 Otros comandos útiles son el comando **show interfaces** _interface-id_ **switchport** y el comando **show interfaces vlan** _vlan-id_. Por ejemplo, el **show interfaces fa0/18 switchport** comando se puede utilizar para confirmar que el puerto FastEthernet 0/18 se ha asignado correctamente a las VLAN de datos y voz.
 
-![](ejemplo%20sh%20inter%20vlan.png)
+![](../CCNA2IMG/IMGM3/ejemplo%20sh%20inter%20vlan.png)
 
 ---
 ### Cambio de pertenencia de puertos de una VLAN
@@ -138,7 +138,7 @@ Para volver a cambiar la pertenencia de un puerto a la VLAN 1 predeterminada, ut
 
 En la salida, por ejemplo, Fa0/18 está configurado para estar en la VLAN 1 predeterminada, tal como lo confirma el **show vlan brief** comando.
 
-![](config%20inter%20f018.png)
+![](../CCNA2IMG/IMGM3/config%20inter%20f018.png)
 
 Nota que la VLAN 20 sigue activa, aunque no tenga puertos asignados.
 
