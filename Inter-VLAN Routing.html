@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía para Principiantes: Inter-VLAN Routing</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent-blue: #38bdf8;
+            --accent-green: #34d399;
+            --accent-purple: #c084fc;
+            --accent-red: #f87171;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--bg-card);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--accent-purple);
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-purple);
+            padding-left: 1rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent-green);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            font-size: 1.05rem;
+            color: var(--text-muted);
+        }
+
+        ul {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .beginner-tip {
+            background-color: rgba(56, 189, 248, 0.1);
+            border-left: 4px solid var(--accent-blue);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 2rem;
+        }
+
+        .beginner-tip strong {
+            color: var(--accent-blue);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .code-term {
+            font-family: var(--font-mono);
+            background-color: var(--bg-card);
+            color: var(--accent-red);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+        
+        .citation {
+            font-size: 0.8em;
+            color: #64748b;
+            vertical-align: super;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Guía Definitiva: Inter-VLAN Routing</h1>
+            <p>Explicado paso a paso para principiantes, desde los conceptos básicos hasta la resolución de problemas.</p>
+        </header>
+
+        <section>
+            <h2>1. ¿Qué es el Routing entre VLAN y por qué lo necesitamos?</h2>
+            <div class="card">
+                <p>Para entender este tema, primero debemos comprender el problema: los hosts de una VLAN no pueden comunicarse con los hosts de otra VLAN a menos que haya un router o un switch de capa 3 para proporcionar servicios de enrutamiento[cite: 1].</p>
+                <p>Aquí es donde entra nuestra solución: <strong>Inter-VLAN routing</strong>. Este es el proceso de reenviar el tráfico de red de una VLAN a otra VLAN[cite: 1].</p>
+                
+                <h3>Las Tres Opciones de Enrutamiento</h3>
+                <p>Históricamente, han existido tres formas principales de lograr esto. Tres opciones incluyen heredado, router-on-a-stick y switch de capa 3 con SVIs[cite: 1]:</p>
+                <ul>
+                    <li><strong>1. Enrutamiento Heredado (Legacy):</strong> Utiliza un router con múltiples interfaces Ethernet[cite: 1]. En este modelo, cada interfaz del router estaba conectada a un puerto del switch en diferentes VLAN[cite: 1]. Sin embargo, requerir una interfaz física del router por VLAN agota rápidamente la capacidad de la interfaz física del router[cite: 1].</li>
+                    <li><strong>2. Router-on-a-stick:</strong> El método 'router-on-a-stick' inter-VLAN routing solo requiere una interfaz Ethernet física para enrutar el tráfico entre varias VLAN de una red[cite: 1]. La interfaz Ethernet del router Cisco IOS se configura como un troncal 802.1Q y se conecta a un puerto troncal en un switch de capa 2[cite: 1].</li>
+                    <li><strong>3. Switch de Capa 3 (El método moderno):</strong> El método moderno es el enrutamiento entre VLAN en un switch de capa 3 mediante SVIs[cite: 1]. Una SVI (Interfaz Virtual de Switch) se crea para una VLAN que existe en el switch[cite: 1]. El SVI realiza las mismas funciones para la VLAN que una interfaz del router[cite: 1]. Proporciona procesamiento de capa 3 para los paquetes que se envían ao desde todos los puertos de conmutador asociados con esa VLAN[cite: 1].</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>2. Configuración de Router-on-a-stick</h2>
+            <div class="card">
+                <p>Para configurar un switch con VLAN y enlaces troncales, realice los siguientes pasos: cree y asigne un nombre a las VLAN, cree la interfaz de administración, configure los puertos de acceso y configure los puertos de enlace troncal[cite: 1].</p>
+                
+                <div class="beginner-tip">
+                    <strong>💡 Concepto Clave: Subinterfaces</strong>
+                    <p>Como solo usamos un cable físico en este método, dividimos ese puerto en varios puertos virtuales o "subinterfaces". La interfaz del router se configura mediante subinterfaces para identificar VLAN enrutables[cite: 1]. Las subinterfaces son interfaces virtuales basadas en software, asociadas con una única interfaz física[cite: 1].</p>
+                </div>
+
+                <h3>Pasos de Configuración en el Router:</h3>
+                <ul>
+                    <li>Para el método de router-on-a-stick, se requieren subinterfaces configuradas para cada VLAN que se pueda enrutar[cite: 1].</li>
+                    <li>Se crea una subinterfaz mediante el comando <span class="code-term">interface interface_id subinterface_id</span> global configuration mode[cite: 1].</li>
+                    <li>Es necesario asignar una dirección IP a cada subinterfaz del router en una subred única para que se produzca el routing[cite: 1].</li>
+                    <li>Cuando se han creado todas las subinterfaces, la interfaz física debe habilitarse mediante el comando de configuración de <span class="code-term">no shutdown</span> interfaz[cite: 1].</li>
+                </ul>
+
+                <h3>Verificación de Router-on-a-stick:</h3>
+                <ul>
+                    <li>Desde un host, compruebe la conectividad con un host de otra VLAN mediante el <span class="code-term">ping</span> comando[cite: 1].</li>
+                    <li><span class="code-term">ping</span> Utilícelo para verificar la conectividad con el host y el switch[cite: 1].</li>
+                    <li>Para verificar y solucionar problemas utilice los comandos, <span class="code-term">show ip route</span>, <span class="code-term">show ip interface brief</span>, <span class="code-term">show interfaces</span> y <span class="code-term">show interfaces trunk</span>[cite: 1].</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>3. Enrutamiento usando Switches de Capa 3</h2>
+            <div class="card">
+                <p>En redes grandes y modernas, dependemos de los switches multicapa. Las LAN de campus empresariales utilizan switches de capa 3 para proporcionar enrutamiento entre VLAN[cite: 1].</p>
+                <p>¿Por qué? Porque los switches de capa 3 utilizan switching basado en hardware para lograr velocidades de procesamiento de paquetes más altas que los routers[cite: 1].</p>
+                
+                <h3>Capacidades y Configuración (SVI):</h3>
+                <ul>
+                    <li>Las capacidades de un switch de Capa 3 incluyen el enrutamiento de una VLAN a otra utilizando múltiples interfaces virtuales conmutadas (SVI) y la conversión de un puerto de switch de Capa 2 a una interfaz de Capa 3 (es decir, un puerto enrutado)[cite: 1].</li>
+                    <li>Para proporcionar enrutamiento entre VLAN, los switches de capa 3 utilizan SVIs[cite: 1].</li>
+                    <li>Los SVIs se configuran utilizando el mismo comando <span class="code-term">interface vlan vlan-id</span> utilizado para crear el SVI de administración en un switch de capa 2[cite: 1].</li>
+                    <li>Se debe crear un SVI de Capa 3 para cada una de las VLAN enrutables[cite: 1].</li>
+                    <li>Para configurar un switch con VLAN y trunking, siga los pasos siguientes: cree las VLAN, cree las interfaces VLAN SVI, configure los puertos de acceso y habilite el enrutamiento IP[cite: 1].</li>
+                    <li>Desde un host, compruebe la conectividad con un host de otra VLAN mediante el <span class="code-term">ping</span> comando[cite: 1]. A continuación, compruebe la conectividad con el host mediante el comando host de <span class="code-term">ping</span> Windows[cite: 1].</li>
+                    <li>Las VLAN deben anunciarse mediante enrutamiento estático o dinámico[cite: 1].</li>
+                </ul>
+
+                <h3>Puertos Enrutados (Routed Ports):</h3>
+                <ul>
+                    <li>Para habilitar el enrutamiento en un switch de capa 3, se debe configurar un puerto enrutado[cite: 1].</li>
+                    <li>Un puerto enrutado se crea en un switch de Capa 3 deshabilitando la función switchport de un switch de Capa 2 que está conectado a otro dispositivo de Capa 3[cite: 1].</li>
+                    <li>La interfaz se puede configurar con una configuración IPv4 para conectarse a un router u otro switch de capa 3[cite: 1].</li>
+                    <li>Para configurar un switch de capa 3 para enrutar con un router, siga estos pasos: configure el puerto enrutado, habilite el enrutamiento, configure el enrutamiento, verifique el enrutamiento y verifique la conectividad[cite: 1].</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>4. Resolución de Problemas (Troubleshooting)</h2>
+            <div class="card">
+                <p>Hay varias razones por las que una configuración entre van puede no funcionar[cite: 1]. Todos están relacionados con problemas de conectividad, como las VLAN faltantes, los problemas del puerto troncal del switch, los problemas del puerto de acceso del switch y los problemas de configuración del router[cite: 1].</p>
+                
+                <h3>Causas Comunes de Fallas:</h3>
+                <ul>
+                    <li><strong>VLAN Faltantes:</strong> Podría faltar una VLAN si no se creó, se eliminó accidentalmente o no se permite en el enlace troncal[cite: 1].</li>
+                    <li><strong>Errores de Asignación (Heredado):</strong> Otro problema para el enrutamiento entre VLAN incluye puertos de switch mal configurados[cite: 1]. En una solución interVLAN heredada, podría producirse un puerto de switch mal configurado cuando el puerto del router de conexión no está asignado a la VLAN correcta[cite: 1].</li>
+                    <li><strong>Errores de Enlace Troncal (Router-on-a-stick):</strong> Con una solución router-on-a-stick, la causa más común es un puerto troncal mal configurado[cite: 1].</li>
+                    <li><strong>Errores de Subinterfaz:</strong> Los problemas de configuración del router con configuraciones de router-on-a-stick suelen estar relacionados con configuraciones erróneas de subinterfaz[cite: 1].</li>
+                </ul>
+
+                <h3>Herramientas de Diagnóstico:</h3>
+                <ul>
+                    <li>Cuando se sospecha un problema con una configuración del puerto de acceso del switch, utilice los <span class="code-term">ping</span> comandos <span class="code-term">show interfaces interface-id switchport</span> y <span class="code-term">_interface-</span> para identificar el problema[cite: 1].</li>
+                    <li>Verificar el estatus de las interfaces usando el <span class="code-term">show ip interface brief</span> comando[cite: 1].</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>
