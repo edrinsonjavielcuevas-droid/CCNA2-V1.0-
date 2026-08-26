@@ -7,13 +7,13 @@ En el tema anterior, se enumeraron tres formas diferentes de crear inter-VLAN ro
 
 En la figura, la interfaz R1 GigabitEthernet 0/0/1 está conectada al puerto S1 FastEthernet 0/5. El puerto S1 FastEthernet 0/1 está conectado al puerto S2 FastEthernet 0/1. Estos son enlaces troncales necesarios para reenviar tráfico dentro de las VLAN y entre ellas.
 
-![](Escenario%20Router-on-a-Stick.png)
+![](../CCNA2IMG/IMGM4/Escenario%20Router-on-a-Stick.png)
 
 Para enrutar entre VLAN, la interfaz R1 GigabitEthernet 0/0/1 se divide lógicamente en tres subinterfaces, como se muestra en la tabla. La tabla también muestra las tres VLAN que se configurarán en los switches.
 
 ### Router R1 Subinterfaces
 
-![](Router%20R1%20Subinterfaces.png)
+![](../CCNA2IMG/IMGM4/Router%20R1%20Subinterfaces.png)
 
 Suponga que R1, S1 y S2 tienen configuraciones básicas iniciales. Actualmente, PC1 y PC2 no pueden **ping** entre sí porque están en redes separadas. Sólo S1 y S2 pueden **ping** uno al otro, pero son inalcanzables por PC1 o PC2 porque también están en diferentes redes.
 
@@ -32,7 +32,7 @@ Complete los siguientes pasos para configurar S1 con VLAN y trunking:
 
 **Paso 4**. Configurar puertos de enlace troncal.
 
-![](S1%20VLAN%20and%20configuraciones%20de%20enlaces%20troncales.png)
+![](../CCNA2IMG/IMGM4/S1%20VLAN%20and%20configuraciones%20de%20enlaces%20troncales.png)
 
 
 **1. Crear y nombrar los VLANs.**
@@ -101,7 +101,7 @@ S1(config-if)# end
 
 La configuración para S2 es similar a S1.
 
-![](Topologias%20trunk.png)
+![](../CCNA2IMG/IMGM4/Topologias%20trunk.png)
 
 ---
 ---
@@ -176,7 +176,7 @@ _Nota de enrutamiento:_ Cada subinterfaz debe configurarse obligatoriamente en u
 
 **Activación:** Las subinterfaces no se encienden una por una. Una vez que hayas terminado de configurarlas todas, debes ingresar a la **interfaz física principal** y ejecutar el comando `no shutdown`. Si la interfaz física se deshabilita, todas sus subinterfaces caerán automáticamente.
 
-![](TRUNKs.png)
+![](../CCNA2IMG/IMGM4/TRUNKs.png)
 
 ---
 ---
@@ -243,11 +243,11 @@ La configuración del router-on-a-stick se completa después de configurar los e
 
 Desde un host, compruebe la conectividad con un host de otra VLAN mediante el **ping** comando. Es una buena idea verificar primero la configuración IP del host actual mediante el comando **ipconfig** Windows host
 
-![](02_CCNA/CCNA2IMG/IMGM4/ipconfig.png)
+![](../CCNA2IMG/IMGM4/ipconfig.png)
 
 El resultado confirma la dirección IPv4 y el default gateway de PC1. A continuación, utilice **ping** para verificar la conectividad con PC2 y S1, como se muestra en la figura. El **ping** resultado confirma correctamente que el enrutamiento entre VLANs está funcionando.
 
-![](02_CCNA/CCNA2IMG/IMGM4/ping%20192.168.20.10.png)
+![](../CCNA2IMG/IMGM4/ping%20192.168.20.10.png)
 
 
 ---
@@ -266,7 +266,7 @@ Además de utilizar **ping** entre dispositivos, se pueden utilizar los siguie
 
 Compruebe que las subinterfaces aparecen en la tabla de enrutamiento de R1 mediante el **show ip route** comando. Observe que hay tres rutas conectadas (C) y sus respectivas interfaces de salida para cada VLAN enrutable. El resultado confirma que las subredes, las VLAN y las subinterfaces correctas están activas.
 
-![](show%20ip%20route.png)
+![](../CCNA2IMG/IMGM4/show%20ip%20route.png)
 
 ---
 
@@ -274,7 +274,7 @@ Compruebe que las subinterfaces aparecen en la tabla de enrutamiento de R1 media
 
 Otro comando útil del router es **show ip interface brief,** como se muestra en el resultado. El resultado confirma que las subinterfaces tienen configurada la dirección IPv4 correcta y que están operativas.
 
-![](02_CCNA/CCNA2IMG/IMGM4/sh%20ip%20inter%20brief.png)
+![](../CCNA2IMG/IMGM4/sh%20ip%20inter%20brief.png)
 
 ---
 
@@ -282,7 +282,7 @@ Otro comando útil del router es **show ip interface brief,** como se muestra 
 
 Las subinterfaces se pueden verificar mediante el comando **show interfaces** _subinterface-id_, como se muestra.
 
-![](sh%20inter%20g001.png)
+![](../CCNA2IMG/IMGM4/sh%20inter%20g001.png)
 
 ---
 
@@ -292,7 +292,7 @@ La configuración incorrecta también podría estar en el puerto troncal del swi
 
 **Note:** Aunque la VLAN 1 no se configuró explícitamente, se incluyó automáticamente porque el tráfico de control en los enlaces troncal siempre se reenvía en la VLAN 1.
 
-![](02_CCNA/CCNA2IMG/IMGM4/sh%20inter%20trunk.png)
+![](../CCNA2IMG/IMGM4/sh%20inter%20trunk.png)
 
 ----
 
