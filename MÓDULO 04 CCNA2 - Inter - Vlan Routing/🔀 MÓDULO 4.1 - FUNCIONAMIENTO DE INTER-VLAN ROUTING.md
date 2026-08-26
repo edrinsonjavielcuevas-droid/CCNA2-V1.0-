@@ -22,7 +22,7 @@ La primera solución de inter-VLAN routing se basó en el uso de un router con m
 
 Por ejemplo, consulte la topología donde R1 tiene dos interfaces conectadas al switch S1.
 
-![](Inter%20vlan%20routing%20heredado.png)
+![](../CCNA2IMG/IMGM4/Inter%20vlan%20routing%20heredado.png)
 
 Observe que en el ejemplo la tabla de direcciones MAC de S1 se completa de la siguiente manera:
 
