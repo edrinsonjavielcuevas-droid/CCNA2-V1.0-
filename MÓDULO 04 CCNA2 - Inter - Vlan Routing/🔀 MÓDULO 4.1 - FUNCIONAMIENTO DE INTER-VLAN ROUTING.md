@@ -33,7 +33,7 @@ Observe que en el ejemplo la tabla de direcciones MAC de S1 se completa de la si
 
 ### Tabla de direcciones MAC para S1
 
-![](Tabla%20de%20direcciones%20MAC%20para%20S1.png)
+![](../CCNA2IMG/IMGM4/Tabla%20de%20direcciones%20MAC%20para%20S1.png)
 
 Cuando PC1 envía un paquete a PC2 en otra red, lo reenvía a su puerta de enlace predeterminada 192.168.10.1. R1 recibe el paquete en su interfaz G0/0/0 y examina la dirección de destino del paquete. R1 luego enruta el paquete hacia fuera de su interfaz G0/0/1 al puerto F0/12 en la VLAN 20 en S1. Finalmente, S1 reenvía la trama a PC2.
 
@@ -70,7 +70,7 @@ El método moderno para realizar inter-VLAN routing es utilizar switches de capa
 
 **Nota:** Un switch de capa 3 también se denomina switch multicapa ya que funciona en la capa 2 y la capa 3. Sin embargo, en este curso usamos el término switch de capa 3.
 
-![](Inter-VLAN%20Routing%20en%20un%20switch%20de%20capa%203.png)
+![](../CCNA2IMG/IMGM4/Inter-VLAN%20Routing%20en%20un%20switch%20de%20capa%203.png)
 
 Los SVIs entre VLAN se crean de la misma manera que se configura la interfaz de VLAN de administración. El SVI se crea para una VLAN que existe en el switch. Aunque es virtual, el SVI realiza las mismas funciones para la VLAN que lo haría una interfaz de router. Específicamente, proporciona el procesamiento de Capa 3 para los paquetes que se envían hacia o desde todos los puertos de switch asociados con esa VLAN.
 
