@@ -22,13 +22,13 @@
 
 En la figura, el switch de capa 3, D1, está conectado a dos hosts en diferentes VLAN. PC1 está en VLAN 10 y PC2 está en VLAN 20, como se muestra. El switch de capa 3 proporcionará servicios inter-VLAN routing a los dos hosts.
 
-![](Sw%20de%20capa%203.png)
+![](../CCNA2IMG/IMGM4/Sw%20de%20capa%203.png)
 
 La tabla muestra las direcciones IP de cada VLAN.
 
 ### D1 VLAN IP Addresses
 
-![](D1%20VLAN%20IP%20Add.png)
+![](../CCNA2IMG/IMGM4/D1%20VLAN%20IP%20Add.png)
 
 ---
 ### Configuracion de switch de capa 3
@@ -119,11 +119,11 @@ El Inter-VLAN Routing mediante un switch de capa 3 es más sencillo de configura
 
 Desde un host, compruebe la conectividad con un host de otra VLAN mediante el **ping** comando. Es una buena idea verificar primero la configuración IP del host actual mediante el comando **ipconfig** Windows host El resultado confirma la dirección IPv4 y el default gateway de PC1.
 
-![](ipconfig%201.png)
+![](../CCNA2IMG/IMGM4/ipconfig%201.png)
 
 A continuación, verifique la conectividad con PC2 mediante el comando host de **ping** Windows, como se muestra en el ejemplo. El **ping** resultado confirma correctamente que el enrutamiento entre VLANs está funcionando.
 
-![](ping%20192.168.20.10%201.png)
+![](../CCNA2IMG/IMGM4/ping%20192.168.20.10%201.png)
 
 ---
 ### Enrutamiento en un switch de capa 3
@@ -139,7 +139,7 @@ En la figura, el switch de capa 3 D1 previamente configurado ahora está conecta
 
 La configuración de enrutamiento **Note:** OSPF se cubre en otro curso. En este módulo, se le darán comandos de configuración OSPF en todas las actividades y evaluaciones. No es necesario que comprenda la configuración para habilitar el enrutamiento OSPF en el switch de capa 3.
 
-![](Escenario%20de%20enrutamiento%20en%20un%20switch%20de%20capa%203.png)
+![](../CCNA2IMG/IMGM4/Escenario%20de%20enrutamiento%20en%20un%20switch%20de%20capa%203.png)
 
 ---
 ### Configuración de enrutamiento en un switch de capa 3
