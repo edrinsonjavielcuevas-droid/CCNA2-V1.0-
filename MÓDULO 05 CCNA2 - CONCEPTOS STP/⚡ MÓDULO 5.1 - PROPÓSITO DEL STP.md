@@ -24,7 +24,7 @@ _notas:_ **La redundancia salva la red de caídas totales por fallas físicas, p
 
 El protoco de árbol de expansión (STP) es un protocolo de red de prevención de bucles que permite redundancia mientras crea una topología de capa 2 sin bucles. IEEE 802.1D es el estándar original IEEE MAC Bridging para STP.
 
-![](02_CCNA/CCNA2IMG/IMGM5/STP.png)
+![](../CCNA2IMG/IMGM5/STP.png)
 
 ---
 ### Problemas con los vínculos de switch redundantes
@@ -130,7 +130,7 @@ Sin este protocolo de prevención, se producirían bucles que harían inoperable
 
 Este escenario STA utiliza una LAN Ethernet con conexiones redundantes entre varios conmutadores.
 
-![](Topología%20de%20la%20situación.png)
+![](../CCNA2IMG/IMGM5/Topología%20de%20la%20situación.png)
 
 ---
 ### Seleccionar el Root Bridge
@@ -139,21 +139,21 @@ El algoritmo de árbol de expansión comienza seleccionando un único puente ra�
 
 **Nota:** STA y STP se refieren a conmutadores como puentes. Esto se debe a que en los primeros días de Ethernet, los switches se denominaban puentes.
 
-![](Seleccionar%20el%20Root%20Bridge.png)
+![](../CCNA2IMG/IMGM5/Seleccionar%20el%20Root%20Bridge.png)
 
 ---
 ### Bloquear rutas redundantes
 
 STP asegura que solo haya una ruta lógica entre todos los destinos en la red al bloquear intencionalmente las rutas redundantes que podrían causar un bucle, como se muestra en la figura. Cuando se bloquea un puerto, se impide que los datos del usuario entren o salgan de ese puerto. El bloqueo de las rutas redundantes es fundamental para evitar bucles en la red.
 
-![](Bloquear%20rutas%20redundantes.png)
+![](../CCNA2IMG/IMGM5/Bloquear%20rutas%20redundantes.png)
 
 ---
 ### Topología sin bucle
 
 Un puerto bloqueado tiene el efecto de convertir ese enlace en un vínculo no reenvío entre los dos switches, como se muestra en la figura. Observe que esto crea una topología en la que cada conmutador tiene una única ruta al puente raíz, similar a las ramas de un árbol que se conectan a la raíz del árbol.
 
-![](Topología%20sin%20bucle.png)
+![](../CCNA2IMG/IMGM5/Topología%20sin%20bucle.png)
 
 ---
 ### Fallos de enlace causan recálculo
@@ -162,7 +162,7 @@ Las rutas físicas aún existen para proporcionar la redundancia, pero las misma
 
 La figura muestra un error de enlace entre los conmutadores S2 y S4 que hace que STP se vuelva a calcular. Observe que el vínculo anteriormente redundante entre S4 y S5 se está reenviando para compensar este error. Todavía hay solo una ruta entre cada switch y el puente raíz.
 
-![](Fallos%20de%20enlace%20causan%20recálculo.png)
+![](../CCNA2IMG/IMGM5/Fallos%20de%20enlace%20causan%20recálculo.png)
 
 ---
 
