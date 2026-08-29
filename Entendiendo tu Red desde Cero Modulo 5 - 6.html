@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Definitiva de Redes para Principiantes</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--bg-card);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 6px;
+            height: 25px;
+            background-color: var(--accent-purple);
+            border-radius: 5px;
+        }
+
+        h3 { color: var(--accent-cyan); margin-top: 1.5rem; margin-bottom: 1rem; }
+        
+        p { margin-bottom: 1.2rem; color: var(--text-muted); font-size: 1.05rem; }
+        
+        ul { margin-bottom: 1.5rem; padding-left: 1.5rem; color: var(--text-muted); }
+        li { margin-bottom: 0.8rem; }
+        strong { color: var(--text-main); font-weight: 600; }
+
+        /* Tarjetas de Conceptos */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--bg-card);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .card h4 {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Bloques de Código */
+        .code-window {
+            background: #020617;
+            border-radius: 12px;
+            border: 1px solid var(--bg-card);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .window-header {
+            background: #0f172a;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--bg-card);
+            font-weight: 600;
+            color: var(--accent-yellow);
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: #38bdf8;
+            line-height: 1.5;
+        }
+
+        .comment { color: #64748b; font-style: italic; }
+        .highlight { color: var(--accent-pink); }
+
+        /* Alertas */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background: rgba(30, 41, 59, 0.7);
+            border-left: 4px solid var(--accent-cyan);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Entendiendo tu Red desde Cero</h1>
+            <p>Una guía para principiantes absolutos. Primero entenderemos "qué" hace cada tecnología con ejemplos de la vida real, y luego te daré "cómo" se escribe el código completo de cada equipo sin dejar nada fuera.</p>
+        </header>
+
+        <!-- SECCIÓN 1: DICCIONARIO PARA PRINCIPIANTES -->
+        <section>
+            <h2>1. El Diccionario del Principiante (Analogías)</h2>
+            <p>Antes de ver comandos extraños, vamos a entender qué estamos armando. Imagina que tu red es un edificio de oficinas gigante.</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>VLAN (Redes Virtuales)</h4>
+                    <p><strong>Analogía:</strong> Son como los "departamentos" de una empresa. Aunque el equipo de Matemáticas y los Analistas SOC estén en el mismo edificio (switch físico), las VLANs colocan muros invisibles entre ellos para que no se mezclen los datos ni haya desorden.</p>
+                </div>
+                <div class="card">
+                    <h4>Troncales (Trunks)</h4>
+                    <p><strong>Analogía:</strong> Son los "ascensores" principales del edificio. Permiten que la gente (datos) de todos los departamentos (VLANs) suban y bajen por un solo tubo para ir de un piso (switch) a otro.</p>
+                </div>
+                <div class="card">
+                    <h4>EtherChannel</h4>
+                    <p><strong>Analogía:</strong> Imagina que tienes 2 cables de red entre dos switches. EtherChannel los "amarra" lógicamente para que funcionen como una sola autopista gigante de 2 carriles. Da más velocidad y si un cable se rompe, la red no se cae.</p>
+                </div>
+                <div class="card">
+                    <h4>STP (Spanning Tree)</h4>
+                    <p><strong>Analogía:</strong> Es el "policía de tránsito". En redes, si conectas switches formando un círculo, los datos dan vueltas infinitas hasta que la red explota. STP detecta estos círculos y pone un cartel de "Calle Cerrada" (bloquea un puerto) para que los datos fluyan bien. Se usa como ruta de respaldo.</p>
+                </div>
+                <div class="card">
+                    <h4>DHCP</h4>
+                    <p><strong>Analogía:</strong> Es la "recepcionista". Cuando conectas una PC o teléfono nuevo, el servidor DHCP le entrega automáticamente un gafete con su Dirección IP para que pueda navegar, sin que tú tengas que configurarlo a mano.</p>
+                </div>
+                <div class="card">
+                    <h4>OSPF</h4>
+                    <p><strong>Analogía:</strong> Es el "Waze o Google Maps" de los routers. Los routers se mandan mensajes entre sí diciéndose: "Oye, yo conozco el camino a la VLAN 10". Así todos saben la mejor ruta para enviar los paquetes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: LÓGICA DE LOS COMANDOS -->
+        <section>
+            <h2>2. ¿Qué significan estos comandos raros?</h2>
+            <p>En el código verás palabras que se repiten mucho. Esto es lo que le dicen a la máquina:</p>
+            <ul>
+                <li><code>enable</code> y <code>configure terminal</code>: Es como poner la contraseña de administrador para poder editar el equipo.</li>
+                <li><code>vtp mode transparent</code>: Le dice al switch "no aceptes configuraciones de VLAN de otros, crea las tuyas propias".</li>
+                <li><code>spanning-tree mode rapid-pvst</code>: Enciende al "policía de tránsito" en su versión más rápida.</li>
+                <li><code>interface fa0/1</code>: Selecciona un enchufe específico del equipo (FastEthernet 0/1) para configurarlo.</li>
+                <li><code>switchport mode access</code>: Le dice al enchufe: "Tú solo vas a conectar a una computadora normal".</li>
+                <li><code>switchport access vlan 10</code>: "Esa computadora que conectes, métela al grupo de Matemáticas".</li>
+                <li><code>write memory</code>: Guarda todo lo que hiciste para que no se borre si se va la luz.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 3: EXPLICANDO LO AVANZADO -->
+        <section>
+            <h2>3. Las "Trampas" del Profesor (Explicadas)</h2>
+            <div class="alert">
+                <strong>¿Por qué le pusimos "spanning-tree cost 1000"?</strong><br>
+                El profesor pidió bloquear un enlace a propósito (Ruta de respaldo). En redes, STP busca el camino más "barato" (más corto). Si le decimos que el costo de ese cable es 1000 (carísimo), STP dirá: "Mejor bloqueo esta calle y no la uso a menos que la calle principal se rompa". ¡Así de simple bloqueaste la ruta!
+            </div>
+            
+            <div class="alert">
+                <strong>Subinterfaces en el Router (Ej. gig0/0/0.10) - "Router on a Stick"</strong><br>
+                El router solo tiene un cable físico (gig0/0/0) conectado al switch. ¿Cómo atiende a 3 VLANs distintas? Lo "cortamos" en pedazos virtuales por software (.10, .20, .150) y a cada pedacito le decimos: "Tú atiende a la VLAN 10", usando <code>encapsulation dot1Q 10</code>.
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: CÓDIGOS COMPLETOS -->
+        <section>
+            <h2>4. Todas las Configuraciones Listas (Equipo por Equipo)</h2>
+            <p>Aquí tienes el código exacto, agrupado y listo. No falta ni una sola coma de todo lo que me pasaste. Puedes leer los <em>comentarios</em> en gris para entender cada bloque.</p>
+
+            <!-- SWITCH 0 -->
+            <div class="code-window">
+                <div class="window-header">🔌 Switch0 (Switch de Distribución / Triángulo)</div>
+                <pre>
+<span class="comment">! Entramos a modo de configuración</span>
+enable
+configure terminal
+hostname Switch0
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+<span class="comment">! 1. Creamos los "Departamentos" (VLANs)</span>
+vlan 10
+ name MATH_DEPT
+vlan 20
+ name SOC_ANALYSTS
+vlan 150
+ name VOIP_LICEY_HQ
+exit
+
+<span class="comment">! 2. Enchufe hacia el Router (El cable que saca los datos de la red local)</span>
+interface gig0/1
+ description ENLACE PRINCIPAL HACIA ROUTER R-1
+ switchport mode trunk
+ exit
+
+<span class="comment">! 3. Agrupando cables físicos en EtherChannels</span>
+interface range fa0/1-2
+ description TRONCALES FISICOS HACIA SWITCH01
+ channel-group 1 mode active
+ exit
+
+interface range fa0/5-6
+ description TRONCALES FISICOS HACIA SWITCH02
+ channel-group 3 mode active
+ exit
+
+<span class="comment">! 4. Configurando la Autopista (EtherChannel 1)</span>
+interface port-channel 1
+ description ETHERCHANNEL 1 HACIA SWITCH01
+ switchport mode trunk
+ spanning-tree cost 1
+ exit
+
+<span class="comment">! 5. La trampa del profesor: Hacer que este camino sea de respaldo bloqueado</span>
+interface port-channel 3
+ description ETHERCHANNEL 3 HACIA SWITCH02 RUTA RESPALDO
+ switchport mode trunk
+ spanning-tree cost 1000
+ end
+
+<span class="comment">! Guardamos los cambios</span>
+write memory</pre>
+            </div>
+
+            <!-- SWITCH 01 -->
+            <div class="code-window">
+                <div class="window-header">🔌 Switch01 (Switch de Acceso Izquierdo)</div>
+                <pre>
+enable
+configure terminal
+hostname Switch01
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+<span class="comment">! Mismas VLANs</span>
+vlan 10
+ name MATH_DEPT
+vlan 20
+ name SOC_ANALYSTS
+vlan 150
+ name VOIP_LICEY_HQ
+exit
+
+<span class="comment">! Armamos los grupos de cables hacia los otros switches</span>
+interface range fa0/1-2
+ description TRONCALES FISICOS HACIA SWITCH0
+ channel-group 1 mode active
+ exit
+
+interface range fa0/3-4
+ description TRONCALES FISICOS HACIA SWITCH02
+ channel-group 2 mode active
+ exit
+
+<span class="comment">! Convertimos los grupos en Troncales</span>
+interface port-channel 1
+ description ETHERCHANNEL 1 HACIA SWITCH0
+ switchport mode trunk
+ spanning-tree cost 1
+ exit
+
+interface port-channel 2
+ description ETHERCHANNEL 2 HACIA SWITCH02
+ switchport mode trunk
+ spanning-tree cost 1
+ exit
+
+<span class="comment">! Puerto donde se conecta la PC de Mate y su Teléfono</span>
+interface fa0/5
+ description CONEXION DEPARTAMENTO DE MATEMATICAS Y TELEFONO
+ switchport mode access
+ switchport access vlan 10
+ switchport voice vlan 150
+ end
+
+write memory</pre>
+            </div>
+
+            <!-- SWITCH 02 -->
+            <div class="code-window">
+                <div class="window-header">🔌 Switch02 (Switch de Acceso Derecho)</div>
+                <pre>
+enable
+configure terminal
+hostname Switch02
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+vlan 10
+ name MATH_DEPT
+vlan 20
+ name SOC_ANALYSTS
+vlan 150
+ name VOIP_LICEY_HQ
+exit
+
+<span class="comment">! Agrupación física</span>
+interface range fa0/3-4
+ description TRONCALES FISICOS HACIA SWITCH01
+ channel-group 2 mode active
+ exit
+
+interface range fa0/5-6
+ description TRONCALES FISICOS HACIA SWITCH0
+ channel-group 3 mode active
+ exit
+
+<span class="comment">! Configuración Troncal Normal</span>
+interface port-channel 2
+ description ETHERCHANNEL 2 HACIA SWITCH01
+ switchport mode trunk
+ spanning-tree cost 1
+ exit
+
+<span class="comment">! El otro extremo del enlace bloqueado por el profesor</span>
+interface port-channel 3
+ description ETHERCHANNEL 3 HACIA SWITCH0 RUTA BLOQUEADA
+ switchport mode trunk
+ spanning-tree cost 1000
+ exit
+
+<span class="comment">! Puerto para la PC del Analista SOC y su teléfono</span>
+interface fa0/1
+ description CONEXION ANALISTAS SOC Y TELEFONO
+ switchport mode access
+ switchport access vlan 20
+ switchport voice vlan 150
+ end
+
+write memory</pre>
+            </div>
+
+            <!-- ROUTER 1 -->
+            <div class="code-window">
+                <div class="window-header">🌐 Router R-1 (El Enrutador de la red izquierda)</div>
+                <pre>
+enable
+configure terminal
+hostname R-1
+
+<span class="comment">! Conexión directa (Punto a Punto) hacia el otro lado de la empresa</span>
+interface gig0/0/1
+ description ENLACE PUNTO A PUNTO HACIA SWITCH L3
+ ip address 172.16.20.1 255.255.255.252
+ no shutdown
+ exit
+
+<span class="comment">! Encendemos el cable físico hacia la red local (Switch0)</span>
+interface gig0/0/0
+ description ENLACE FISICO HACIA TRIANGULO ETHERCHANNEL
+ no shutdown
+ exit
+
+<span class="comment">! Subinterfaces: Partimos el cable físico en 3 virtuales para enrutar las VLANs</span>
+interface gig0/0/0.10
+ description GATEWAY MATH DEPT
+ encapsulation dot1Q 10
+ ip address 192.168.10.1 255.255.255.0
+ exit
+interface gig0/0/0.20
+ description GATEWAY SOC ANALYSTS
+ encapsulation dot1Q 20
+ ip address 192.168.20.1 255.255.255.0
+ exit
+interface gig0/0/0.150
+ description GATEWAY VOIP LICEY HQ
+ encapsulation dot1Q 150
+ ip address 192.168.150.1 255.255.255.0
+ exit
+
+<span class="comment">! DHCP: Protegemos las IPs principales (la .1 de los routers) para que no se las den a las PCs</span>
+ip dhcp excluded-address 192.168.10.1
+ip dhcp excluded-address 192.168.20.1
+ip dhcp excluded-address 192.168.150.1
+
+<span class="comment">! DHCP: Creamos las bolsas (pools) para repartir IPs automáticas a las PCs</span>
+ip dhcp pool DHCP_MATH
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ exit
+ip dhcp pool DHCP_SOC
+ network 192.168.20.0 255.255.255.0
+ default-router 192.168.20.1
+ exit
+ip dhcp pool DHCP_VOIP_HQ
+ network 192.168.150.0 255.255.255.0
+ default-router 192.168.150.1
+ option 150 ip 192.168.150.1
+ exit
+
+<span class="comment">! OSPF: El GPS que le avisa a los otros equipos qué redes conocemos</span>
+router ospf 1
+ network 192.168.10.0 0.0.0.255 area 0
+ network 192.168.20.0 0.0.0.255 area 0
+ network 192.168.150.0 0.0.0.255 area 0
+ network 172.16.20.0 0.0.0.3 area 0
+ end
+
+write memory</pre>
+            </div>
+
+            <!-- SWITCH MULTICAPA NUCLEO -->
+            <div class="code-window">
+                <div class="window-header">⚡ Switch Capa 3 (SW_NUCLEO_L3) - El Súper Switch</div>
+                <pre>
+enable
+configure terminal
+hostname SW_NUCLEO_L3
+<span class="comment">! Encendemos la magia de enrutamiento (convertimos el switch en router)</span>
+ip routing
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+<span class="comment">! Nuevas VLANs para la red derecha</span>
+vlan 30
+ name LINUX_ADMINS
+vlan 40
+ name PYTHON_DEVS
+vlan 50
+ name ISFODOSU_STAFF
+vlan 60
+ name GUEST_SANTIAGO
+vlan 160
+ name VOIP_SUCURSAL
+exit
+
+<span class="comment">! SVIs: En lugar de usar Subinterfaces, este switch usa Interfaces VLAN virtuales para enrutar</span>
+interface vlan 30
+ description SVI ADMINS LINUX
+ ip address 192.168.30.1 255.255.255.0
+ no shutdown
+interface vlan 40
+ description SVI DEVS PYTHON
+ ip address 192.168.40.1 255.255.255.0
+ no shutdown
+interface vlan 50
+ description SVI STAFF ISFODOSU
+ ip address 192.168.50.1 255.255.255.0
+ no shutdown
+interface vlan 60
+ description SVI INVITADOS SANTIAGO
+ ip address 192.168.60.1 255.255.255.0
+ no shutdown
+interface vlan 160
+ description SVI TELEFONIA SUCURSAL
+ ip address 192.168.160.1 255.255.255.0
+ no shutdown
+exit
+
+<span class="comment">! Puerto enrutado: Le quitamos la función de switch (no switchport) para conectarlo directo al Router 1</span>
+interface gig0/1
+ description ENLACE HACIA ROUTER R-1
+ no switchport
+ ip address 172.16.20.2 255.255.255.252
+ no shutdown
+ exit
+
+<span class="comment">! Enlaces troncales a sus switches de acceso locales</span>
+interface fa0/1
+ description TRONCAL HACIA SWITCH SUPERIOR DERECHO
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ exit
+interface gig0/2
+ description TRONCAL HACIA SWITCH INFERIOR DERECHO
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ exit
+
+<span class="comment">! Servidor DHCP y protección de IPs (Igual que en el router)</span>
+ip dhcp excluded-address 192.168.30.1
+ip dhcp excluded-address 192.168.40.1
+ip dhcp excluded-address 192.168.50.1
+ip dhcp excluded-address 192.168.60.1
+ip dhcp excluded-address 192.168.160.1
+
+ip dhcp pool DHCP_LINUX
+ network 192.168.30.0 255.255.255.0
+ default-router 192.168.30.1
+ip dhcp pool DHCP_PYTHON
+ network 192.168.40.0 255.255.255.0
+ default-router 192.168.40.1
+ip dhcp pool DHCP_ISFODOSU
+ network 192.168.50.0 255.255.255.0
+ default-router 192.168.50.1
+ip dhcp pool DHCP_GUEST_STGO
+ network 192.168.60.0 255.255.255.0
+ default-router 192.168.60.1
+ip dhcp pool DHCP_VOIP_SUCURSAL
+ network 192.168.160.0 255.255.255.0
+ default-router 192.168.160.1
+ option 150 ip 192.168.160.1
+ exit
+
+<span class="comment">! OSPF del lado derecho</span>
+router ospf 1
+ network 192.168.30.0 0.0.0.255 area 0
+ network 192.168.40.0 0.0.0.255 area 0
+ network 192.168.50.0 0.0.0.255 area 0
+ network 192.168.60.0 0.0.0.255 area 0
+ network 192.168.160.0 0.0.0.255 area 0
+ network 172.16.20.0 0.0.0.3 area 0
+ end
+
+write memory</pre>
+            </div>
+
+            <!-- SWITCH ACADEMICA -->
+            <div class="code-window">
+                <div class="window-header">🔌 Switch_Area_Academica (Acceso de la derecha)</div>
+                <pre>
+enable
+configure terminal
+hostname Switch_Area_Academica
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+vlan 50
+ name ISFODOSU_STAFF
+vlan 60
+ name GUEST_SANTIAGO
+vlan 160
+ name VOIP_SUCURSAL
+exit
+
+<span class="comment">! Conexión al Núcleo L3</span>
+interface fa0/1
+ description TRONCAL HACIA SWITCH MULTICAPA L3
+ switchport mode trunk
+ exit
+
+<span class="comment">! Puertos de acceso finales (PCs y Teléfonos)</span>
+interface fa0/2
+ description CONEXION PC STAFF Y TELEFONO
+ switchport mode access
+ switchport access vlan 50
+ switchport voice vlan 160
+ exit
+
+interface fa0/3
+ description CONEXION INVITADOS Y TELEFONO
+ switchport mode access
+ switchport access vlan 60
+ switchport voice vlan 160
+ end
+
+write memory</pre>
+            </div>
+
+            <!-- SWITCH SISTEMAS -->
+            <div class="code-window">
+                <div class="window-header">🔌 Switch_Area_Sistemas (Acceso de la derecha)</div>
+                <pre>
+enable
+configure terminal
+hostname Switch_Area_Sistemas
+vtp mode transparent
+spanning-tree mode rapid-pvst
+
+vlan 30
+ name LINUX_ADMINS
+vlan 40
+ name PYTHON_DEVS
+exit
+
+<span class="comment">! Conexión al Núcleo L3</span>
+interface gig0/1
+ description TRONCAL HACIA SWITCH MULTICAPA L3
+ switchport mode trunk
+ exit
+
+<span class="comment">! Conexión PCs de TI</span>
+interface fa0/2
+ description CONEXION DESARROLLADORES PYTHON
+ switchport mode access
+ switchport access vlan 40
+ exit
+
+interface fa0/3
+ description CONEXION ADMINISTRADORES LINUX
+ switchport mode access
+ switchport access vlan 30
+ end
+
+write memory</pre>
+            </div>
+        </section>
+    </div>
+
+</body>
+</html>
