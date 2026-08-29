@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Estudio: Spanning Tree Protocol (STP)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap');
+
+        :root {
+            --bg-base: #0f172a;
+            --bg-surface: #1e293b;
+            --bg-card: #334155;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --accent-blue: #38bdf8;
+            --accent-purple: #c084fc;
+            --accent-green: #34d399;
+            --accent-red: #f87171;
+            --accent-orange: #fb923c;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.7;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            padding: 4rem 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--bg-card);
+            padding-bottom: 2rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-top: 3.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '';
+            display: block;
+            width: 5px;
+            height: 25px;
+            background-color: var(--accent-blue);
+            border-radius: 5px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--accent-cyan);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        p { margin-bottom: 1.2rem; }
+
+        ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.8rem; color: var(--text-muted); }
+        strong { color: var(--text-main); font-weight: 600; }
+
+        /* Tarjetas */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--bg-card);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            background: rgba(30, 41, 59, 0.7);
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .alert-danger { border-left-color: var(--accent-red); background: rgba(239, 68, 68, 0.1); }
+        .alert-success { border-left-color: var(--accent-green); background: rgba(16, 185, 129, 0.1); }
+
+        /* Tablas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            background: var(--bg-surface);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td { padding: 1.2rem; text-align: left; border-bottom: 1px solid var(--bg-card); }
+        th { background: rgba(0,0,0,0.2); color: #fff; font-weight: 600; }
+        tr:hover td { background: rgba(255,255,255,0.03); }
+        
+        .highlight { color: var(--accent-purple); font-weight: 600; }
+
+        /* Acordeón */
+        details {
+            background: var(--bg-surface);
+            border: 1px solid var(--bg-card);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        summary {
+            padding: 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            background: rgba(0,0,0,0.1);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        summary::-webkit-details-marker { display: none; }
+        summary::after { content: '▼'; color: var(--accent-blue); }
+        details[open] summary::after { content: '▲'; color: var(--accent-purple); }
+        
+        .details-body { padding: 1.5rem; border-top: 1px solid var(--bg-card); color: var(--text-muted); }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Spanning Tree Protocol (STP)</h1>
+            <p>Guía de estudio sobre prevención de bucles, convergencia de red y evolución tecnológica en la Capa 2.</p>
+        </header>
+
+        <!-- SECCIÓN 1: PROPÓSITO -->
+        <section>
+            <h2>1. El Propósito de STP</h2>
+            <div class="alert alert-danger">
+                <strong>El Problema: Los Bucles de Capa 2</strong><br>
+                Las rutas redundantes en una red Ethernet conmutada son necesarias para la tolerancia a fallos, pero pueden causar bucles físicos y lógicos. A diferencia de IPv4 e IPv6 (Capa 3), Ethernet (Capa 2) <strong>no incluye un mecanismo para reconocer y eliminar tramas de bucle sin fin</strong> (no tiene TTL).
+            </div>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Consecuencias de un Bucle</h3>
+                    <ul>
+                        <li>Inestabilidad en la tabla de direcciones MAC.</li>
+                        <li>Saturación severa de los enlaces.</li>
+                        <li>Alta utilización de la CPU en switches y dispositivos finales.</li>
+                        <li><strong>Tormentas de difusión (Broadcast storms):</strong> Un número anormalmente alto de emisiones que abruman la red y pueden deshabilitarla en cuestión de segundos.</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>La Solución: STP</h3>
+                    <ul>
+                        <li><strong>Qué es:</strong> Un protocolo de red de prevención de bucles creado por Radia Perlman.</li>
+                        <li><strong>Cómo funciona:</strong> Permite la redundancia física, pero crea una topología lógica sin bucles (algoritmo STA).</li>
+                        <li><strong>El método:</strong> Selecciona un único "puente raíz" (Root Bridge) y bloquea los puertos redundantes, garantizando una única ruta de menor costo hacia cualquier destino.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: OPERACIONES Y ELECCIONES -->
+        <section>
+            <h2>2. Operaciones STP: Proceso de Elección</h2>
+            <p>El Algoritmo de Árbol de Expansión (STA) crea la topología sin bucles en un proceso estricto de cuatro pasos:</p>
+
+            <div class="card">
+                <h3>Los 4 Pasos del Proceso STA</h3>
+                <ol>
+                    <li><strong>Elegir el puente raíz (Root Bridge):</strong> El líder de la red.</li>
+                    <li><strong>Elegir los puertos raíz (Root Ports):</strong> El mejor camino hacia el puente raíz desde cada switch.</li>
+                    <li><strong>Elegir los puertos designados (Designated Ports):</strong> El puerto encargado de enviar tráfico a un segmento.</li>
+                    <li><strong>Elegir los puertos alternativos:</strong> Los puertos que se bloquean para romper el bucle físico.</li>
+                </ol>
+            </div>
+
+            <h3>¿Cómo se comunican los switches? (BPDU y BID)</h3>
+            <p>Los switches se envían mensajes llamados <strong>BPDU</strong> (Unidades de datos del protocolo de puente) para compartir información. Cada BPDU contiene un <strong>BID (Identificador de Puente)</strong>.</p>
+            
+            <div class="alert">
+                <strong>Anatomía del BID y Elección del Puente Raíz:</strong><br>
+                El BID consta de 3 elementos: <code>Valor de Prioridad + Dirección MAC + ID de Sistema Extendido</code>.<br><br>
+                <strong>Regla de oro:</strong> El switch con el <span class="highlight">BID más bajo</span> se convierte en el puente raíz. Como la prioridad predeterminada es 32,768 en todos los switches, el desempate lo gana el switch con la <strong>dirección MAC más baja</strong>.
+            </div>
+
+            <h3>Desempates para determinar Puertos</h3>
+            <p>El "Costo de ruta raíz interna" es la suma de los costos de los puertos hasta llegar al puente raíz. Si un switch tiene varias rutas del mismo costo, usa estos criterios de desempate (en este orden):</p>
+            <ul>
+                <li>BID del remitente más bajo.</li>
+                <li>Prioridad del puerto del remitente más bajo.</li>
+                <li>ID del puerto del remitente más bajo.</li>
+            </ul>
+        </section>
+
+        <!-- SECCIÓN 3: TEMPORIZADORES Y ESTADOS -->
+        <section>
+            <h2>3. Temporizadores y Estados del Puerto</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>Temporizadores STP</h3>
+                    <p>La convergencia de STP requiere tres temporizadores clave:</p>
+                    <ul>
+                        <li>Temporizador de saludo (Hello).</li>
+                        <li>Temporizador de retardo de avance (Forward delay).</li>
+                        <li>Temporizador de edad máxima (Max age).</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>Estados de un Puerto STP Clásico</h3>
+                    <p>Un puerto pasa por varias fases para evitar crear un bucle accidentalmente al encenderse:</p>
+                    <ul>
+                        <li>Bloqueando (Blocking)</li>
+                        <li>Escuchando (Listening)</li>
+                        <li>Aprendiendo (Learning)</li>
+                        <li>Reenviando (Forwarding)</li>
+                        <li>Deshabilitado (Disabled)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: EVOLUCIÓN DE STP -->
+        <section>
+            <h2>4. Evolución de STP</h2>
+            <p>El STP original (802.1D) era lento. A lo largo de los años, ha evolucionado en diferentes sabores y mejoras:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Variante</th>
+                        <th>Características Principales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>RSTP</strong></td>
+                        <td>Evolución que proporciona una convergencia más rápida. Simplifica los estados a: <em>Aprendiendo, Reenviando y Descartando</em>.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>PVST+</strong></td>
+                        <td>Mejora de Cisco. Proporciona una instancia de árbol de expansión separada <strong>para cada VLAN</strong>. Permite tener un puente raíz diferente por VLAN. Es el estándar en switches Cisco con IOS 15.0 o posterior.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rapid PVST+</strong></td>
+                        <td>Mejora de Cisco que combina la velocidad de RSTP con la independencia por VLAN de PVST+.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MSTP</strong></td>
+                        <td>Permite agrupar múltiples VLANs en una sola instancia de árbol de expansión para ahorrar recursos del switch en redes inmensas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECCIÓN 5: MEJORAS Y SEGURIDAD -->
+        <section>
+            <h2>5. Mejoras de Seguridad y Rendimiento</h2>
+            
+            <div class="grid">
+                <div class="card">
+                    <h3>PortFast</h3>
+                    <p>Omite los estados de escucha y aprendizaje de STP, pasando del bloqueo al reenvío <strong>inmediatamente</strong> (evita el retraso de 30 segundos). </p>
+                    <p><em>Uso:</em> Solo debe usarse en <strong>puertos de acceso</strong> conectados a dispositivos finales (PCs, clientes DHCP) para que tengan red al instante.</p>
+                </div>
+                
+                <div class="card">
+                    <h3>BPDU Guard (Protección BPDU)</h3>
+                    <p>Característica de seguridad que coloca inmediatamente el puerto en estado de error (<em>error-disabled</em>) si recibe una BPDU. </p>
+                    <p><em>Uso:</em> Se aplica en puertos configurados con PortFast para evitar que alguien conecte un switch no autorizado y cause un bucle.</p>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <strong>El Futuro: Capa 3 al Rescate</strong><br>
+                El diseño de red ha evolucionado a modelos jerárquicos complejos. Debido a que el enrutamiento de Capa 3 sí permite rutas redundantes sin crear bucles (gracias al TTL) y no bloquea puertos, muchos entornos modernos están haciendo la transición a <strong>Capa 3 en todas partes</strong>, limitando STP únicamente a la capa de acceso donde se conectan los dispositivos finales.
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: AUTOEVALUACIÓN -->
+        <section>
+            <h2>6. Repaso Rápido</h2>
+            
+            <details>
+                <summary>¿Qué determina al Puente Raíz si las prioridades son idénticas?</summary>
+                <div class="details-body">Si todos los switches tienen la prioridad predeterminada (32,768), el desempate lo gana el switch que tenga la dirección MAC más baja.</div>
+            </details>
+            
+            <details>
+                <summary>¿Qué es una tormenta de difusión?</summary>
+                <div class="details-body">Es un evento catastrófico provocado por un bucle de Capa 2 donde un número anormalmente alto de emisiones (broadcasts) satura los enlaces y las CPUs, deshabilitando la red en segundos.</div>
+            </details>
+            
+            <details>
+                <summary>¿Por qué se debe usar PortFast solo en dispositivos finales?</summary>
+                <div class="details-body">Porque PortFast salta los tiempos de seguridad de STP para dar acceso inmediato. Si se conecta un switch a un puerto con PortFast, se podría formar un bucle de red instantáneo antes de que STP pueda reaccionar.</div>
+            </details>
+        </section>
+
+    </div>
+
+</body>
+</html>
