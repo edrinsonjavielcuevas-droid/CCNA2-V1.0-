@@ -26,7 +26,7 @@ EtherChannel es una tecnología que agrupa múltiples cables físicos de Etherne
 
 **Uso compartido de carga (Load Sharing):** Balancea el tráfico de datos entre los distintos cables agrupados. Funciona perfectamente entre switches, routers y servidores.
 
-![](EtherChannel.png)
+![](../CCNA2IMG/IMGM6/EtherChannel.png)
 
 ---
 ### **Ventajas de EtherChannel**
@@ -56,7 +56,7 @@ EtherChannel presenta ciertas restricciones y reglas clave que se deben cumplir 
 
 **Interfaz de canal lógica:** Cada EtherChannel cuenta con una interfaz lógica de canal de puertos. Cualquier configuración aplicada a esta interfaz lógica afecta de manera automática a todas las interfaces físicas que se le han asignado.
 
-![](Restricciones.png)
+![](../CCNA2IMG/IMGM6/Restricciones.png)
 
 ---
 ### PROTOCOLOS DE NEGOCIACIÓN AUTOMÁTICA
@@ -89,13 +89,13 @@ Los EtherChannels  se pueden formar por medio de una negociación con uno de dos
 
 Considere los dos switches en la imagen. Si S1 y S2 establecen un EtherChannel usando PAgP depende de la config de modo en cada lado del canal.
 
-![](PAgP.png)
+![](../CCNA2IMG/IMGM6/PAgP.png)
 
 La tabla muestra las diversas combinaciones de modos PAgP en S1 y S2 y el resultado del establecimiento de canales.
 
 **PAgP Modes**
 
-![](PAgP%20Modes.png)
+![](../CCNA2IMG/IMGM6/PAgP%20Modes.png)
 
 ---
 ### OPERACIÓN LACP
@@ -125,11 +125,11 @@ LACP permite tener hasta **ocho enlaces activos** y también **ocho enlaces de r
 
 Considere los dos switches de la siguiente imagen. Si S1 y S2 establecen un EtherChannel usando LACP depende de la config de modo en cada lado del canal.
 
-![](LACP.png)
+![](../CCNA2IMG/IMGM6/LACP.png)
 
 La tabla muestra las diversas combinaciones de modos LACP en S1 y S2 y el resultado resultante del establecimiento de canales.
 
-![](TABLA%20LACP.png)
+![](../CCNA2IMG/IMGM6/TABLA%20LACP.png)
 
 ---
 
