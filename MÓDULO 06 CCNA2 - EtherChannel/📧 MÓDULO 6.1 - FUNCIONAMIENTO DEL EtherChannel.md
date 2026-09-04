@@ -12,7 +12,7 @@ El gran inconveniente es que el **Spanning Tree Protocol (STP)** (que viene acti
 
 Para evitar que STP corte estas conexiones redundantes, se requiere una tecnología de "agregación de enlaces". La respuesta a esto es **EtherChannel**.
 
-![](Solucion%20EtherChannel.png)
+![](../CCNA2IMG/IMGM6/Solucion%20EtherChannel.png)
 
 #### **¿Qué es y cuáles son sus beneficios?**
 
