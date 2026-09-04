@@ -6,7 +6,7 @@ Como siempre, al configurar dispositivos en su red, debe verificar su configurac
 
 Los ejemplos de comandos de verificación utilizarán la topología mostrada en la figura.
 
-![](Verificar%20EtherChannel.png)
+![](../CCNA2IMG/IMGM6/Verificar%20EtherChannel.png)
 
 El **show interfaces port-channel** commando muestra el estado general de la interfaz de canal de puertos. En la figura, la interfaz de canal de puertos 1 está activa.
 
@@ -119,7 +119,7 @@ _Orden de configuración recomendado:_ Cuando se configura un enlace troncal en 
 
 En la figura, las interfaces F0/1 y F0/2 en los switches S1 y S2 se conectan con un EtherChannel. Sin embargo, el EtherChannel no está operativo.
 
-![](S%20p%20d%20E.png)
+![](../CCNA2IMG/IMGM6/S%20p%20d%20E.png)
 
 
 **Paso 1. Ver la información de resumen de EtherChannel**
