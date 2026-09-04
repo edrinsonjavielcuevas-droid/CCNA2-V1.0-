@@ -14,11 +14,11 @@ Ya que tenemos conocimiento de EtherChannel, en este tema se explica cómo confi
 
 La figura muestra una configuración que permitiría que se forme un EtherChannel entre el S1 y el S2.
 
-![](EtherChannel%20Formado.png)
+![](../CCNA2IMG/IMGM6/EtherChannel%20Formado.png)
 
 En la siguiente figura, los puertos de S1 están configurados en modo semidúplex. Por lo tanto, no se formará un EtherChannel entre el S1 y el S2.
 
-![](EtherChannel%20Mal%20Formado.png)
+![](../CCNA2IMG/IMGM6/EtherChannel%20Mal%20Formado.png)
 
 Si se deben modificar estos parámetros, configúrelos en el modo de configuración de interfaz de canal de puertos. Cualquier configuración que se aplique a la interfaz de canal de puertos también afectará a las interfaces individuales. Sin embargo, las configuraciones que se aplican a las interfaces individuales no afectan a la interfaz de canal de puertos. Por ello, realizar cambios de configuración a una interfaz que forma parte de un enlace EtherChannel puede causar problemas de compatibilidad de interfaces.
 
@@ -29,7 +29,7 @@ El canal de puertos se puede configurar en modo de acceso, modo de enlace tronca
 
 EtherChannel está deshabilitado de forma predeterminada y debe configurarse. La topología de la figura se utilizará para demostrar un ejemplo de configuración de EtherChannel utilizando LACP.
 
-![](Ejemplo%20de%20Configuración%20de%20LACP.png)
+![](../CCNA2IMG/IMGM6/Ejemplo%20de%20Configuración%20de%20LACP.png)
 
 La configuración de EtherChannel con LACP requiere tres pasos:
 
@@ -39,7 +39,7 @@ La configuración de EtherChannel con LACP requiere tres pasos:
 
 **Paso 3.** Para cambiar la configuración de capa 2 en la interfaz de canal de puertos, ingrese al modo de configuración de interfaz de canal de puertos mediante el **interface port-channel** comando, seguido del identificador de la interfaz. En el ejemplo, S1 está configurado con un EtherChannel LACP. El canal de puertos está configurado como interfaz de enlace troncal con VLAN permitidas específicas.
 
-![](CONFIG%20EtherChannel%20con%20LACP.png)
+![](../CCNA2IMG/IMGM6/CONFIG%20EtherChannel%20con%20LACP.png)
 
 ---
 
