@@ -6,7 +6,7 @@ Un router con software Cisco IOS se puede configurar para que funcione como un s
 
 El servidor DHCPv4 integrado en Cisco IOS asigna y administra direcciones IPv4 a los clientes utilizando conjuntos de direcciones especificados dentro del propio router.
 
-![](SERVIDOR%20CISCO%20IOS%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/SERVIDOR%20CISCO%20IOS%20DHCPv4.png)
 
 ---
 ### Pasos para configurar un servidor DHCPv4 del IOS de Cisco
