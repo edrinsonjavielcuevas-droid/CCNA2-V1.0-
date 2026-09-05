@@ -15,7 +15,7 @@ En ubicaciones pequeñas o SOHO, se puede configurar un router Cisco (con funcio
 
 **Duración y Renovación:** Los arrendamientos se configuran administrativamente para durar típicamente de 24 horas a una semana o más. Al caducar, el cliente debe solicitar otra dirección (aunque por lo general se le vuelve a asignar la misma).
 
-![](Servidor%20DHCPv4%20and%20Cliente%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Servidor%20DHCPv4%20and%20Cliente%20DHCPv4.png)
 
 ---
 ### FUNCIONAMIENTO DHCPv4
