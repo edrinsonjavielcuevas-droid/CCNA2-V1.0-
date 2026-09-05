@@ -33,7 +33,7 @@ Como el dispositivo carece de una configuración IP válida durante el arranque,
 
 La función principal de este mensaje es simplemente descubrir la presencia de servidores de configuración en el entorno de red.
 
-![](DHCPDISCOVER.png)
+![](../CCNA2IMG/IMGM7/DHCPDISCOVER.png)
 
 ---
 
@@ -45,7 +45,7 @@ Asimismo, genera un registro ARP provisional combinando la dirección MAC del eq
 
 Finalmente, el servidor responde emitiendo un mensaje **DHCPOFFER** dirigido al cliente que hizo la petición.
 
-![](DHCPOFFER.png)
+![](../CCNA2IMG/IMGM7/DHCPOFFER.png)
 
 ---
 
@@ -57,7 +57,7 @@ En la fase inicial, este mensaje actúa como una aceptación vinculante hacia el
 
 Puesto que es habitual la presencia de múltiples servidores DHCPv4 en entornos empresariales, dicho mensaje se transmite en forma de difusión para enterar a todos los servidores acerca de la oferta que fue seleccionada.
 
-![](DHCPREQUEST.png)
+![](../CCNA2IMG/IMGM7/DHCPREQUEST.png)
 
 ---
 
@@ -70,7 +70,7 @@ Al recibir dicha confirmación, el cliente almacena los parámetros de red obten
 Si ningún equipo responde a dicha consulta ARP, el cliente comprueba que la dirección IPv4 se encuentra libre y procede a utilizarla oficialmente como suya.
 
 
-![](DHCPACK.png)
+![](../CCNA2IMG/IMGM7/DHCPACK.png)
 
 ---
 ### Pasos para renovar un contrato de arrendamiento
@@ -89,7 +89,7 @@ Al recibir el mensaje `DHCPREQUEST`, el servidor verifica la información del ar
 
 **Nota importante:** Ciertos mensajes, principalmente `DHCPOFFER` y `DHCPACK`, pueden enviarse como unidifusión o difusión según la norma IETF RFC 2131.
 
-![](Pasos%20para%20renovar%20un%20contrato%20de%20arrendamiento.png)
+![](../CCNA2IMG/IMGM7/Pasos%20para%20renovar%20un%20contrato%20de%20arrendamiento.png)
 
 ---
 
