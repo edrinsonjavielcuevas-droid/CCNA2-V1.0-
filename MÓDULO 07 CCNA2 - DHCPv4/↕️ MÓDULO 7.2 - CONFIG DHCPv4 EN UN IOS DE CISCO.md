@@ -47,7 +47,7 @@ El conjunto de direcciones y el router de gateway predeterminado deben estar con
 
 Otros comandos del pool de DHCPv4 son optativos. Por ejemplo, la dirección IPv4 del servidor DNS que está disponible para un cliente DHCPv4 se configura mediante el comando **dns-server**. El comando **domain-name** se utiliza para definir el nombre de dominio. La duración del arrendamiento de DHCPv4 puede modificarse mediante el comando **lease**. El valor de arrendamiento predeterminado es un día. El comando **netbios-name-server** se utiliza para definir el servidor WINS con NetBIOS.
 
-![](Paso%203.%20Configure%20el%20grupo%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Paso%203.%20Configure%20el%20grupo%20DHCPv4.png)
 
 **Nota:** Microsoft recomienda no implementar WINS, en su lugar configurar DNS para la resolución de nombres de Windows y retirar WINS.
 
@@ -56,7 +56,7 @@ Otros comandos del pool de DHCPv4 son optativos. Por ejemplo, la dirección IPv4
 
 La topología para el ejemplo de configuración se muestra en la figura.
 
-![](EJMPLO%20DE%20CONFIG%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/EJMPLO%20DE%20CONFIG%20DHCPv4.png)
 
 El ejemplo muestra la configuración para convertir a R1 en un servidor DHCPv4 para la LAN 192.168.10.0/24.
 
@@ -85,7 +85,7 @@ R1#
 
 Utilice los comandos de la tabla para verificar que el servidor DHCPv4 del IOS de Cisco esté funcionando.
 
-![](Comandos%20de%20verificación%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Comandos%20de%20verificación%20DHCPv4.png)
 
 ---
 ### Desactive el servidor DHCPv4 del IOS de Cisco
@@ -109,7 +109,7 @@ En una red jerárquica compleja, los servidores empresariales suelen estar ubica
 
 En la figura, la PC1 intenta adquirir una dirección IPv4 de un servidor de DHCPv4 mediante un mensaje de difusión. En esta situación, el router R1 no está configurado como servidor de DHCPv4 y no reenvía el mensaje de difusión. Dado que el servidor de DHCPv4 está ubicado en una red diferente, la PC1 no puede recibir una dirección IP mediante DHCP. R1 debe configurarse para retransmitir mensajes DHCPv4 al servidor DHCPv4.
 
-![](Retransmisión%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Retransmisión%20DHCPv4.png)
 
 ---
 
