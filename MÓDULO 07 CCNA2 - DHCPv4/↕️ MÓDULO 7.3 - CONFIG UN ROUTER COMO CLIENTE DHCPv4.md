@@ -10,7 +10,7 @@ Para configurar una interfaz Ethernet como cliente DHCP, utilice el **ip addres
 
 En la figura, suponga que un ISP ha sido configurado para proporcionar a clientes seleccionados direcciones IP del rango de red 209.165.201.0/27 después de que la interfaz G0/0/1 es configurada con el comando **ip address dhcp**.
 
-![](Cisco%20Router%20como%20cliente%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Cisco%20Router%20como%20cliente%20DHCPv4.png)
 
 ---
 ### Ejemplo de configuración
@@ -48,7 +48,7 @@ Por ejemplo, en la ilustración se muestra la página de configuración de WAN p
 
 Varios fabricantes de enrutadores domésticos tendrán una configuración similar.
 
-![](Enrutador%20doméstico%20como%20cliente%20DHCPv4.png)
+![](../CCNA2IMG/IMGM7/Enrutador%20doméstico%20como%20cliente%20DHCPv4.png)
 
 ----
 
