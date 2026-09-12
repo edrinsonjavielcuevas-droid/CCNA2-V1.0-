@@ -12,7 +12,7 @@
 
 Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propenso a errores. Por lo tanto, la mayoría de los hosts de Windows están habilitados para adquirir dinámicamente una config GUA IPv6, como se muestra en la imagen.
 
-![](WINDOWS%20GUA.png)
+![](../CCNA2IMG/IMGM8/WINDOWS%20GUA.png)
 
 ----
 ### **IPv6 Host Link-Local Address**
@@ -29,7 +29,7 @@ Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propens
 
 **Nota sobre RFC:** DHCPv6 se define en la RFC 3315.
 
-![](02_CCNA/CCNA2IMG/IMGM8/IPCONFIG.png)
+![](../CCNA2IMG/IMGM8/IMGM8/IPCONFIG.png)
 
 ----
 ### **IPv6 GUA Assignment**
@@ -40,7 +40,7 @@ Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propens
 
 **Uso de mensajes RA:** Todos los métodos _stateless_ y _stateful_ emplean mensajes _Router Advertisement_ (RA) de ICMPv6 para indicarle al host cómo obtener su configuración. Aunque los sistemas operativos suelen seguir esta sugerencia, la decisión final recae en el propio host.
 
-![](Asignación%20dinámica%20de%20GUA.png)
+![](../CCNA2IMG/IMGM8/Asignación%20dinámica%20de%20GUA.png)
 
 ----
 ### **Tres flags de mensaje RA**
@@ -57,7 +57,7 @@ Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propens
 
 **Uso combinado:** Las distintas combinaciones entre los flags informan al host sobre las opciones de configuración dinámica disponibles en la red.
 
-![](TRES%20FLAGs%20DE%20MENSAJE%20RA.png)
+![](../CCNA2IMG/IMGM8/TRES%20FLAGs%20DE%20MENSAJE%20RA.png)
 
 ---
 
