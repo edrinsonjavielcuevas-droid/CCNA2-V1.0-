@@ -15,20 +15,20 @@
 
 Consulte la siguiente topología para ver cómo está habilitado SLAAC.
 
-![](02_CCNA/CCNA2IMG/IMGM8/TOPOLOGIA.png)
+![](../CCNA2IMG/IMGM8/TOPOLOGIA.png)
 
 
 **VERIFICAR DIRECCIONES IPv6**
 
-![](LLA.png)
+![](../CCNA2IMG/IMGM8/LLA.png)
 
 **HABILITAR ENRUTAMIENTO IPv6**
 
-![](IPv6%20unicast-routing.png)
+![](../CCNA2IMG/IMGM8/IPv6%20unicast-routing.png)
 
 **VERIFICAR QUE SLAAC ESTÉ HABILITADO**
 
-![](show%20IPv6%20interface%20G0.png)
+![](../CCNA2IMG/IMGM8/show%20IPv6%20interface%20G0.png)
 
 ---
 ### **Método Sólo SLAAC**
@@ -39,13 +39,13 @@ Consulte la siguiente topología para ver cómo está habilitado SLAAC.
 
 **Función de los indicadores O y M ($O = 0$ y $M = 0$):** Le señalan al equipo que debe aprovechar únicamente los datos provistos en el mensaje RA, los cuales abarcan el prefijo, su longitud, la puerta de enlace predeterminada, la MTU y el servidor DNS, descartando la intervención de un servidor DHCPv6.
 
-![](SLAAC.png)
+![](../CCNA2IMG/IMGM8/SLAAC.png)
 
 En el ejemplo, PC1 esta habilitada para obtener su información de dirección de IPv6 de forma automática. Debido a la config de los flags A, O y M, PC1 sólo realiza SLAAC, utilizando la información contenida en el mensaje RA enviado por R1. 
 
 La dirreción del default gateway es la dirección IPv6 de origen del mensaje RA, que es la LLA para R1. En default gateway solo se puede obtener de forma automática mediante un mensaje RA. Un servidor DHCPv6 no proporciona esta información.
 
-![](02_CCNA/CCNA2IMG/IMGM8/ipconfig%201.png)
+![](../CCNA2IMG/IMGM8/ipconfig%201.png)
 
 ---
 ### ICMPv6 RS Messages
@@ -56,7 +56,7 @@ Cuando un cliente está configurado para obtener su información de direccionami
 
 La imagen muestra cómo un host inicial del método SLAAC.
 
-![](ICMPv6%20RS%20Messages.png)
+![](../CCNA2IMG/IMGM8/ICMPv6%20RS%20Messages.png)
 
 ---
 ### **Proceso de host para generar ID de interfaz**
@@ -73,7 +73,7 @@ Mediante SLAAC, un host adquiere los 64 bits de subred IPv6 del mensaje RA, pero
 
 **Ejemplo práctico:** El resultado de `ipconfig` de un host PC1 muestra cómo se combinó la información de subred del RA de R1 con un ID de interfaz de 64 bits generado aleatoriamente.
 
-![](ipconfig%202.png)
+![](../CCNA2IMG/IMGM8/ipconfig%202.png)
 
 ----
 ### **Detección de direcciones duplicadas**
