@@ -16,25 +16,25 @@
 
 PC1 envía un mensaje RS a todos los routers habilitados para IPv6.
 
-![](Paso%201%20RS.png)
+![](../CCNA2IMG/IMGM8/Paso%201%20RS.png)
 
 **Paso 2. Router responde con un mensaje RA**
 
 R1 recibe el RS y responde con un RA indicando que el cliente debe iniciar la comunicación con un servidor DHCPv6.
 
-![](Paso%20RA.png)
+![](../CCNA2IMG/IMGM8/Paso%20RA.png)
 
 **Paso 3. El host envía un mensaje DHCPv6 SOLIT**
 
 El cliente, ahora un cliente DHCPv6, necesita localizar un servidor DHCPv6 y envía un mensaje DHCPv6 SOLICIT a la dirección reserada de todos los servidores DHCPv6 de multidifusión IPv6 de ff02::1:2. Esta dirección de multidifusión tiene alcance link-local, lo cual significa que los routers no reenvíar los mensajes a otras redes.
 
-![](SOLICIT%20DHCPv6.png)
+![](../CCNA2IMG/IMGM8/SOLICIT%20DHCPv6.png)
 
 **Paso 4. El servidor DHCPv6 responde con un mensaje ADVERTISE**
 
 Uno o más servidores DHCPv6 responden con un mensaje unidifusión DHCPv6 ADVERTISE. El mensaje ADVERTISE le informa al cliente DHCPv6 que el servidor se encuentra disponible para el servicio DHCPv6.
 
-![](ADVERTISE.png)
+![](../CCNA2IMG/IMGM8/ADVERTISE.png)
 
 **Paso 5. El host responde al servidor DHCPv6**
 
@@ -44,7 +44,7 @@ La respuesta PC1 depende de si está utilizando DHCPv6 stateful o stateless:
 
 **B) Cliente DHCPv6 Stateful -** El Cliente envía un mensaje DHCPv6 REQUEST al servidor para obtener una dirección IPv6 y todos los demás parámetros de config del servidor.
 
-![](DHCPv6.png)
+![](../CCNA2IMG/IMGM8/DHCPv6.png)
 
 **Paso 6. El servidor DHCPv6 envía un mensaje REPLY**
 
@@ -52,7 +52,7 @@ El servidor envía un mensaje de unidifusión DHCPv6 REPLY al cliente. El conten
 
 **Nota:** El cliente usara la dirección IPv6 link-local de origen del RA como su dirección default gateway. Un servidor DHCPv6 no proporciona esta información.
 
-![](REPLY.png)
+![](../CCNA2IMG/IMGM8/REPLY.png)
 
 ---
 ### **Pasos de operación DHCPv6**
@@ -67,7 +67,7 @@ El servidor envía un mensaje de unidifusión DHCPv6 REPLY al cliente. El conten
 
 **Operación DHCP stateless**
 
-![](Operación%20DHCP%20stateless.png)
+![](../CCNA2IMG/IMGM8/Operación%20DHCP%20stateless.png)
 
 ---
 ### HABILITAR DHCPv6 STATELESS EN UNA INTERFAZ
@@ -78,7 +78,7 @@ El resultado resaltado confirma que la RA le indicará a los hosts receptores qu
 
 **OJO:** Puede usar el comando **no ipv6 nd other-config flag para restablecer la interfaz a la opción predeterminada de SLAAC sólo ( O flag = 0 ).
 
-![](ipv6%20nd%20other-config%20flag.png)
+![](../CCNA2IMG/IMGM8/ipv6%20nd%20other-config%20flag.png)
 
 ---
 ## Operaciones de DHCPv6 stateful
@@ -89,7 +89,7 @@ Esto se conoce como DHCPv6 stateful, debido a que el servidor de DHCPv6 mantiene
 
 La figura ilustra la operación DHCPv6 stateful.
 
-![](DHCPv6%20STATEFULL.png)
+![](../CCNA2IMG/IMGM8/DHCPv6%20STATEFULL.png)
 
 **NOTA:** Si A = 1 y M =1, algunos sistemas operativos como Windows crearán una dirección IPv6 mediante SLAAC y obtendrán una dirección diferente del servidor DHCPv6 stateful. En la mayoría de los casos, se recomienda establecer manualmente el flag A en 0.
 
@@ -100,6 +100,6 @@ DHCPv6 Stateful es habilitado en una interfaz de router mediante el comando **ip
 
 El resultado resaltado en el ejemplo confirma que RA indicará al host que obtenga toda la información de configuración IPv6 de un servidor DHCPv6 (flag M = 1).
 
-![](ipv6%20nd%20managed-config-flag.png)
+![](../CCNA2IMG/IMGM8/ipv6%20nd%20managed-config-flag.png)
 
 ----
