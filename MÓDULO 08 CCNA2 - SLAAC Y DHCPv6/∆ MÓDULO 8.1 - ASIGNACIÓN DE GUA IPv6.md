@@ -8,7 +8,7 @@
 
 **Configuración en un host:** Un equipo con Windows también se puede configurar de manera manual con una GUA IPv6.
 
-![](GUA%20IPv6.png)
+![](../CCNA2IMG/IMGM8/GUA%20IPv6.png)
 
 Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propenso a errores. Por lo tanto, la mayoría de los hosts de Windows están habilitados para adquirir dinámicamente una config GUA IPv6, como se muestra en la imagen.
 
