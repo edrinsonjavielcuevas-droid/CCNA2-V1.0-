@@ -29,7 +29,7 @@ Introducir manualmente una GUA IPv6 puede llevar mucho tiempo y ser algo propens
 
 **Nota sobre RFC:** DHCPv6 se define en la RFC 3315.
 
-![](../CCNA2IMG/IMGM8/IMGM8/IPCONFIG.png)
+![](../CCNA2IMG/IMGM8/IPCONFIG.png)
 
 ----
 ### **IPv6 GUA Assignment**
