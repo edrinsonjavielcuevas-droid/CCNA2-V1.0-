@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Maestra: Seguridad en Switches Capa 2</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-deep: #020617;
+            --bg-surface: #0f172a;
+            --glass-bg: rgba(30, 41, 59, 0.5);
+            --glass-border: rgba(56, 189, 248, 0.2);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --neon-cyan: #22d3ee;
+            --neon-purple: #a855f7;
+            --neon-green: #4ade80;
+            --neon-pink: #f472b6;
+            --neon-orange: #fb923c;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Fira Code', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: var(--font-sans);
+            background: linear-gradient(-45deg, #020617, #1e1b4b, #020617, #082f49);
+            background-size: 400% 400%;
+            animation: bg-pan 20s ease infinite;
+            color: var(--text-main);
+            line-height: 1.7;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        @keyframes bg-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- SIDEBAR --- */
+        aside {
+            width: 280px;
+            background: rgba(2, 6, 23, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-right: 1px solid var(--glass-border);
+            padding: 2rem 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 10;
+        }
+
+        aside::-webkit-scrollbar { width: 6px; }
+        aside::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+
+        aside h3 {
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        aside ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+        aside a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            display: block;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        aside a:hover {
+            background: var(--glass-bg);
+            color: var(--text-main);
+            border-color: var(--glass-border);
+            transform: translateX(5px);
+        }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            margin-left: 280px;
+            padding: 4rem 5rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header { margin-bottom: 4rem; }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            background: linear-gradient(to right, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        header p { font-size: 1.15rem; color: var(--text-muted); }
+
+        section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            scroll-margin-top: 2rem;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+            border-color: var(--neon-purple);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ffffff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h2::before {
+            content: '🛡️';
+            font-size: 1.8rem;
+        }
+
+        h3 { color: var(--neon-cyan); margin-top: 2rem; margin-bottom: 1rem; font-size: 1.3rem; }
+        p { margin-bottom: 1.2rem; font-size: 1.05rem; }
+        ul { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        li { margin-bottom: 0.8rem; color: var(--text-muted); }
+        strong { color: var(--neon-green); font-weight: 600; }
+
+        /* --- ALERTAS / NOTAS --- */
+        .alert {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-left: 4px solid var(--neon-cyan);
+        }
+        .alert.warning { border-left-color: var(--neon-orange); }
+
+        /* --- TERMINAL CODE --- */
+        .terminal {
+            background: #030712;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
+            overflow: hidden;
+            margin: 1.5rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+        }
+
+        .term-header {
+            background: #0f172a;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        .term-dots { display: flex; gap: 8px; margin-right: 15px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; }
+        .dot.r { background: #ef4444; }
+        .dot.y { background: #f59e0b; }
+        .dot.g { background: #10b981; }
+
+        .term-title { color: var(--text-muted); font-family: var(--font-mono); font-size: 0.85rem; }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        .cmd { color: var(--neon-cyan); }
+        .param { color: var(--neon-pink); }
+        .comment { color: #64748b; font-style: italic; }
+
+        code {
+            font-family: var(--font-mono);
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--neon-pink);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        pre code { background: transparent; padding: 0; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 1024px) {
+            aside { display: none; }
+            main { margin-left: 0; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MENÚ LATERAL -->
+    <aside>
+        <h3>Temario de Seguridad</h3>
+        <nav>
+            <ul>
+                <li><a href="#intro">1. Introducción a L2</a></li>
+                <li><a href="#trunks">2. Enlaces Troncales Seguros</a></li>
+                <li><a href="#blackhole">3. Puertos No Utilizados</a></li>
+                <li><a href="#portsec">4. Port Security</a></li>
+                <li><a href="#dhcp">5. DHCP Snooping</a></li>
+                <li><a href="#stp">6. Seguridad STP</a></li>
+                <li><a href="#cheatsheet">7. Cheat Sheet Completo</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <header id="intro">
+            <h1>Seguridad en Switches de Capa 2:<br><span>La Guía Maestra</span></h1>
+            <p>Descubre cómo blindar tu red local. Los routers nos protegen del internet, pero los switches deben protegernos de los atacantes internos. Aprende los conceptos, analogías y la configuración paso a paso.</p>
+        </header>
+
+        <!-- SECCIÓN 1: TRONCALES -->
+        <section id="trunks">
+            <h2>1. Enlaces Troncales Seguros (Secure Trunks)</h2>
+            <p><strong>La Analogía:</strong> Imagina que el Troncal es el ascensor principal de un edificio corporativo. Si un atacante logra "engañar" al switch para que su puerto actúe como ascensor, podrá viajar a cualquier piso (VLAN) sin permiso. Esto se llama <em>VLAN Hopping</em>.</p>
+            
+            <h3>Medidas de Blindaje:</h3>
+            <ul>
+                <li><strong>Apagar la negociación (DTP):</strong> No dejes que el switch decida si un puerto es troncal. Fuerza el estado y apaga el protocolo dinámico.</li>
+                <li><strong>Cambiar la VLAN Nativa:</strong> Por defecto, los datos sin etiqueta viajan por la VLAN 1. ¡Esto es un peligro! Crea una VLAN inútil (ej. VLAN 100) y úsala como nativa para aislar ese tráfico huérfano.</li>
+            </ul>
+
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Configuración: Blindando el Troncal G0/1</div>
+                </div>
+                <pre>
+<span class="comment">! Primero creamos la VLAN que usaremos como "Basurero Nativo"</span>
+<span class="cmd">vlan</span> <span class="param">100</span>
+<span class="cmd"> name</span> <span class="param">Native_Segura</span>
+<span class="cmd"> exit</span>
+
+<span class="comment">! Entramos al puerto troncal</span>
+<span class="cmd">interface</span> <span class="param">gigabitEthernet 0/1</span>
+<span class="comment"> ! Forzamos el modo troncal (nada de auto-negociación)</span>
+<span class="cmd"> switchport mode trunk</span>
+<span class="comment"> ! Apagamos DTP para que no envíe mensajes de negociación a hackers</span>
+<span class="cmd"> switchport nonegotiate</span>
+<span class="comment"> ! Movemos la VLAN Nativa fuera de la VLAN 1 por defecto</span>
+<span class="cmd"> switchport trunk native vlan</span> <span class="param">100</span></pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: BLACK HOLE -->
+        <section id="blackhole">
+            <h2>2. Seguridad en Puertos No Utilizados (Black Hole)</h2>
+            <p><strong>La Analogía:</strong> Si tienes oficinas vacías en tu edificio, no dejas las puertas sin seguro, ¿verdad? Un puerto de switch activo y sin usar en una pared es una invitación para que alguien conecte su laptop y robe datos.</p>
+            
+            <p><strong>La Solución:</strong> Apagar eléctricamente (<code>shutdown</code>) todos los puertos que no uses y, como doble seguridad, enviarlos a una VLAN "Agujero Negro" (BlackHole) que no tenga salida a internet ni a ningún lado.</p>
+
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Configuración: El Agujero Negro</div>
+                </div>
+                <pre>
+<span class="comment">! Creamos la VLAN aislada</span>
+<span class="cmd">vlan</span> <span class="param">999</span>
+<span class="cmd"> name</span> <span class="param">BlackHole</span>
+<span class="cmd"> exit</span>
+
+<span class="comment">! Seleccionamos los puertos sin uso (ej. del 3 al 24)</span>
+<span class="cmd">interface range</span> <span class="param">fastEthernet 0/3 - 24</span>
+<span class="comment"> ! Los metemos en el agujero negro</span>
+<span class="cmd"> switchport access vlan</span> <span class="param">999</span>
+<span class="comment"> ! Apagamos el puerto</span>
+<span class="cmd"> shutdown</span></pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: PORT SECURITY -->
+        <section id="portsec">
+            <h2>3. Seguridad de Puertos (Port Security)</h2>
+            <p><strong>La Analogía:</strong> Es el "cadenero" o guardia de seguridad VIP de una discoteca. Tú le dices al guardia: <em>"En esta mesa solo pueden sentarse un máximo de 2 personas, y yo te diré quiénes son por su ID (Dirección MAC)"</em>.</p>
+            
+            <h3>Opciones Clave:</h3>
+            <ul>
+                <li><strong>Maximum:</strong> ¿Cuántas PCs pueden conectarse a este enchufe? (Por defecto 1).</li>
+                <li><strong>Sticky MAC:</strong> En lugar de escribir la MAC a mano, le dices al switch: <em>"Aprende dinámicamente la MAC del primer equipo que se conecte y pégala (sticky) en tu configuración para siempre"</em>.</li>
+                <li><strong>Violation Modes (¿Qué pasa si entra un intruso?):</strong>
+                    <ul>
+                        <li><strong>Protect:</strong> Bloquea al intruso sin hacer ruido.</li>
+                        <li><strong>Restrict:</strong> Bloquea al intruso y genera una alerta (log) para los administradores.</li>
+                        <li><strong>Shutdown (Por defecto):</strong> Apaga el puerto por completo.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Configuración: El Guardia de Seguridad en F0/1</div>
+                </div>
+                <pre>
+<span class="cmd">interface</span> <span class="param">fastEthernet 0/1</span>
+<span class="comment"> ! Requisito previo: Forzar a modo acceso</span>
+<span class="cmd"> switchport mode access</span>
+<span class="comment"> ! Encender la función Port Security</span>
+<span class="cmd"> switchport port-security</span>
+<span class="comment"> ! Máximo de 2 direcciones MAC permitidas</span>
+<span class="cmd"> switchport port-security maximum</span> <span class="param">2</span>
+<span class="comment"> ! Acción en caso de intruso: Restringir y alertar</span>
+<span class="cmd"> switchport port-security violation restrict</span>
+<span class="comment"> ! Aprender la MAC automáticamente (Sticky)</span>
+<span class="cmd"> switchport port-security mac-address sticky</span></pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: DHCP SNOOPING -->
+        <section id="dhcp">
+            <h2>4. DHCP Snooping</h2>
+            <p><strong>La Analogía:</strong> Imagina que vas a un banco a pedir dinero, pero un estafador en el pasillo te dice "Yo soy el cajero, toma dinero falso y dame tus datos". Eso es un servidor <em>DHCP Rogue</em>. DHCP Snooping convierte al switch en un policía que revisa las identificaciones y dice: <em>"Solo permitiré que se entreguen IPs desde los puertos confiables (Trusted)"</em>.</p>
+
+            <div class="alert warning">
+                <strong>Concepto Vital:</strong> Todos los puertos de los usuarios se vuelven "No confiables" (Untrusted) por defecto. Solo debes volver "Confiable" (Trusted) al puerto que va hacia el verdadero servidor DHCP o router.
+            </div>
+
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Configuración: Protección DHCP</div>
+                </div>
+                <pre>
+<span class="comment">! 1. Activación global y por VLAN</span>
+<span class="cmd">ip dhcp snooping</span>
+<span class="cmd">ip dhcp snooping vlan</span> <span class="param">10,20</span>
+
+<span class="comment">! 2. Configurar el puerto CONFIABLE (ej. el troncal hacia el Router)</span>
+<span class="cmd">interface</span> <span class="param">gigabitEthernet 0/1</span>
+<span class="cmd"> ip dhcp snooping trust</span>
+
+<span class="comment">! 3. Proteger los puertos NO confiables (Usuarios) limitando la velocidad</span>
+<span class="comment">! (Evita ataques donde un hacker pide miles de IPs por segundo para agotar el DHCP)</span>
+<span class="cmd">interface range</span> <span class="param">fastEthernet 0/1 - 10</span>
+<span class="cmd"> ip dhcp snooping limit rate</span> <span class="param">5</span></pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 5: STP SECURITY -->
+        <section id="stp">
+            <h2>5. Prevención STP (PortFast y BPDU Guard)</h2>
+            <p><strong>El Problema:</strong> Spanning Tree (STP) evita que la red colapse por bucles, pero tarda 30 segundos en activar un puerto. Además, un atacante podría conectar un switch falso y manipular la red mandando mensajes "BPDU".</p>
+            
+            <ul>
+                <li><strong>PortFast:</strong> Se aplica a puertos de PCs/Teléfonos. Hace que el puerto se active al instante (0 segundos).</li>
+                <li><strong>BPDU Guard:</strong> El escudo protector de PortFast. Si alguien conecta un Switch pirata a ese puerto, el puerto recibirá un mensaje BPDU, se asustará y se <strong>apagará automáticamente</strong> para proteger la red.</li>
+            </ul>
+
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Configuración: Aceleración y Protección en PCs</div>
+                </div>
+                <pre>
+<span class="cmd">interface range</span> <span class="param">fastEthernet 0/1 - 10</span>
+<span class="comment"> ! Acelerar el encendido del puerto (Solo para dispositivos finales)</span>
+<span class="cmd"> spanning-tree portfast</span>
+<span class="comment"> ! Activar el escudo contra switches no autorizados</span>
+<span class="cmd"> spanning-tree bpduguard enable</span></pre>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 6: CHEAT SHEET -->
+        <section id="cheatsheet">
+            <h2>6. Cheat Sheet Definitivo</h2>
+            <p>Guarda esto. Es el resumen de comandos que necesitas saber de memoria para configurar un switch de manera segura.</p>
+            <div class="terminal">
+                <div class="term-header">
+                    <div class="term-dots"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+                    <div class="term-title">Resumen de Comandos de Seguridad</div>
+                </div>
+                <pre>
+<span class="comment">--- TRONCALES SEGUROS ---</span>
+switchport mode trunk
+switchport nonegotiate
+switchport trunk native vlan [ID]
+
+<span class="comment">--- PUERTOS SIN USO ---</span>
+switchport access vlan [ID_Basurero]
+shutdown
+
+<span class="comment">--- PORT SECURITY ---</span>
+switchport mode access
+switchport port-security
+switchport port-security maximum [numero]
+switchport port-security mac-address sticky
+switchport port-security violation [protect | restrict | shutdown]
+
+<span class="comment">--- DHCP SNOOPING ---</span>
+ip dhcp snooping                   <span class="comment">(Modo Global)</span>
+ip dhcp snooping vlan [ID]         <span class="comment">(Modo Global)</span>
+ip dhcp snooping trust             <span class="comment">(En el puerto hacia el servidor DHCP)</span>
+ip dhcp snooping limit rate [num]  <span class="comment">(En los puertos de los usuarios)</span>
+
+<span class="comment">--- SEGURIDAD STP ---</span>
+spanning-tree portfast             <span class="comment">(En puertos de acceso de usuarios)</span>
+spanning-tree bpduguard enable     <span class="comment">(Siempre junto a PortFast)</span></pre>
+            </div>
+        </section>
+
+    </main>
+
+</body>
+</html>
