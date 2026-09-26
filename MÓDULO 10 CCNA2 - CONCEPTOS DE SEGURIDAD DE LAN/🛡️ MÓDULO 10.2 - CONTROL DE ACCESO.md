@@ -17,9 +17,9 @@ Proporciona control de acceso a la red basado en puertos. El puerto físico del 
 
 Involucra tres componentes: el **suplicante** (software cliente), el **autenticador** (switch) y el **servidor de autenticación** (servidor RADIUS).
 
-![](LINE%20VTY.png)
+![](../IMGCCNA2/IMG10M/LINE%20VTY.png)
 
-![](CONFIG%20SSH.png)
+![](../IMGCCNA2/IMG10M/CONFIG%20SSH.png)
 
 ---
 
